@@ -68,7 +68,8 @@
             justify-content: center;
             align-items: center;
             margin-bottom: 20px;
-            gap: 15px;
+            gap: 10px; /* Slightly reduced gap */
+            flex-wrap: wrap; /* Allow wrapping on small screens */
         }
 
         .timer {
@@ -83,6 +84,7 @@
             transition: background-color 0.3s;
             min-width: 100px; /* Ensure consistent width */
             text-align: center;
+            flex-shrink: 0; /* Prevent timer shrinking */
         }
 
         .timer.warning {
@@ -273,6 +275,16 @@
             border-width: 1px;
             border-style: solid;
         }
+         /* Style for clue text in feedback */
+         .feedback .clue {
+             font-size: 0.85rem;
+             font-style: italic;
+             color: var(--dark);
+             opacity: 0.8;
+             margin-top: 8px;
+             display: block; /* Ensure it takes its own line */
+         }
+
 
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -303,12 +315,17 @@
             border: 1px solid var(--gray);
             border-radius: 5px;
             padding: 15px;
+            /* Ajustement pour Stage 3 : légèrement plus large */
             width: calc(33.333% - 10px);
             cursor: pointer;
             transition: all 0.3s;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
             position: relative;
             font-size: 0.95rem;
+        }
+        /* Spécifique pour les cartes de l'étape 3 disponibles */
+        #available-logistics-steps .card {
+            width: calc(50% - 8px); /* 2 par ligne pour plus de clarté */
         }
 
         .card:hover {
@@ -317,12 +334,14 @@
             border-color: var(--secondary);
         }
 
+        /* Style pour les cartes sélectionnées dans Stage 2 & 4 */
         .card.selected {
             border-color: var(--success);
             background-color: rgba(42, 157, 143, 0.1);
             box-shadow: 0 0 0 2px var(--success);
         }
 
+        /* Style pour les cartes sélectionnées dans Stage 2 & 4 */
         .card.selected::after {
             content: "✓";
             position: absolute;
@@ -333,75 +352,67 @@
             font-size: 1.2rem;
         }
 
-        .map-container {
-            position: relative;
-            margin: 30px 0;
-            border: 1px solid var(--secondary);
-            border-radius: 5px;
-            overflow: hidden;
-            height: 350px; /* Adjusted height */
-            background-color: #f8f9fa;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M0,0 L100,0 L100,100 L0,100 Z" fill="none" stroke="%23ddd" stroke-width="0.5"/></svg>');
-            background-size: 20px 20px;
+        /* NOUVEAU: Style pour les cartes disponibles de l'Étape 3 qui sont dans la séquence */
+        #available-logistics-steps .card.step-in-sequence {
+            background-color: rgba(42, 157, 143, 0.1); /* Léger fond vert */
+            border-color: var(--success);
+            opacity: 0.7; /* Optionnel: Les rendre légèrement moins visibles */
+            cursor: not-allowed; /* Indiquer qu'on ne peut pas recliquer dessus */
+        }
+        #available-logistics-steps .card.step-in-sequence:hover {
+            /* Empêcher l'effet hover normal si la carte est déjà sélectionnée */
+            transform: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
-        .map-point {
-            position: absolute;
-            width: 45px; /* Slightly larger */
-            height: 45px;
-            border-radius: 50%;
-            background-color: var(--secondary);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 1.5rem; /* Larger icon */
-            cursor: default; /* Not clickable */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            z-index: 2;
-            transition: all 0.3s;
-            transform: translate(-50%, -50%); /* Center on coordinates */
-        }
 
-        .map-point:hover { /* Removed hover scale */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        /* Styles pour la zone de séquence ordonnée (Stage 3) */
+        .ordered-sequence-area {
+             margin-top: 30px;
+             background-color: #f8f9fa;
+             padding: 20px;
+             border-radius: 8px;
+             border: 1px solid #eee;
         }
+         #built-sequence-list {
+             list-style-position: inside; /* Ensure OL numbers are inside */
+             list-style-type: decimal; /* Explicitly set decimal numbering */
+             border: 1px solid #ddd;
+             padding: 15px 15px 5px 25px; /* Adjust left padding for numbers */
+             border-radius: 5px;
+             min-height: 50px;
+             background-color: white; /* Fond blanc pour contraste */
+             margin-bottom: 15px; /* Espace avant bouton 'clear' */
+         }
+         #built-sequence-list li {
+             margin-bottom: 10px; /* Espace entre items */
+             padding: 8px 10px;
+             border-radius: 3px;
+             cursor: pointer;
+             transition: background-color 0.2s ease, border-color 0.2s ease;
+             /* Ensure default marker styling is not overridden badly */
+             display: list-item; /* Make sure it behaves like a list item */
+             /* Default state - pas de couleur spécifique ici, mais on pourrait ajouter un style de base */
+             background-color: var(--light); /* Utilisation d'une variable pour cohérence */
+             border-left: 3px solid var(--secondary); /* Bordure bleue par défaut */
+         }
+         /* Conserve le style pour les éléments de la liste */
+         #built-sequence-list li.step-selected {
+            background-color: rgba(42, 157, 143, 0.15); /* Légèrement plus prononcé */
+            border-left: 3px solid var(--success);
+         }
 
-        .map-point.active {
-            background-color: var(--success);
-        }
+         #built-sequence-list li:hover { /* Hover to remove */
+             background-color: rgba(230, 57, 70, 0.1); /* Hover rouge léger */
+             border-left-color: var(--danger); /* Indicate removal on hover */
+         }
+         #clear-sequence-btn {
+             margin-top: 0; /* Enlevé le margin-top */
+             font-size: 0.8rem;
+             padding: 5px 10px;
+         }
 
-        .map-line {
-            position: absolute;
-            height: 4px; /* Thicker line */
-            background-color: var(--gray);
-            transform-origin: left center;
-            z-index: 1;
-            border-radius: 2px;
-            transition: background-color 0.3s;
-        }
-
-        .map-line.active {
-            background-color: var(--success);
-            height: 5px;
-        }
-
-        .map-arrow {
-            position: absolute;
-            width: 0;
-            height: 0;
-            border-style: solid;
-            border-width: 6px 0 6px 10px; /* Arrow shape */
-            border-color: transparent transparent transparent var(--gray);
-            transform-origin: center;
-            z-index: 1;
-            transition: border-color 0.3s;
-            transform: translate(-50%, -50%); /* Center on point */
-        }
-
-        .map-arrow.active {
-            border-color: transparent transparent transparent var(--success);
-        }
+        /* SUPPRESSION des styles .map-container, .map-point, .map-line, .map-arrow */
 
         .input-group {
             margin: 20px 0;
@@ -819,7 +830,8 @@
 
         @media (max-width: 992px) {
              .item { width: calc(33.333% - 10px); }
-             .card { width: calc(50% - 8px); }
+             .card { width: calc(50% - 8px); } /* Applied to all card containers */
+             #available-logistics-steps .card { width: calc(50% - 8px); } /* Explicitly for stage 3 */
         }
 
 
@@ -827,18 +839,20 @@
             h1 { font-size: 1.5rem; }
             .item { width: calc(50% - 8px); } /* 2 items per row */
             .card { width: calc(50% - 8px); }
+            #available-logistics-steps .card { width: calc(50% - 8px); } /* Still 2 per row on tablets */
             .drop-zones { flex-direction: column; }
             .certificate { padding: 25px; }
             .certificate-seal { width: 70px; height: 70px; font-size: 0.9rem; bottom: 15px; right: 15px; }
             .stage-header { align-items: flex-start; }
              .stage-title h2 { font-size: 1.3rem; }
-             .map-container { height: 300px; }
+             /* .map-container { height: 300px; } */ /* Removed */
         }
 
         @media (max-width: 480px) {
              h1 { font-size: 1.3rem; }
             .item { width: 100%; } /* 1 item per row */
-            .card { width: 100%; }
+            .card { width: 100%; } /* 1 card per row */
+            #available-logistics-steps .card { width: 100%; } /* 1 card per row */
             .dropped-item { width: 100%; } /* Ensure dropped items stack */
             .timer { font-size: 1.5rem; padding: 8px 15px; }
             .stage-header { flex-direction: column; align-items: flex-start; }
@@ -851,8 +865,9 @@
              .certificate h2 { font-size: 1.5rem; }
               .certificate ul { padding-left: 5px; } /* Less indent on mobile */
              .certificate-seal { width: 60px; height: 60px; font-size: 0.8rem; }
-             .map-container { height: 250px; }
-             .map-point { width: 35px; height: 35px; font-size: 1.2rem; }
+             /* .map-container { height: 250px; } */ /* Removed */
+             /* .map-point { width: 35px; height: 35px; font-size: 1.2rem; } */ /* Removed */
+             .timer-container { gap: 5px; } /* Reduce gap for smaller screens */
         }
 
         /* Styles for Printing the Certificate - REMOVED/IGNORED FOR PDF */
@@ -871,7 +886,7 @@
 <body>
     <div class="container">
         <header>
-            <h1>ALERTE MNU : Mission Conformité</h1>
+            <h1>ALERTE MNU : Mission conformité</h1>
             <p>Une mission critique pour sécuriser la filière des Médicaments Non Utilisés</p>
             <button id="backdoor-btn" title="Accès spécial">
                 <i class="fas fa-door-open"></i>
@@ -891,7 +906,10 @@
 
         <div class="timer-container">
             <div class="timer" id="timer">10:00</div>
-            <button class="btn btn-help" id="show-help">Aide</button>
+            <!-- Previous Stage Button Added Here -->
+            <button class="btn btn-secondary" id="prev-stage-btn" style="display: none;">Étape Précédente</button>
+            <!-- Help Button - visibility controlled by JS -->
+            <button class="btn btn-help" id="show-help" style="display: none;">Aide</button>
         </div>
 
         <div class="progress-bar">
@@ -986,7 +1004,7 @@
                 <p class="leg-text">"On entend par médicament à usage humain toute substance ou composition présentée comme possédant des propriétés curatives ou préventives à l'égard des maladies humaines, ainsi que toute substance ou composition pouvant être utilisée chez l'homme ou pouvant lui être administrée, en vue d'établir un diagnostic médical ou de restaurer, corriger ou modifier ses fonctions physiologiques en exerçant une action pharmacologique, immunologique ou métabolique."</p>
                 <p><strong>Article R. 4211-23 du Code de la santé publique:</strong></p>
                 <p class="leg-text">"IV.-Pour l'application de la présente section, on entend par : [...] 2° “ Médicaments non utilisés ”, les médicaments à usage humain inutilisés ou périmés détenus par les particuliers."</p>
-                <p><strong>Produits non concerné :</strong></p>
+                <p><strong>Produits non concernés :</strong></p>
                  <p class="leg-text">Sont exclus du champ des MNU (liste non exhaustive) :
 - Les conditionnements primaires vides et secondaires (relevant de la REP emballages ménagers).
 - Les dispositifs médicaux perforants des patients en auto-traitement (relevant de la filière DASTRI - Art. R. 1335-8-1 et suivants CSP).
@@ -1046,37 +1064,54 @@
             </div>
         </div>
 
-        <!-- Stage 3: La Logistique Chaotique -->
+        <!-- Stage 3: La Logistique Séquentielle -->
         <div class="stage" id="stage3">
              <div class="stage-header">
                 <div class="stage-title">
                     <div class="stage-number">3</div>
-                    <h2>La logistique chaotique</h2>
+                    <!-- Titre modifié -->
+                    <h2>La Logistique Séquentielle</h2>
                 </div>
                 <div class="stage-time">~2 minutes</div>
             </div>
-            <p>Reconstituez le parcours des MNU après collecte et identifiez leur destination finale obligatoire.</p>
-            <p><strong>Sélectionnez toutes les étapes dans l'ordre logique (1 à 6), quel que soit leur ordre d'affichage ci-dessous, et la destination finale correcte.</strong></p>
-            <div class="map-container" id="logistics-map"></div>
-            <p style="text-align:center; font-style: italic; font-size: 0.9rem; margin-top: -20px; margin-bottom: 20px;">(Schéma illustratif)</p>
-            <h3>Mettre dans l'ordre les étapes de récupération du médicament non utilisé</h3>
-            <div class="card-container" id="logistics-steps">
-                 <div class="card" data-step="1" data-position="pharmacie">Collecte gratuite à l'officine</div>
-                 <div class="card" data-step="2" data-position="receptacle">Stockage dans réceptacle</div>
-                 <div class="card" data-step="3" data-position="enlevement">Enlèvement depuis officine</div>
-                 <div class="card" data-step="4" data-position="regroupement">Regroupement / Tri</div>
-                 <div class="card" data-step="5" data-position="transport">Transport vers destination</div>
-                 <div class="card" data-step="6" data-position="incineration-step">Destruction finale</div>
+            <!-- Instructions modifiées -->
+            <p>Reconstituez le parcours chronologique des MNU depuis leur collecte jusqu'à leur élimination finale.</p>
+            <p><strong>Cliquez sur les étapes/actions ci-dessous DANS L'ORDRE CORRECT pour les ajouter à la séquence.</strong> Cliquez sur une étape dans votre séquence pour la retirer.</p>
+
+            <!-- Suppression du map-container -->
+
+            <h3>Étapes / Actions Disponibles :</h3>
+            <!-- Container des étapes disponibles, maintenant avec un ID différent pour éviter confusion -->
+            <div class="card-container" id="available-logistics-steps">
+                 <!-- Les cartes restent similaires, mais leur comportement changera via JS -->
+                 <!-- Assurez-vous que data-step-id est unique et correspond à la logique -->
+                 <div class="card" data-step-id="pharmacie">Collecte gratuite à l'officine</div>
+                 <div class="card" data-step-id="receptacle">Stockage dans réceptacle sécurisé</div>
+                 <div class="card" data-step-id="enlevement">Enlèvement depuis l'officine par prestataire</div>
+                 <div class="card" data-step-id="regroupement">Regroupement / Tri sur plateforme logistique</div>
+                 <div class="card" data-step-id="transport">Transport vers l'unité de traitement</div>
+                 <!-- L'incinération est maintenant une étape comme les autres -->
+                 <div class="card" data-step-id="incineration">Destruction finale par incinération</div>
+                 <!-- On peut ajouter quelques leurres si désiré -->
+                 <div class="card" data-step-id="recyclage">Recyclage chimique</div>
+                 <div class="card" data-step-id="humanitaire">Redistribution humanitaire</div>
             </div>
-            <h3>Destination finale imposée?</h3>
-            <div class="card-container" id="final-destination">
-                <div class="card" data-destination="incineration">Incinération avec valorisation énergétique</div>
-                <div class="card" data-destination="enfouissement">Enfouissement en décharge</div>
-                <div class="card" data-destination="recyclage">Recyclage chimique</div>
-                <div class="card" data-destination="humanitaire">Redistribution humanitaire</div>
+
+            <!-- Nouvelle section pour afficher la séquence construite par l'utilisateur -->
+            <div class="ordered-sequence-area">
+                <h3>Votre Séquence Construite :</h3>
+                <ol id="built-sequence-list"></ol>
+                <!-- Ajout d'un bouton pour vider la séquence si besoin -->
+                <button class="btn btn-help btn-sm" id="clear-sequence-btn">Recommencer la séquence</button>
             </div>
-            <button class="btn btn-primary" id="validate-stage3">Valider le parcours et le sort final</button>
+
+            <!-- Suppression de la section "Destination finale imposée?" -->
+
+            <!-- Bouton de validation et feedback restent -->
+            <button class="btn btn-primary" id="validate-stage3" style="margin-top: 20px;" disabled>Valider la Séquence</button>
             <div class="feedback" id="stage3-feedback"></div>
+
+            <!-- L'info réglementaire peut rester -->
             <div class="info-box regulatory-info">
                  <h3><i class="fas fa-book"></i> Textes applicables</h3>
                  <p><strong>Article R. 4211-24 du Code de la santé publique :</strong></p>
@@ -1155,7 +1190,9 @@
             <p>Mission presque accomplie ! Entrez le code numérique et le mot de passe final pour verrouiller la conformité de la filière MNU.</p>
             <div class="info-box">
                 <h3><i class="fas fa-key"></i> Calcul du Code d'Accès Final</h3>
-                 <p id="final-code-desc"><strong>Code Numérique :</strong> (Nb items ✅ E1 = <strong id="final-val-e1">?</strong>) + (Objectif % E4 = <strong id="final-val-e4-target">?</strong>) + (N° Article sort final E3 = <strong id="final-val-e3">?</strong>)</p>
+                 <!-- MODIFIED Text below -->
+                 <p id="final-code-desc"><strong>Code Numérique :</strong> (Nb items ✅ E1 = <strong id="final-val-e1">?</strong>) + (Objectif % E4 = <strong id="final-val-e4-target">?</strong>) + (N° Article REP C. Env = <strong id="final-val-e3">?</strong>)</p>
+                 <!-- MODIFIED Calculation display text -->
                  <p id="final-code-calc" style="text-align: center; font-weight: bold; font-size: 1.1rem;">Code = [<span id="final-calc-e1">?</span>][<span id="final-calc-e4-target">?</span>][<span id="final-calc-e3">?</span>] = <code id="final-code-result">?????</code></p>
                  <p id="final-password-desc"><strong>Mot de Passe :</strong> (Lettre obligation E2 = <strong id="final-val-e2">?</strong>) + (Nom éco-org E4 = <strong id="final-val-e4-name">?</strong>)</p>
                  <p id="final-password-calc" style="text-align: center; font-weight: bold; font-size: 1.1rem;">Mot de Passe = [<span id="final-calc-e2">?</span>][<span id="final-calc-e4-name">?</span>] = <code id="final-password-result">?????????</code></p>
@@ -1222,23 +1259,25 @@
                 <span class="close" id="close-help">×</span>
                 <h2><i class="fas fa-life-ring"></i> Aide de Mission - Indices Clés</h2>
                 <h3>Étape 1 : Tri</h3>
-                <p>Relisez bien la définition d'un MNU dans <code>R.4211-23 CSP</code>. Comptez uniquement les objets qui correspondent <strong>strictement</strong> à cette définition (médicaments à usage humain des particuliers).</p>
-                <p>Indice pour code final : Utilisez le <strong>nombre exact</strong> d'objets que vous avez placés dans la zone ✅ MNU.</p>
+                <p>Seuls les médicaments à usage humain des particuliers sont des MNU (<code>R.4211-23 CSP</code>). Attention aux exclusions (DASTRI, emballages vides...).</p>
+                <p>Indice code final : Le <strong>nombre</strong> d'items corrects dans la zone ✅ MNU.</p>
                 <h3>Étape 2 : Producteur</h3>
-                <p>Identifiez le terme exact désignant le producteur REP dans <code>R.4211-23 IV 1°</code>. Pour les obligations (<code>L.541-10 C. Env</code>), concentrez-vous sur les 3 actions principales liées à la gestion des déchets et à la conception.</p>
-                <p>Indice pour mot de passe : Trouvez la <strong>première lettre</strong> de l'obligation qui concerne le <strong>financement</strong> de la filière.</p>
-                <h3>Étape 3 : Logistique</h3>
-                 <p>Le parcours est détaillé dans <code>R.4211-24 CSP</code>. La méthode de destruction <strong>obligatoire</strong> est précisée dans <code>R.4211-27 CSP</code>. Attention, la réutilisation est interdite.</p>
-                 <p>Indice pour code final : Notez les <strong>deux derniers chiffres</strong> du numéro de l'article CSP qui impose la méthode de destruction.</p>
+                <p>Qui est "l'exploitant" ? (<code>R.4211-23</code>, <code>R.5124-2 CSP</code>). Quelles sont ses obligations REP principales ? (<code>L.541-10 C. Env</code>).</p>
+                <p>Indice mot de passe : La <strong>première lettre</strong> de l'obligation de contribution financière.</p>
+                <h3>Étape 3 : Logistique Séquentielle</h3>
+                 <!-- MODIFIED Hint Below -->
+                 <p>Réfléchissez à l'ordre logique des actions depuis le dépôt en pharmacie jusqu'à l'élimination. Consultez <code>R.4211-24 CSP</code> pour les étapes clés et <code>L.541-10 C. Env</code> pour la notion fondamentale de REP.</p>
+                 <p>Indice code final : Le numéro (<code>??</code>) de l'article fondateur de la REP dans le Code de l'Environnement (<code>L.541-??</code>) est nécessaire.</p>
                 <h3>Étape 4 : Éco-organisme</h3>
-                <p>L'objectif chiffré est dans l'extrait du Cahier des Charges. Le statut juridique est dans <code>L.541-10 C. Env</code>. Le nom de l'organisme est dans l'Arrêté d'agrément.</p>
-                <p>Indices pour code/mdp : Vous aurez besoin du <strong>pourcentage</strong> de l'objectif et du <strong>nom exact</strong> de l'éco-organisme.</p>
+                <p>Trouvez l'objectif chiffré (Cahier des charges), le statut légal (<code>L.541-10 C. Env</code>) et le nom (Arrêté d'agrément).</p>
+                <p>Indices code/mdp : Le <strong>pourcentage</strong> de l'objectif et le <strong>nom exact</strong>.</p>
                 <hr style="margin: 20px 0;">
                 <h3>Étape Finale : Calcul des Codes</h3>
-                <p><strong>Code Numérique :</strong> (Nombre items ✅ E1) + (Objectif % E4) + (N° Article E3)</p>
-                 <p><i>Exemple de format: Si E1=X, E4=YY, E3=ZZ => Code = XYYZZ</i></p>
+                <!-- MODIFIED Formula Description -->
+                <p><strong>Code Numérique :</strong> (Nb items ✅ E1) + (Objectif % E4) + (N° Article REP C.Env)</p>
+                 <p><i>Format attendu: XYYZZ (où ZZ vient de L.541-??)</i></p>
                 <p><strong>Mot de Passe :</strong> (Lettre obligation E2) + (Nom éco-org E4)</p>
-                 <p><i>Exemple de format: Si E2=L, E4=NOM => Mot de Passe = LNOM</i></p>
+                 <p><i>Format attendu: LNOM</i></p>
             </div>
         </div>
 
@@ -1262,15 +1301,33 @@
             timeRemaining: 10 * 60 * 1000,
             timerInterval: null,
             currentStage: 'intro',
+            // Added failures count and stage timer tracking
             stageResults: {
-                stage1: { completed: false, correctItemsCount: 0 },
-                stage2: { completed: false, producerCorrect: false, obligationsCorrect: false, keyLetter: '' },
-                stage3: { completed: false, stepsCorrect: false, finalDestinationCorrect: false },
-                stage4: { completed: false, collectionTarget: '', ecoOrgNatureCorrect: false, ecoOrgNameCorrect: false, ecoOrgName: '' }
+                stage1: { completed: false, correctItemsCount: 0, failures: 0 },
+                stage2: { completed: false, producerCorrect: false, obligationsCorrect: false, keyLetter: '', failures: 0 },
+                stage3: { completed: false, builtSequence: [], sequenceCorrect: false, failures: 0 },
+                stage4: { completed: false, collectionTarget: '', ecoOrgNatureCorrect: false, ecoOrgNameCorrect: false, ecoOrgName: '', failures: 0 }
             },
             finalCode: '',
-            finalPassword: ''
+            finalPassword: '',
+            currentStageStartTime: null, // Track when the current stage started
+            helpCheckInterval: null // Interval for checking help conditions
         };
+
+        // --- Constants ---
+        const HELP_FAILURE_THRESHOLD = 2; // Number of failures to show help
+        const HELP_TIME_THRESHOLD = 2 * 60 * 1000; // 2 minutes in milliseconds
+        const stageOrder = ['intro', 'stage1', 'stage2', 'stage3', 'stage4', 'final-stage', 'success', 'failure']; // Order for navigation
+
+        // Define the correct sequence for Stage 3
+        const correctLogisticsSequence = [
+            'pharmacie',
+            'receptacle',
+            'enlevement',
+            'regroupement',
+            'transport',
+            'incineration' // Note: Matches data-step-id of the final correct step card
+        ];
 
         // --- DOM Elements ---
         const timerElement = document.getElementById('timer');
@@ -1288,27 +1345,28 @@
         const excludedZone = document.getElementById('excluded-zone').querySelector('.dropped-items');
         const validateStage1Button = document.getElementById('validate-stage1');
         const validateStage2Button = document.getElementById('validate-stage2');
-        const validateStage3Button = document.getElementById('validate-stage3');
+        const validateStage3Button = document.getElementById('validate-stage3'); // Kept
         const validateStage4Button = document.getElementById('validate-stage4');
         const validateFinalButton = document.getElementById('validate-final');
         const nextStageContainer1 = document.getElementById('next-stage-container-1');
         const nextStageBtn1 = document.getElementById('next-stage-1');
         const nextStageContainer2 = document.getElementById('next-stage-container-2');
         const nextStageBtn2 = document.getElementById('next-stage-2');
-        const nextStageContainer3 = document.getElementById('next-stage-container-3');
-        const nextStageBtn3 = document.getElementById('next-stage-3');
+        const nextStageContainer3 = document.getElementById('next-stage-container-3'); // Kept
+        const nextStageBtn3 = document.getElementById('next-stage-3'); // Kept
         const nextStageContainer4 = document.getElementById('next-stage-container-4');
         const nextStageBtn4 = document.getElementById('next-stage-4');
         const stage1Feedback = document.getElementById('stage1-feedback');
         const stage2Feedback = document.getElementById('stage2-feedback');
-        const stage3Feedback = document.getElementById('stage3-feedback');
+        const stage3Feedback = document.getElementById('stage3-feedback'); // Kept
         const stage4Feedback = document.getElementById('stage4-feedback');
         const finalFeedback = document.getElementById('final-feedback');
         const producerCardsContainer = document.getElementById('producer-cards');
         const obligationCardsContainer = document.getElementById('obligation-cards');
-        const logisticsStepsContainer = document.getElementById('logistics-steps');
-        const finalDestinationContainer = document.getElementById('final-destination');
-        const logisticsMap = document.getElementById('logistics-map');
+        // REMOVED: logisticsStepsContainer, finalDestinationContainer, logisticsMap
+        const availableLogisticsStepsContainer = document.getElementById('available-logistics-steps'); // NEW
+        const builtSequenceList = document.getElementById('built-sequence-list'); // NEW
+        const clearSequenceButton = document.getElementById('clear-sequence-btn'); // NEW
         const collectionTargetContainer = document.getElementById('collection-target');
         const ecoOrgNatureContainer = document.getElementById('eco-org-nature');
         const ecoOrgNameInput = document.getElementById('eco-org-name');
@@ -1319,10 +1377,11 @@
         const restartGameButton = document.getElementById('restart-game');
         const restartGameFailureButton = document.getElementById('restart-game-failure');
         const helpModal = document.getElementById('help-modal');
-        const showHelpButton = document.getElementById('show-help');
+        const showHelpButton = document.getElementById('show-help'); // Existing button, visibility controlled
         const closeHelpButton = document.getElementById('close-help');
         const backdoorButton = document.getElementById('backdoor-btn');
         const downloadPdfButton = document.getElementById('download-pdf-certificate');
+        const prevStageButton = document.getElementById('prev-stage-btn'); // New button
         const introTitleElement = document.getElementById('intro-title');
         const teamNameGroup = document.getElementById('team-name-group');
         const participantsGroup = document.getElementById('participants-group');
@@ -1336,12 +1395,12 @@
             startGameButton.addEventListener('click', startGame);
             validateStage1Button.addEventListener('click', validateStage1);
             validateStage2Button.addEventListener('click', validateStage2);
-            validateStage3Button.addEventListener('click', validateStage3);
+            validateStage3Button.addEventListener('click', validateStage3); // Stage 3 Validation
             validateStage4Button.addEventListener('click', validateStage4);
             validateFinalButton.addEventListener('click', validateFinal);
             nextStageBtn1.addEventListener('click', () => showStage('stage2'));
             nextStageBtn2.addEventListener('click', () => showStage('stage3'));
-            nextStageBtn3.addEventListener('click', () => showStage('stage4'));
+            nextStageBtn3.addEventListener('click', () => showStage('stage4')); // Stage 3 Next Button
             nextStageBtn4.addEventListener('click', () => showStage('final-stage'));
             restartGameButton.addEventListener('click', resetGame);
             restartGameFailureButton.addEventListener('click', resetGame);
@@ -1351,11 +1410,13 @@
             document.addEventListener('keydown', (e) => { if (e.key === 'Escape') helpModal.classList.remove('active'); });
             backdoorButton.addEventListener('click', handleBackdoor);
             downloadPdfButton.addEventListener('click', handleDownloadCertificatePDF);
+            clearSequenceButton.addEventListener('click', clearBuiltSequence); // Listener for new Stage 3 clear button
+            prevStageButton.addEventListener('click', goToPreviousStage); // Listener for Previous Stage button
 
             initStage1Interactions();
-            initCardSelection();
-            initLogisticsMapVisualization(); // Calls the modified version now
-            shuffleLogisticsSteps();
+            initCardSelection(); // Handles Stages 2 & 4 card selection
+            initStage3CardClicks(); // NEW: Handles Stage 3 specific card clicks
+            shuffleAvailableLogisticsSteps(); // NEW: Shuffle Stage 3 cards
 
             resetGame();
         }
@@ -1412,28 +1473,154 @@
         }
 
         function showStage(stageId) {
+            // Stop help check for the outgoing stage
+            clearInterval(gameState.helpCheckInterval);
+
             stages.forEach(stage => stage.classList.remove('active'));
             const nextStage = document.getElementById(stageId);
             if (nextStage) {
-                 nextStage.classList.add('active'); gameState.currentStage = stageId;
-                 updateProgress(); updateStageDots(); window.scrollTo(0, 0);
-            } else { console.error("Stage not found:", stageId); }
+                nextStage.classList.add('active');
+                gameState.currentStage = stageId;
+
+                // Reset failures and start time for the new stage (if it's a main stage 1-4)
+                if (gameState.stageResults[stageId]) {
+                    gameState.stageResults[stageId].failures = 0; // Reset failures on entering
+                    gameState.currentStageStartTime = Date.now();
+                    console.log(`Entered stage ${stageId} at ${new Date(gameState.currentStageStartTime).toLocaleTimeString()}`);
+                    // Start checking if help should be shown for this stage (only if not already completed)
+                    if (!gameState.stageResults[stageId].completed) {
+                         startHelpCheckInterval(stageId);
+                    }
+                } else {
+                    gameState.currentStageStartTime = null; // Not a main stage
+                }
+
+                 // Initially hide help and previous buttons
+                 showHelpButton.style.display = 'none';
+                 prevStageButton.style.display = 'none';
+                 prevStageButton.disabled = true;
+
+                 // Manage Previous Stage Button visibility
+                 const currentStageIndex = stageOrder.indexOf(stageId);
+                 if (currentStageIndex > 1 && currentStageIndex <= stageOrder.indexOf('final-stage')) { // Enable from stage 2 onwards
+                    // Check if there's actually a completed stage before it
+                    let previousCompletedStageExists = false;
+                    for (let i = currentStageIndex - 1; i >= 1; i--) { // Check stages 1 up to current-1
+                        const prevStageId = stageOrder[i];
+                        if (gameState.stageResults[prevStageId] && gameState.stageResults[prevStageId].completed) {
+                            previousCompletedStageExists = true;
+                            break;
+                        }
+                    }
+                    if (previousCompletedStageExists) {
+                        prevStageButton.style.display = 'inline-block';
+                        prevStageButton.disabled = false;
+                    }
+                 }
+
+                 updateProgress();
+                 updateStageDots();
+                 window.scrollTo(0, 0);
+            } else {
+                console.error("Stage not found:", stageId);
+            }
         }
 
+
+        // New function to handle "Previous Stage" button click
+        function goToPreviousStage() {
+            const currentStageIndex = stageOrder.indexOf(gameState.currentStage);
+            if (currentStageIndex <= 1) return; // Cannot go back from intro or stage 1
+
+            // Find the most recently completed stage before the current one
+            for (let i = currentStageIndex - 1; i >= 1; i--) { // Check stages 1 up to current-1
+                const prevStageId = stageOrder[i];
+                 if (gameState.stageResults[prevStageId] && gameState.stageResults[prevStageId].completed) {
+                    console.log(`Going back from ${gameState.currentStage} to ${prevStageId}`);
+                    showStage(prevStageId);
+                    return; // Exit after finding the first completed previous stage
+                }
+            }
+             console.warn("Could not find a previously completed stage to go back to.");
+        }
+
+
+        // New function to check conditions for showing help button
+        function startHelpCheckInterval(stageId) {
+            clearInterval(gameState.helpCheckInterval); // Clear previous interval if any
+
+            // Don't start check if stage is already completed or not a main stage
+            if (!gameState.stageResults[stageId] || gameState.stageResults[stageId].completed) {
+                return;
+            }
+
+            console.log(`Starting help check interval for stage ${stageId}`);
+            gameState.helpCheckInterval = setInterval(() => {
+                if (gameState.currentStage !== stageId || !gameState.stageResults[stageId] || gameState.stageResults[stageId].completed) {
+                    clearInterval(gameState.helpCheckInterval); // Stop if stage changed or completed
+                    return;
+                }
+
+                const failures = gameState.stageResults[stageId].failures;
+                const timeElapsed = gameState.currentStageStartTime ? Date.now() - gameState.currentStageStartTime : 0;
+                const timeConditionMet = timeElapsed >= HELP_TIME_THRESHOLD;
+                const failureConditionMet = failures >= HELP_FAILURE_THRESHOLD;
+
+                // console.log(`Help check for ${stageId}: Failures=${failures}, Time Elapsed=${Math.round(timeElapsed/1000)}s`);
+
+                if (timeConditionMet || failureConditionMet) {
+                    console.log(`Help conditions met for ${stageId} (Time: ${timeConditionMet}, Failures: ${failureConditionMet}). Showing help button.`);
+                    showHelpButton.style.display = 'inline-block';
+                    clearInterval(gameState.helpCheckInterval); // Stop checking once shown
+                }
+            }, 5000); // Check every 5 seconds
+        }
+
+        // Helper function to check and potentially show help immediately after a failure
+        function checkHelpConditionsAfterFailure(stageId) {
+             if (!gameState.stageResults[stageId] || gameState.stageResults[stageId].completed || showHelpButton.style.display === 'inline-block') {
+                 return; // Don't check if stage completed or help already visible
+             }
+             const failures = gameState.stageResults[stageId].failures;
+             const timeElapsed = gameState.currentStageStartTime ? Date.now() - gameState.currentStageStartTime : 0;
+
+             if (failures >= HELP_FAILURE_THRESHOLD || timeElapsed >= HELP_TIME_THRESHOLD) {
+                 console.log(`Help conditions met immediately after failure for ${stageId}. Showing help button.`);
+                 showHelpButton.style.display = 'inline-block';
+                 clearInterval(gameState.helpCheckInterval); // Stop interval checking
+             }
+         }
+
+
         function updateProgress() {
-             const stageProgressMap = {'intro': 0, 'stage1': 10, 'stage2': 30, 'stage3': 50, 'stage4': 70,'final-stage': 90, 'success': 100, 'failure': 100};
-             progressElement.style.width = `${stageProgressMap[gameState.currentStage] || 0}%`;
+             // Adjusted stage order for progress calculation
+             const progressStageOrder = ['intro', 'stage1', 'stage2', 'stage3', 'stage4', 'final-stage', 'success', 'failure'];
+             let currentProgressIndex = progressStageOrder.indexOf(gameState.currentStage);
+             // Calculate percentage based on index (approximate)
+             const progressPercentage = (currentProgressIndex / (progressStageOrder.length - 3)) * 100; // -3 to exclude intro, success, failure as steps
+             progressElement.style.width = `${Math.min(100, Math.max(0, progressPercentage))}%`;
         }
 
         function updateStageDots() {
-            const stageOrder = ['stage1', 'stage2', 'stage3', 'stage4', 'final-stage'];
-            let stageIndex = stageOrder.indexOf(gameState.currentStage);
-            if(gameState.currentStage === 'intro') stageIndex = -1;
-            if(gameState.currentStage === 'success' || gameState.currentStage === 'failure') stageIndex = stageOrder.length;
+            const mainStages = ['stage1', 'stage2', 'stage3', 'stage4', 'final-stage'];
+            let stageIndex = mainStages.indexOf(gameState.currentStage);
+            // If on intro, no dots active. If success/failure, all completed.
+            if (gameState.currentStage === 'intro') stageIndex = -1;
+            if (gameState.currentStage === 'success' || gameState.currentStage === 'failure') stageIndex = mainStages.length;
+
             stageDots.forEach((dot, index) => {
                 dot.classList.remove('active', 'completed');
-                if (index < stageIndex) dot.classList.add('completed');
-                else if (index === stageIndex) dot.classList.add('active');
+                const dotStageId = mainStages[index];
+                if (index < stageIndex) {
+                    dot.classList.add('completed');
+                } else if (index === stageIndex) {
+                    dot.classList.add('active');
+                }
+                // Ensure dots reflect completed state even if navigating back
+                if(gameState.stageResults[dotStageId] && gameState.stageResults[dotStageId].completed) {
+                    dot.classList.remove('active');
+                    dot.classList.add('completed');
+                }
             });
         }
 
@@ -1449,7 +1636,7 @@
         function updateFinalStageInfoDisplay() {
             const e1Value = gameState.stageResults.stage1.correctItemsCount || '?';
             const e4TargetValue = gameState.stageResults.stage4.collectionTarget || '?';
-            const e3ArticleValue = '27';
+            const e3ArticleValue = '10'; // MODIFIED: Changed to 10 (from L.541-10)
             const e2LetterValue = gameState.stageResults.stage2.keyLetter || '?';
             const e4NameValue = gameState.stageResults.stage4.ecoOrgName || '?';
             const finalCode = gameState.finalCode || '?????';
@@ -1457,23 +1644,23 @@
 
             const valE1 = document.getElementById('final-val-e1');
             const valE4Target = document.getElementById('final-val-e4-target');
-            const valE3 = document.getElementById('final-val-e3');
+            const valE3 = document.getElementById('final-val-e3'); // ID remains the same
             const valE2 = document.getElementById('final-val-e2');
             const valE4Name = document.getElementById('final-val-e4-name');
             if (valE1) valE1.textContent = e1Value;
             if (valE4Target) valE4Target.textContent = e4TargetValue;
-            if (valE3) valE3.textContent = e3ArticleValue;
+            if (valE3) valE3.textContent = e3ArticleValue; // Display the new value '10'
             if (valE2) valE2.textContent = e2LetterValue;
             if (valE4Name) valE4Name.textContent = e4NameValue;
 
             const calcE1 = document.getElementById('final-calc-e1');
             const calcE4Target = document.getElementById('final-calc-e4-target');
-            const calcE3 = document.getElementById('final-calc-e3');
+            const calcE3 = document.getElementById('final-calc-e3'); // ID remains the same
             const calcE2 = document.getElementById('final-calc-e2');
             const calcE4Name = document.getElementById('final-calc-e4-name');
             if (calcE1) calcE1.textContent = e1Value;
             if (calcE4Target) calcE4Target.textContent = e4TargetValue;
-            if (calcE3) calcE3.textContent = e3ArticleValue;
+            if (calcE3) calcE3.textContent = e3ArticleValue; // Display the new value '10'
             if (calcE2) calcE2.textContent = e2LetterValue;
             if (calcE4Name) calcE4Name.textContent = e4NameValue;
 
@@ -1508,52 +1695,53 @@
                  }
                  nextStageId = 'stage1';
              } else {
+                 const stageIndex = stageOrder.indexOf(currentStageId);
+                 if (stageIndex >= 1 && stageIndex <= 4) { // Mark current stage as completed if skipping from 1-4
+                      if(gameState.stageResults[currentStageId]) {
+                          gameState.stageResults[currentStageId].completed = true;
+                           // Set correct answers for skipped stage to allow final calc
+                           switch(currentStageId) {
+                               case 'stage1': gameState.stageResults.stage1.correctItemsCount = 2; break;
+                               case 'stage2':
+                                   gameState.stageResults.stage2.producerCorrect = true;
+                                   gameState.stageResults.stage2.obligationsCorrect = true;
+                                   gameState.stageResults.stage2.keyLetter = 'F';
+                                   break;
+                               case 'stage3':
+                                    gameState.stageResults.stage3.builtSequence = [...correctLogisticsSequence];
+                                    gameState.stageResults.stage3.sequenceCorrect = true;
+                                   break;
+                               case 'stage4':
+                                   gameState.stageResults.stage4.collectionTarget = '70';
+                                   gameState.stageResults.stage4.ecoOrgNatureCorrect = true;
+                                   gameState.stageResults.stage4.ecoOrgNameCorrect = true;
+                                   gameState.stageResults.stage4.ecoOrgName = 'CYCLAMED';
+                                   break;
+                           }
+                           console.log(`  - Stage ${currentStageId} marked as completed with correct answers set.`);
+                           infoBoxToShow = document.querySelector(`#${currentStageId} .regulatory-info`);
+                           if(infoBoxToShow) infoBoxToShow.classList.add('visible'); // Show info for skipped stage
+                      }
+                 }
+
+                // Determine next stage
                 switch (currentStageId) {
-                    case 'stage1':
-                        gameState.stageResults.stage1.completed = true;
-                        gameState.stageResults.stage1.correctItemsCount = 2;
-                        console.log("Réponses Étape 1 (Tri):", "2 items correct");
-                        infoBoxToShow = document.querySelector('#stage1 .regulatory-info');
-                        nextStageId = 'stage2';
-                        break;
-                    case 'stage2':
-                        gameState.stageResults.stage2.completed = true;
-                        gameState.stageResults.stage2.producerCorrect = true;
-                        gameState.stageResults.stage2.obligationsCorrect = true;
-                        gameState.stageResults.stage2.keyLetter = 'F';
-                        console.log("Réponses Étape 2 (Producteur):", "Exploitant, F");
-                        infoBoxToShow = document.querySelector('#stage2 .regulatory-info');
-                        nextStageId = 'stage3';
-                        break;
-                    case 'stage3':
-                        gameState.stageResults.stage3.completed = true;
-                        gameState.stageResults.stage3.stepsCorrect = true;
-                        gameState.stageResults.stage3.finalDestinationCorrect = true;
-                        console.log("Réponses Étape 3 (Logistique):", "Étapes OK, Incinération OK");
-                        infoBoxToShow = document.querySelector('#stage3 .regulatory-info');
-                        nextStageId = 'stage4';
-                        break;
+                    case 'stage1': nextStageId = 'stage2'; break;
+                    case 'stage2': nextStageId = 'stage3'; break;
+                    case 'stage3': nextStageId = 'stage4'; break;
                     case 'stage4':
-                        gameState.stageResults.stage4.completed = true;
-                        gameState.stageResults.stage4.collectionTarget = '70';
-                        gameState.stageResults.stage4.ecoOrgNatureCorrect = true;
-                        gameState.stageResults.stage4.ecoOrgNameCorrect = true;
-                        gameState.stageResults.stage4.ecoOrgName = 'CYCLAMED';
-                        console.log("Réponses Étape 4 (Éco-organisme):", "70%, Non-lucratif, CYCLAMED");
-                        infoBoxToShow = document.querySelector('#stage4 .regulatory-info');
-                        if (!gameState.stageResults.stage1.correctItemsCount || gameState.stageResults.stage1.correctItemsCount <= 0) {
-                            gameState.stageResults.stage1.correctItemsCount = 2;
-                             console.log("  - (Forcing E1 count to 2)");
-                         }
-                         if (!gameState.stageResults.stage2.keyLetter) {
-                             gameState.stageResults.stage2.keyLetter = 'F';
-                             console.log("  - (Forcing E2 letter to F)");
-                         }
-                        gameState.finalCode = `${gameState.stageResults.stage1.correctItemsCount}${gameState.stageResults.stage4.collectionTarget}27`;
+                        // Ensure previous stage data exists before calculating final code
+                        if (!gameState.stageResults.stage1.correctItemsCount) gameState.stageResults.stage1.correctItemsCount = 2;
+                        if (!gameState.stageResults.stage2.keyLetter) gameState.stageResults.stage2.keyLetter = 'F';
+                        if (!gameState.stageResults.stage4.ecoOrgName) gameState.stageResults.stage4.ecoOrgName = 'CYCLAMED';
+                        if (!gameState.stageResults.stage4.collectionTarget) gameState.stageResults.stage4.collectionTarget = '70';
+
+                        // MODIFIED: Calculate final code using 10 instead of 27
+                        gameState.finalCode = `${gameState.stageResults.stage1.correctItemsCount}${gameState.stageResults.stage4.collectionTarget}10`;
                         gameState.finalPassword = `${gameState.stageResults.stage2.keyLetter}${gameState.stageResults.stage4.ecoOrgName}`;
                         console.log("------------------------------------");
-                        console.log("Code Final Calculé :", gameState.finalCode);
-                        console.log("Mot de Passe Final Calculé :", gameState.finalPassword);
+                        console.log("Code Final Calculé (après skip):", gameState.finalCode);
+                        console.log("Mot de Passe Final Calculé (après skip):", gameState.finalPassword);
                         console.log("------------------------------------");
                         updateFinalStageInfoDisplay();
                         nextStageId = 'final-stage';
@@ -1564,12 +1752,15 @@
                         return;
                 }
              }
-            if (infoBoxToShow) infoBoxToShow.classList.add('visible');
+
             console.log("-------------------------------------------------------------");
             if(nextStageId) showStage(nextStageId);
         }
 
+
         // --- Stage Specific Interactions & Validations ---
+
+        // == Stage 1: Tri ==
         function initStage1Interactions() {
             itemsContainer.querySelectorAll('.item').forEach(item => item.addEventListener('click', () => item.classList.toggle('selected')));
             document.getElementById('cyclamed-zone').addEventListener('click', (e) => { if(e.target.classList.contains('dropped-item')) e.target.remove(); else if (e.target.closest('.drop-zone')) moveSelectedItemsToZone(cyclamedZone, excludedZone); });
@@ -1579,14 +1770,19 @@
              itemsContainer.querySelectorAll('.item.selected').forEach(item => { const itemId=item.dataset.item, itemText=item.querySelector('p').textContent; const existingOther = otherZone.querySelector(`.dropped-item[data-item="${itemId}"]`); if(existingOther) existingOther.remove(); if (!targetZone.querySelector(`.dropped-item[data-item="${itemId}"]`)) { const dropped = document.createElement('div'); dropped.className='dropped-item'; dropped.dataset.item=itemId; dropped.textContent=itemText; dropped.addEventListener('click', ()=>dropped.remove()); targetZone.appendChild(dropped); } item.classList.remove('selected'); });
         }
         function validateStage1() {
+            if(gameState.stageResults.stage1.completed) return; // Don't re-validate
             const droppedC = Array.from(cyclamedZone.querySelectorAll('.dropped-item')).map(el => el.dataset.item); const droppedE = Array.from(excludedZone.querySelectorAll('.dropped-item')).map(el => el.dataset.item); const allCount = droppedC.length + droppedE.length; const totalOrig = itemsContainer.querySelectorAll('.item').length; const correctC = ['medicament-plein', 'medicament-entame']; const allOrigData = Array.from(itemsContainer.querySelectorAll('.item')).map(el => el.dataset.item); const correctE = allOrigData.filter(i => !correctC.includes(i)); let errors = [];
             if (allCount < totalOrig) errors.push(`Tri incomplet (${totalOrig - allCount} restants).`); let correctCFound = 0; droppedC.forEach(i => { if (correctC.includes(i)) correctCFound++; else errors.push(`"${itemsContainer.querySelector(`.item[data-item='${i}'] p`).textContent}" incorrect dans ✅ MNU.`); }); if (correctCFound !== correctC.length && allCount === totalOrig) errors.push(`Manque ${correctC.length - correctCFound} item(s) dans ✅ MNU.`); let correctEFound = 0; droppedE.forEach(i => { if (correctE.includes(i)) correctEFound++; else errors.push(`"${itemsContainer.querySelector(`.item[data-item='${i}'] p`).textContent}" incorrect dans ❌ Exclus.`); }); if (correctEFound !== correctE.length && allCount === totalOrig) errors.push(`Manque ${correctE.length - correctEFound} item(s) dans ❌ Exclus.`);
+
             if (errors.length === 0) {
                 gameState.stageResults.stage1.correctItemsCount = correctC.length;
                 stage1Feedback.textContent = `Bravo ! Tri parfait.`;
+                // Append clue
+                 stage1Feedback.innerHTML += '<br><span class="clue">Indice Code Final: Le <strong>nombre d\'items</strong> corrects (✅) est votre premier chiffre.</span>';
                 stage1Feedback.className = 'feedback success';
                 stage1Feedback.style.display = 'block';
                 gameState.stageResults.stage1.completed = true;
+                 clearInterval(gameState.helpCheckInterval); // Stop help check
                 document.querySelector('#stage1 .regulatory-info')?.classList.add('visible');
                 validateStage1Button.style.display = 'none';
                 nextStageContainer1.style.display = 'block';
@@ -1595,201 +1791,448 @@
                 stage1Feedback.textContent = `Erreurs : ${errors.join(' ')}`;
                 stage1Feedback.className = 'feedback error';
                 stage1Feedback.style.display = 'block';
+                 // Increment failures and check help conditions
+                 gameState.stageResults.stage1.failures++;
+                 checkHelpConditionsAfterFailure('stage1');
             }
         }
+
+        // == Stage 2 & 4: Card Selection Logic ==
         function initCardSelection() {
-            document.querySelectorAll('.card-container').forEach(cont => { const multi = cont.id === 'obligation-cards' || cont.id === 'logistics-steps'; cont.querySelectorAll('.card').forEach(card => card.addEventListener('click', () => { if (!multi) cont.querySelectorAll('.card').forEach(c => c.classList.remove('selected')); card.classList.toggle('selected'); if (cont.id === 'logistics-steps' || cont.id === 'final-destination') updateLogisticsMapVisualization(); })); });
+            // Handles single-choice (Stage 2 Producer, Stage 4 Target/Nature)
+            // and multi-choice (Stage 2 Obligations) card selections
+            document.querySelectorAll('.card-container').forEach(cont => {
+                // Exclude Stage 3 container from this generic logic
+                if (cont.id === 'available-logistics-steps') return;
+
+                const multi = cont.id === 'obligation-cards'; // Only obligations are multi-select here
+                cont.querySelectorAll('.card').forEach(card => card.addEventListener('click', () => {
+                     // Don't process clicks if the stage is already validated (e.g., via backdoor)
+                     const stageId = card.closest('.stage')?.id;
+                     if (stageId && gameState.stageResults[stageId]?.completed) return;
+
+                    if (!multi) {
+                        // Single choice: deselect others in the same container
+                        cont.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+                        card.classList.add('selected'); // Select the clicked one
+                    } else {
+                        // Multi choice: toggle selection
+                        card.classList.toggle('selected');
+                    }
+                    // REMOVED: updateLogisticsMapVisualization(); call no longer needed here
+                }));
+            });
         }
         function validateStage2() {
+             if(gameState.stageResults.stage2.completed) return; // Don't re-validate
             const selP = producerCardsContainer.querySelector('.card.selected'); const selO = Array.from(obligationCardsContainer.querySelectorAll('.card.selected')).map(c => c.dataset.card); const correctP = 'exploitant'; const correctO = ['financer', 'adherer', 'eco-concevoir']; let pOk = selP?.dataset.card === correctP; let oOk = selO.length === correctO.length && correctO.every(ob => selO.includes(ob)); gameState.stageResults.stage2.producerCorrect=pOk; gameState.stageResults.stage2.obligationsCorrect=oOk;
+
             if (pOk && oOk) {
-                gameState.stageResults.stage2.keyLetter = 'F';
+                gameState.stageResults.stage2.keyLetter = 'F'; // First letter of 'Financer'
                 stage2Feedback.textContent = 'Excellent ! Producteur et obligations identifiés.';
+                 // Append clue
+                 stage2Feedback.innerHTML += '<br><span class="clue">Indice Mot de Passe: La <strong>première lettre</strong> de l\'obligation de financement est votre première lettre.</span>';
                 stage2Feedback.className = 'feedback success';
                 stage2Feedback.style.display = 'block';
                 gameState.stageResults.stage2.completed = true;
+                clearInterval(gameState.helpCheckInterval); // Stop help check
                 document.querySelector('#stage2 .regulatory-info')?.classList.add('visible');
-                validateStage2Button.style.display = 'none';
+                validateStage2Button.style.display = 'none'; // Hide button
+                 // Disable cards in this stage
+                producerCardsContainer.querySelectorAll('.card').forEach(c => c.style.pointerEvents = 'none');
+                obligationCardsContainer.querySelectorAll('.card').forEach(c => c.style.pointerEvents = 'none');
                 nextStageContainer2.style.display = 'block';
                 nextStageBtn2.disabled = false;
             } else {
                 let fb = 'Vérifiez. '; if (!pOk) fb += 'Producteur incorrect. '; if (!oOk) fb += 'Obligations incorrectes/incomplètes.';
                 stage2Feedback.textContent = fb; stage2Feedback.className = 'feedback error'; stage2Feedback.style.display = 'block';
+                 // Increment failures and check help conditions
+                 gameState.stageResults.stage2.failures++;
+                 checkHelpConditionsAfterFailure('stage2');
             }
         }
 
-        // MODIFIED initLogisticsMapVisualization with scattered points
-        function initLogisticsMapVisualization() {
-            logisticsMap.innerHTML = ''; // Clear previous map elements
+        // == Stage 3: Sequential Logistics ==
 
-            // MODIFIED: Changed coordinates (x, y) to be less linear and more scattered
-            const pts = [
-                {id:'pharmacie',         x:15, y:25, i:'🏥'}, // Top-left ish
-                {id:'receptacle',        x:30, y:45, i:'📦'}, // Below/right of pharmacie
-                {id:'enlevement',        x:55, y:70, i:'🚚'}, // Middle-bottom right ish
-                {id:'regroupement',      x:40, y:85, i:'🔄'}, // Bottom-left ish (breaks linearity)
-                {id:'transport',         x:70, y:50, i:'🚛'}, // Middle-right
-                {id:'incineration-step', x:85, y:80, i:'🔥'}, // Bottom-right ish (final correct)
-                {id:'humanitaire',       x:50, y:15, i:'🌍'}, // Incorrect - Top Middle
-                {id:'enfouissement',     x:75, y:20, i:'⚠️'}, // Incorrect - Top Right
-                {id:'recyclage',         x:15, y:75, i:'♻️'}  // Incorrect - Bottom Left
-            ];
+        // NEW: Handle clicks on available step cards in Stage 3
+        function initStage3CardClicks() {
+            if (availableLogisticsStepsContainer) {
+                availableLogisticsStepsContainer.addEventListener('click', function(event) {
+                    const clickedCard = event.target.closest('.card');
+                    // Only act if in Stage 3 and stage is not completed
+                    if (clickedCard && gameState.currentStage === 'stage3' && !gameState.stageResults.stage3.completed) {
+                        const stepId = clickedCard.dataset.stepId;
+                        // Only add if not already in sequence
+                        if (stepId && !gameState.stageResults.stage3.builtSequence.includes(stepId)) {
+                            addStepToSequence(stepId);
+                        } else if (stepId) {
+                            // If already in sequence, maybe provide feedback or just do nothing
+                            console.log(`Étape "${stepId}" déjà dans la séquence.`);
+                        }
+                    }
+                });
+            }
+        }
 
-            pts.forEach(p => {
-                const el = document.createElement('div');
-                el.className = 'map-point';
-                el.id = `point-${p.id}`;
-                el.style.left = `${p.x}%`;
-                el.style.top = `${p.y}%`;
-                el.textContent = p.i;
-                // Add a title for accessibility/hover info (optional)
-                const stepCard = logisticsStepsContainer.querySelector(`.card[data-position='${p.id}']`);
-                const destCard = finalDestinationContainer.querySelector(`.card[data-destination='${p.id}']`);
-                 if (p.id === 'incineration-step') {
-                    el.title = "Étape: Destruction finale";
-                 } else if (stepCard) {
-                     el.title = `Étape: ${stepCard.textContent}`;
-                 } else if (destCard) {
-                    el.title = `Destination: ${destCard.textContent}`;
-                 } else {
-                     switch(p.id) {
-                         case 'humanitaire': el.title = "Destination: Redistribution humanitaire"; break;
-                         case 'enfouissement': el.title = "Destination: Enfouissement en décharge"; break;
-                         case 'recyclage': el.title = "Destination: Recyclage chimique"; break;
-                     }
-                 }
-                logisticsMap.appendChild(el);
+
+        // NEW & UPDATED: Add a step to the user's built sequence and update card style
+        function addStepToSequence(stepId) {
+            if (gameState.stageResults.stage3.completed) return; // Prevent adding after completion
+            gameState.stageResults.stage3.builtSequence.push(stepId);
+
+            // Update the corresponding card's appearance
+            const cardElement = availableLogisticsStepsContainer.querySelector(`.card[data-step-id='${stepId}']`);
+            if (cardElement) {
+                cardElement.classList.add('step-in-sequence');
+            }
+
+            updateBuiltSequenceDisplay();
+        }
+
+        // NEW & UPDATED: Remove a step and update card style
+        function removeStepFromSequence(stepId) {
+            if (gameState.stageResults.stage3.completed) return; // Prevent removal after completion
+            gameState.stageResults.stage3.builtSequence = gameState.stageResults.stage3.builtSequence.filter(id => id !== stepId);
+
+            // Update the corresponding card's appearance
+            const cardElement = availableLogisticsStepsContainer.querySelector(`.card[data-step-id='${stepId}']`);
+            if (cardElement) {
+                cardElement.classList.remove('step-in-sequence');
+            }
+
+            updateBuiltSequenceDisplay();
+        }
+
+        // NEW & UPDATED: Clear the entire built sequence and reset card styles
+        function clearBuiltSequence() {
+            if (gameState.stageResults.stage3.completed) return; // Prevent clearing after completion
+
+             // Reset appearance of all available cards
+            availableLogisticsStepsContainer.querySelectorAll('.card.step-in-sequence').forEach(card => {
+                card.classList.remove('step-in-sequence');
             });
-            updateLogisticsMapVisualization(); // Initial update shows points
-            console.log("Logistics map initialized with non-linear layout.");
+
+            gameState.stageResults.stage3.builtSequence = [];
+            updateBuiltSequenceDisplay();
+            // Hide feedback when clearing
+            stage3Feedback.style.display = 'none';
+            stage3Feedback.textContent = '';
+            stage3Feedback.className = 'feedback'; // Reset class
         }
 
 
-        function updateLogisticsMapVisualization() { logisticsMap.querySelectorAll('.map-line, .map-arrow').forEach(el => el.remove()); logisticsMap.querySelectorAll('.map-point').forEach(el => el.classList.remove('active')); const steps = Array.from(logisticsStepsContainer.querySelectorAll('.card.selected')).sort((a, b) => parseInt(a.dataset.step) - parseInt(b.dataset.step)).map(c => c.dataset.position); steps.forEach(pos=>{const el=document.getElementById(`point-${pos}`); if(el) el.classList.add('active');}); for(let i=0; i<steps.length-1; i++) addMapLineVisualization(steps[i], steps[i+1], true); const destCard = finalDestinationContainer.querySelector('.card.selected'); if(steps.includes('transport') && destCard){ const destId=destCard.dataset.destination; if(destId==='incineration'){if(steps.includes('incineration-step')) addMapLineVisualization('transport', 'incineration-step', true);} else {addMapLineVisualization('transport', destId, true); const el=document.getElementById(`point-${destId}`); if(el) el.classList.add('active');}}}
-        function addMapLineVisualization(fromId, toId, isActive) { const fP=document.getElementById(`point-${fromId}`), tP=document.getElementById(`point-${toId}`); if(!fP||!tP) return; const mapR=logisticsMap.getBoundingClientRect(), fX=fP.offsetLeft+fP.offsetWidth/2, fY=fP.offsetTop+fP.offsetHeight/2, tX=tP.offsetLeft+tP.offsetWidth/2, tY=tP.offsetTop+tP.offsetHeight/2; const len=Math.hypot(tX-fX, tY-fY), ang=Math.atan2(tY-fY, tX-fX); const line=document.createElement('div'); line.className=`map-line ${isActive?'active':''}`; line.style.width=`${len}px`; line.style.left=`${fX}px`; line.style.top=`${fY}px`; line.style.transform=`rotate(${ang}rad)`; logisticsMap.appendChild(line); const arrow=document.createElement('div'); arrow.className=`map-arrow ${isActive?'active':''}`; arrow.style.left=`${tX}px`; arrow.style.top=`${tY}px`; arrow.style.transform=`translate(-50%, -50%) rotate(${ang + Math.PI / 2}rad)`; logisticsMap.appendChild(arrow); }
-        function shuffleLogisticsSteps() {
-            const container = logisticsStepsContainer; if (!container) return;
+        // NEW & UPDATED: Update the visual display (<ol>) of the built sequence
+        function updateBuiltSequenceDisplay() {
+            if (!builtSequenceList) return;
+
+            builtSequenceList.innerHTML = ''; // Clear the current list display
+            gameState.stageResults.stage3.builtSequence.forEach((stepId) => { // We don't need index for text content anymore
+                const listItem = document.createElement('li');
+                // Find the corresponding card to get its text content
+                const card = availableLogisticsStepsContainer.querySelector(`.card[data-step-id='${stepId}']`);
+                // Use card text if found, otherwise just the ID
+                listItem.textContent = card ? card.textContent : stepId;
+                listItem.style.cursor = 'pointer';
+                listItem.title = "Cliquez pour retirer cette étape"; // Tooltip for usability
+                // Add event listener directly to the li to remove the step
+                listItem.addEventListener('click', () => removeStepFromSequence(stepId));
+
+                // Add class for styling selected steps in the list
+                listItem.classList.add('step-selected');
+
+                builtSequenceList.appendChild(listItem);
+            });
+
+            // Enable/disable the validation button based on whether the sequence has items
+             if (validateStage3Button) {
+                 validateStage3Button.disabled = gameState.stageResults.stage3.builtSequence.length === 0 || gameState.stageResults.stage3.completed;
+             }
+             // Also enable/disable clear button
+             if (clearSequenceButton) {
+                clearSequenceButton.disabled = gameState.stageResults.stage3.builtSequence.length === 0 || gameState.stageResults.stage3.completed;
+             }
+        }
+
+
+        // NEW: Shuffle the order of available step cards in Stage 3
+        function shuffleAvailableLogisticsSteps() {
+            const container = availableLogisticsStepsContainer;
+            if (!container) return;
             const cards = Array.from(container.querySelectorAll('.card'));
-            for (let i = cards.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[cards[i], cards[j]] = [cards[j], cards[i]];}
-            container.innerHTML = ''; cards.forEach(card => container.appendChild(card));
-            console.log("Logistics steps display order shuffled.");
+            // Fisher-Yates (Knuth) Shuffle
+            for (let i = cards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [cards[i], cards[j]] = [cards[j], cards[i]]; // Swap elements
+            }
+            // Re-append cards in the new shuffled order
+            container.innerHTML = ''; // Clear existing cards
+            cards.forEach(card => container.appendChild(card));
+            console.log("Available logistics steps display order shuffled.");
         }
+
+        // REWRITTEN & UPDATED: Validate the built sequence in Stage 3
         function validateStage3() {
-            const steps = Array.from(logisticsStepsContainer.querySelectorAll('.card.selected'));
-            const dest = finalDestinationContainer.querySelector('.card.selected');
-            // Check if exactly 6 steps are selected and if their data-step attributes form the sequence 1 to 6
-            let stepsOk = steps.length === 6 && steps.map(s => parseInt(s.dataset.step)).sort((a, b) => a - b).every((val, index) => val === index + 1);
-            let destOk = dest?.dataset.destination === 'incineration';
-            gameState.stageResults.stage3.stepsCorrect = stepsOk; gameState.stageResults.stage3.finalDestinationCorrect = destOk;
-            if (stepsOk && destOk) {
-                stage3Feedback.textContent = 'Parfait ! Circuit et sort final corrects.';
-                stage3Feedback.className = 'feedback success'; stage3Feedback.style.display = 'block';
-                gameState.stageResults.stage3.completed = true;
-                document.querySelector('#stage3 .regulatory-info')?.classList.add('visible');
-                validateStage3Button.style.display = 'none';
+             if(gameState.stageResults.stage3.completed) return; // Don't re-validate
+            const builtSequence = gameState.stageResults.stage3.builtSequence;
+            let sequenceIsCorrect = false;
+
+            // Compare the built sequence array with the correct sequence array
+            if (builtSequence.length === correctLogisticsSequence.length) {
+                sequenceIsCorrect = builtSequence.every((step, index) => step === correctLogisticsSequence[index]);
+            }
+
+            gameState.stageResults.stage3.sequenceCorrect = sequenceIsCorrect; // Update game state
+
+            if (sequenceIsCorrect) {
+                stage3Feedback.textContent = 'Parfait ! La séquence chronologique est correcte.';
+                 // Append clue - MODIFIED for new logic
+                 stage3Feedback.innerHTML += '<br><span class="clue">Indice Code Final: Le <strong>numéro de l\'article</strong> (L.541-??) sur la REP dans le Code de l\'Env. est nécessaire.</span>';
+                stage3Feedback.className = 'feedback success';
+                stage3Feedback.style.display = 'block';
+                gameState.stageResults.stage3.completed = true; // Mark stage as completed
+                 clearInterval(gameState.helpCheckInterval); // Stop help check
+                document.querySelector('#stage3 .regulatory-info')?.classList.add('visible'); // Show info box
+
+                // Disable interactions for this stage now that it's correct
+                validateStage3Button.disabled = true;
+                clearSequenceButton.disabled = true;
+                if (availableLogisticsStepsContainer) availableLogisticsStepsContainer.style.pointerEvents = 'none'; // Disable clicking available cards
+                if (builtSequenceList) builtSequenceList.style.pointerEvents = 'none'; // Disable removing steps from list
+
+                // Show and enable the "Next Stage" button
                 nextStageContainer3.style.display = 'block';
                 nextStageBtn3.disabled = false;
             } else {
-                let fb = 'Vérifiez. '; if (!stepsOk) fb += 'Ordre logique ou sélection des étapes incorrect(e). '; if (!destOk) fb += 'Destination finale incorrecte.';
-                stage3Feedback.textContent = fb; stage3Feedback.className = 'feedback error'; stage3Feedback.style.display = 'block';
+                // UPDATED: Simplified error message, NO auto-clear
+                let feedbackMessage = "Incorrect. Vérifiez la séquence.";
+
+                stage3Feedback.textContent = feedbackMessage;
+                stage3Feedback.className = 'feedback error';
+                stage3Feedback.style.display = 'block';
+
+                 // Increment failures and check help conditions
+                 gameState.stageResults.stage3.failures++;
+                 checkHelpConditionsAfterFailure('stage3');
+                // REMOVED: clearBuiltSequence(); - Sequence stays for correction
             }
         }
+
+
+        // == Stage 4: Eco-organisme ==
         function validateStage4() {
+             if(gameState.stageResults.stage4.completed) return; // Don't re-validate
             const tgt=collectionTargetContainer.querySelector('.card.selected'); const nat=ecoOrgNatureContainer.querySelector('.card.selected'); const name=ecoOrgNameInput.value.trim().toUpperCase();
             const correctTgt='70'; const correctNat='non-lucratif'; const correctName='CYCLAMED';
             let tgtOk=tgt?.dataset.target===correctTgt; let natOk=nat?.dataset.nature===correctNat; let nameOk=name===correctName;
             gameState.stageResults.stage4.collectionTarget=tgtOk?correctTgt:''; gameState.stageResults.stage4.ecoOrgNatureCorrect=natOk; gameState.stageResults.stage4.ecoOrgNameCorrect=nameOk;
             gameState.stageResults.stage4.ecoOrgName = (tgtOk && natOk && nameOk) ? correctName : '';
+
             if(tgtOk && natOk && nameOk){
                 stage4Feedback.textContent = 'Excellent ! Infos correctes.';
+                 // Append clue
+                 stage4Feedback.innerHTML += '<br><span class="clue">Indices Code/Mdp: Le <strong>pourcentage objectif</strong> (%) et le <strong>nom</strong> de l\'éco-organisme complètent les codes.</span>';
                 stage4Feedback.className = 'feedback success'; stage4Feedback.style.display = 'block';
                 gameState.stageResults.stage4.completed=true;
+                 clearInterval(gameState.helpCheckInterval); // Stop help check
                 document.querySelector('#stage4 .regulatory-info')?.classList.add('visible');
+
+                 // Disable interactions
+                 validateStage4Button.style.display = 'none'; // Hide button
+                 collectionTargetContainer.querySelectorAll('.card').forEach(c => c.style.pointerEvents = 'none');
+                 ecoOrgNatureContainer.querySelectorAll('.card').forEach(c => c.style.pointerEvents = 'none');
+                 ecoOrgNameInput.disabled = true;
+
+                // Check if data from previous stages is available to calculate final codes
                 if(gameState.stageResults.stage1.correctItemsCount > 0 && gameState.stageResults.stage2.keyLetter){
-                    gameState.finalCode=`${gameState.stageResults.stage1.correctItemsCount}${correctTgt}27`;
+                    // MODIFIED: Calculate final codes using 10 instead of 27
+                    gameState.finalCode=`${gameState.stageResults.stage1.correctItemsCount}${correctTgt}10`;
                     gameState.finalPassword=`${gameState.stageResults.stage2.keyLetter}${correctName}`;
                     console.log("Code Final:", gameState.finalCode, "Mdp:", gameState.finalPassword);
-                    updateFinalStageInfoDisplay();
-                    validateStage4Button.style.display = 'none';
+                    updateFinalStageInfoDisplay(); // Update the display in the final stage info box
                     nextStageContainer4.style.display = 'block';
                     nextStageBtn4.disabled = false;
                 } else {
+                    // This case should ideally not happen if stages are done sequentially or skipped correctly
                     console.error("Manque infos E1/E2 pour calcul final.");
-                    stage4Feedback.textContent += "\nErreur interne lors de la préparation du code final (données manquantes E1/E2).";
-                    stage4Feedback.className = 'feedback error';
+                    stage4Feedback.textContent += "\nErreur interne: Impossible de calculer le code final (données E1/E2 manquantes). Vérifiez les étapes précédentes.";
+                    stage4Feedback.className = 'feedback error'; // Change feedback to error
                 }
             } else {
                 let fb='Vérifiez. '; if(!tgtOk) fb+='Objectif incorrect. '; if(!natOk) fb+='Statut incorrect. '; if(!nameOk) fb+='Nom incorrect.';
                 stage4Feedback.textContent=fb; stage4Feedback.className='feedback error'; stage4Feedback.style.display='block';
+                 // Increment failures and check help conditions
+                 gameState.stageResults.stage4.failures++;
+                 checkHelpConditionsAfterFailure('stage4');
             }
         }
+
+        // == Final Stage: Validation ==
         function validateFinal() {
-            const code=finalCodeInput.value.trim(); const pwd=finalPasswordInput.value.trim().toUpperCase();
+            const code=finalCodeInput.value.trim(); const pwd=finalPasswordInput.value.trim().toUpperCase(); // Convert input password to uppercase for comparison
+
+            // Ensure final codes have been calculated (should happen in validateStage4 or skipStage)
             if(!gameState.finalCode || !gameState.finalPassword){
-                finalFeedback.textContent='Erreur: Codes finaux non générés. Assurez-vous d\'avoir validé correctement les étapes précédentes.';
+                finalFeedback.textContent='Erreur: Codes finaux non générés. Assurez-vous d\'avoir validé correctement les étapes précédentes (surtout Etape 4).';
                 finalFeedback.className='feedback error'; finalFeedback.style.display='block';
-                if (gameState.stageResults.stage1.correctItemsCount > 0 && gameState.stageResults.stage4.collectionTarget && gameState.stageResults.stage2.keyLetter && gameState.stageResults.stage4.ecoOrgName) {
-                     gameState.finalCode = `${gameState.stageResults.stage1.correctItemsCount}${gameState.stageResults.stage4.collectionTarget}27`;
+
+                // Attempt to recalculate if prerequisite data is available (e.g., if backdoor was used partially)
+                if (gameState.stageResults.stage1.correctItemsCount > 0 &&
+                    gameState.stageResults.stage4.collectionTarget &&
+                    gameState.stageResults.stage2.keyLetter &&
+                    gameState.stageResults.stage4.ecoOrgName) {
+                     // MODIFIED: Use 10 in recalculation
+                     gameState.finalCode = `${gameState.stageResults.stage1.correctItemsCount}${gameState.stageResults.stage4.collectionTarget}10`;
                      gameState.finalPassword = `${gameState.stageResults.stage2.keyLetter}${gameState.stageResults.stage4.ecoOrgName}`;
-                     updateFinalStageInfoDisplay(); finalFeedback.textContent += ' (Info recalculée, réessayez.)';
-                     console.warn("Recalculated final codes due to missing state on validation attempt.")
-                 } else { console.error("Cannot recalculate final codes - missing prerequisite data."); }
-                return;
+                     updateFinalStageInfoDisplay(); // Update display with recalculated codes
+                     finalFeedback.textContent += ' (Codes recalculés, veuillez réessayer.)';
+                     console.warn("Recalculated final codes due to missing state on final validation attempt.");
+                 } else {
+                     console.error("Cannot recalculate final codes - missing prerequisite data.");
+                 }
+                return; // Stop validation
              }
-             if(code===gameState.finalCode && pwd===gameState.finalPassword){
+
+             // Compare entered codes with stored correct codes
+             if(code === gameState.finalCode && pwd === gameState.finalPassword){
                  finalFeedback.textContent='Accès autorisé ! Système restauré !';
                  finalFeedback.className='feedback success'; finalFeedback.style.display='block';
-                 clearInterval(gameState.timerInterval);
-                 const timeE=gameState.totalGameTime-gameState.timeRemaining; const minT=Math.floor(timeE/(60*1000)); const secT=Math.floor((timeE%(60*1000))/1000);
+                 clearInterval(gameState.timerInterval); // Stop the timer
+                 clearInterval(gameState.helpCheckInterval); // Stop help check just in case
+
+                 // Calculate time taken
+                 const timeE = gameState.totalGameTime - gameState.timeRemaining;
+                 const minT = Math.floor(timeE / (60 * 1000));
+                 const secT = Math.floor((timeE % (60 * 1000)) / 1000);
                  if(timeTakenDisplay) timeTakenDisplay.textContent=`${minT} min ${secT} sec`;
+
+                 // Delay before showing success screen
                  setTimeout(() => {
+                     // Populate certificate details
                      teamNameDisplayCert.textContent=gameState.teamName;
-                     timeRemainingDisplay.textContent=timerElement.textContent;
+                     timeRemainingDisplay.textContent=timerElement.textContent; // Show remaining time
                      if (participantListCert) {
-                         participantListCert.innerHTML = '';
+                         participantListCert.innerHTML = ''; // Clear previous list
                          if (gameState.participants.length > 0) {
-                             gameState.participants.forEach(name => { const li = document.createElement('li'); li.textContent = name; participantListCert.appendChild(li); });
-                             document.getElementById('participants-section-cert').style.display = 'block';
-                         } else { document.getElementById('participants-section-cert').style.display = 'none'; }
+                             gameState.participants.forEach(name => {
+                                 const li = document.createElement('li');
+                                 li.textContent = name;
+                                 participantListCert.appendChild(li);
+                              });
+                             document.getElementById('participants-section-cert').style.display = 'block'; // Show participant section
+                         } else {
+                             document.getElementById('participants-section-cert').style.display = 'none'; // Hide if no participants
+                         }
                      }
-                     showStage('success');
-                 }, 1500);
+                     showStage('success'); // Transition to success screen
+                 }, 1500); // 1.5 second delay
              } else {
+                 // Incorrect codes entered
                  finalFeedback.textContent='Accès refusé. Code ou Mot de Passe incorrect.';
                  finalFeedback.className='feedback error'; finalFeedback.style.display='block';
+                 // Note: Failures are not tracked on the final stage for help button purposes
              }
          }
 
+        // --- Game Reset ---
         function resetGame() {
+            // Reset core game state
             gameState.teamName=''; gameState.participants = []; gameState.startTime=null; gameState.timeRemaining=gameState.totalGameTime;
-            clearInterval(gameState.timerInterval); gameState.currentStage='intro';
-            // Reset stageResults more carefully to avoid losing structure
+            clearInterval(gameState.timerInterval);
+            clearInterval(gameState.helpCheckInterval); // Clear help interval
+            gameState.currentStage='intro';
+            gameState.currentStageStartTime = null; // Reset stage timer
+
+            // Reset results for all stages, including failures
             gameState.stageResults = {
-                stage1: { completed: false, correctItemsCount: 0 },
-                stage2: { completed: false, producerCorrect: false, obligationsCorrect: false, keyLetter: '' },
-                stage3: { completed: false, stepsCorrect: false, finalDestinationCorrect: false },
-                stage4: { completed: false, collectionTarget: '', ecoOrgNatureCorrect: false, ecoOrgNameCorrect: false, ecoOrgName: '' }
+                stage1: { completed: false, correctItemsCount: 0, failures: 0 },
+                stage2: { completed: false, producerCorrect: false, obligationsCorrect: false, keyLetter: '', failures: 0 },
+                stage3: { completed: false, builtSequence: [], sequenceCorrect: false, failures: 0 },
+                stage4: { completed: false, collectionTarget: '', ecoOrgNatureCorrect: false, ecoOrgNameCorrect: false, ecoOrgName: '', failures: 0 }
             };
             gameState.finalCode=''; gameState.finalPassword='';
+
+            // Reset UI elements
             if (introTitleElement) introTitleElement.style.display = '';
             if (teamNameGroup) teamNameGroup.style.display = '';
             if (participantsGroup) participantsGroup.style.display = '';
             if (startGameButton) startGameButton.style.display = '';
             teamNameInput.value=''; participantNamesInput.value = ''; teamNameDisplay.textContent='Équipe: Non définie';
             finalCodeInput.value=''; finalPasswordInput.value=''; ecoOrgNameInput.value='';
-            document.querySelectorAll('.feedback').forEach(el=>{el.textContent=''; el.style.display='none'; el.className='feedback';});
+
+            // Clear feedback messages and remove clue spans
+            document.querySelectorAll('.feedback').forEach(el=>{
+                el.textContent='';
+                el.style.display='none';
+                el.className='feedback';
+                const clueSpan = el.querySelector('.clue');
+                if(clueSpan) clueSpan.remove();
+            });
+
+
+            // Deselect items/cards
             document.querySelectorAll('.card.selected, .item.selected').forEach(el=>el.classList.remove('selected'));
-            cyclamedZone.innerHTML=''; excludedZone.innerHTML=''; logisticsMap.innerHTML='';
-            initLogisticsMapVisualization(); shuffleLogisticsSteps();
+
+             // Reset Stage 3 card styles
+            if (availableLogisticsStepsContainer) {
+                availableLogisticsStepsContainer.querySelectorAll('.card.step-in-sequence').forEach(card => {
+                    card.classList.remove('step-in-sequence');
+                });
+            }
+
+            // Reset Stage 1 zones
+            cyclamedZone.innerHTML=''; excludedZone.innerHTML='';
+
+            // Reset Stage 3 UI
+            clearBuiltSequence(); // Clears the list and updates display/buttons
+            shuffleAvailableLogisticsSteps(); // Re-shuffle available steps
+
+            // Hide regulatory info boxes
             document.querySelectorAll('.regulatory-info').forEach(box => box.classList.remove('visible'));
-             [validateStage1Button, validateStage2Button, validateStage3Button, validateStage4Button].forEach(btn => { if(btn){ btn.style.display = 'inline-block'; btn.disabled = false; }});
+
+             // Reset validation buttons visibility and state
+             [validateStage1Button, validateStage2Button, validateStage3Button, validateStage4Button].forEach(btn => {
+                 if(btn){
+                     btn.style.display = 'inline-block'; // Make visible
+                     btn.disabled = false; // Enable (Stage 3 button will be disabled by updateBuiltSequenceDisplay if list is empty)
+                 }
+             });
+              if (validateStage3Button) validateStage3Button.disabled = true; // Explicitly disable Stage 3 validation as sequence starts empty
+             // Reset input fields and card interactivity
+              ecoOrgNameInput.disabled = false;
+              [producerCardsContainer, obligationCardsContainer, collectionTargetContainer, ecoOrgNatureContainer, availableLogisticsStepsContainer, builtSequenceList].forEach(container => {
+                  if (container) {
+                      container.style.pointerEvents = 'auto'; // Re-enable clicks
+                      if (container.querySelectorAll) {
+                          container.querySelectorAll('.card').forEach(c => c.style.pointerEvents = 'auto');
+                      }
+                  }
+              });
+
+
+             // Hide "Next Stage" containers and disable buttons
              [nextStageContainer1, nextStageContainer2, nextStageContainer3, nextStageContainer4].forEach(cont => { if(cont) cont.style.display = 'none'; });
-             [nextStageBtn1, nextStageBtn2, nextStageBtn3, nextStageBtn4].forEach(btn => { if(btn){ btn.disabled = true; const textNode = Array.from(btn.childNodes).find(node => node.nodeType === Node.TEXT_NODE); if(textNode) textNode.textContent = "Passer à l'étape suivante"; }}); // Reset text content too
+             [nextStageBtn1, nextStageBtn2, nextStageBtn3, nextStageBtn4].forEach(btn => { if(btn){ btn.disabled = true; const textNode = Array.from(btn.childNodes).find(node => node.nodeType === Node.TEXT_NODE); if(textNode) textNode.textContent = "Passer à l'étape suivante"; }});
+
+            // Clear certificate participant list
             if (participantListCert) { participantListCert.innerHTML = ''; document.getElementById('participants-section-cert').style.display = 'none';}
-            updateFinalStageInfoDisplay(); resetTimerDisplay(); updateProgress(); updateStageDots();
+
+             // Hide Help and Previous buttons
+             showHelpButton.style.display = 'none';
+             prevStageButton.style.display = 'none';
+             prevStageButton.disabled = true;
+
+
+            // Update displays
+            updateFinalStageInfoDisplay(); // Clear final code calculation display
+            resetTimerDisplay(); // Reset timer display to initial value
+            updateProgress(); // Reset progress bar
+            updateStageDots(); // Reset stage indicators
+
+            // Show the intro screen
             showStage('intro');
         }
 
+        // --- Certificate Download ---
         function handleDownloadCertificatePDF() {
             const certificateElement = certificateContentElement;
             const originalButtonText = downloadPdfButton.innerHTML;
@@ -1805,33 +2248,58 @@
              downloadPdfButton.disabled = true;
              downloadPdfButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Génération...';
 
+             // Use html2canvas to capture the certificate element
              html2canvas(certificateElement, {
-                 scale: 2, useCORS: true, backgroundColor: '#f8f9fa'
+                 scale: 2, // Improve resolution
+                 useCORS: true, // Handle potential cross-origin issues if using external images (though unlikely here)
+                 backgroundColor: '#f8f9fa' // Ensure background is captured
              }).then(canvas => {
                  try {
-                     const imgData = canvas.toDataURL('image/png');
-                     const pdf = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
+                     const imgData = canvas.toDataURL('image/png'); // Get image data from canvas
+                     const pdf = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' }); // Create A4 PDF in portrait
+
+                     // Calculate image dimensions to fit A4 page with margins
                      const pdfWidth = pdf.internal.pageSize.getWidth();
                      const pdfHeight = pdf.internal.pageSize.getHeight();
-                     const canvasWidth = canvas.width; const canvasHeight = canvas.height;
+                     const canvasWidth = canvas.width;
+                     const canvasHeight = canvas.height;
                      const canvasRatio = canvasWidth / canvasHeight;
-                     const margin = 15;
-                     const usableWidth = pdfWidth - 2 * margin; const usableHeight = pdfHeight - 2 * margin;
-                     let imgWidth = usableWidth; let imgHeight = imgWidth / canvasRatio;
-                     if (imgHeight > usableHeight) { imgHeight = usableHeight; imgWidth = imgHeight * canvasRatio; }
-                     const xPos = margin + (usableWidth - imgWidth) / 2; const yPos = margin + (usableHeight - imgHeight) / 2;
+                     const margin = 15; // mm margin
+                     const usableWidth = pdfWidth - 2 * margin;
+                     const usableHeight = pdfHeight - 2 * margin;
+
+                     let imgWidth = usableWidth;
+                     let imgHeight = imgWidth / canvasRatio;
+
+                     // If height exceeds usable height, resize based on height instead
+                     if (imgHeight > usableHeight) {
+                         imgHeight = usableHeight;
+                         imgWidth = imgHeight * canvasRatio;
+                     }
+
+                     // Calculate position to center the image
+                     const xPos = margin + (usableWidth - imgWidth) / 2;
+                     const yPos = margin + (usableHeight - imgHeight) / 2;
+
+                     // Add the image to the PDF
                      pdf.addImage(imgData, 'PNG', xPos, yPos, imgWidth, imgHeight);
+
+                     // Save the PDF
                      pdf.save(filename);
+
                  } catch (error) {
                      console.error("Erreur lors de la génération du PDF:", error);
                      alert("Une erreur est survenue pendant la génération du PDF.");
                  } finally {
-                      downloadPdfButton.disabled = false; downloadPdfButton.innerHTML = originalButtonText;
+                     // Restore button state regardless of success/failure
+                      downloadPdfButton.disabled = false;
+                      downloadPdfButton.innerHTML = originalButtonText;
                  }
              }).catch(error => {
                  console.error("Erreur html2canvas:", error);
                  alert("Une erreur est survenue lors de la capture du certificat pour le PDF.");
-                 downloadPdfButton.disabled = false; downloadPdfButton.innerHTML = originalButtonText;
+                 downloadPdfButton.disabled = false;
+                 downloadPdfButton.innerHTML = originalButtonText;
              });
         }
 
