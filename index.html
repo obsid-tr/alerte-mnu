@@ -168,7 +168,7 @@
         .btn-success { background-color: var(--success); }
         .btn-danger { background-color: var(--danger); }
         .btn-secondary { background-color: var(--secondary); }
-        .btn-help { background-color: var(--gray); }
+        /* Removed btn-help */
 
         .item-container {
             display: flex;
@@ -275,15 +275,8 @@
             border-width: 1px;
             border-style: solid;
         }
-         /* Style for clue text in feedback */
-         .feedback .clue {
-             font-size: 0.85rem;
-             font-style: italic;
-             color: var(--dark);
-             opacity: 0.8;
-             margin-top: 8px;
-             display: block; /* Ensure it takes its own line */
-         }
+         /* Style for clue text in feedback - REMOVED */
+         /* .feedback .clue { ... } */
 
 
         @keyframes fadeIn {
@@ -534,86 +527,7 @@
             display: none;
         }
 
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6); /* Darker overlay */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s;
-        }
-
-        .modal.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal-content {
-            background-color: white;
-            border-radius: 10px;
-            padding: 30px 40px; /* More padding */
-            width: 90%;
-            max-width: 700px; /* Wider modal */
-            max-height: 85vh;
-            overflow-y: auto;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transform: scale(0.95);
-            transition: transform 0.3s ease-out;
-        }
-
-        .modal.active .modal-content {
-            transform: scale(1);
-        }
-
-        .modal-content h2 {
-            margin-top: 0;
-            color: var(--primary);
-            text-align: center;
-            margin-bottom: 25px;
-        }
-         .modal-content h3 {
-            color: var(--secondary);
-            margin-top: 20px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 5px;
-         }
-         .modal-content p {
-             font-size: 0.95rem;
-             margin-bottom: 10px;
-         }
-        /* Style for code snippets in modal */
-        .modal-content code {
-            background-color: #e9ecef;
-            padding: 2px 4px;
-            border-radius: 3px;
-            font-family: monospace;
-            color: var(--dark); /* Ensure readability */
-        }
-
-
-        .close {
-            position: absolute; /* Position relative to modal-content */
-            top: 15px;
-            right: 20px;
-            font-size: 2rem; /* Larger close button */
-            line-height: 1;
-            font-weight: bold;
-            cursor: pointer;
-            color: var(--gray);
-            transition: color 0.3s, transform 0.3s;
-        }
-
-        .close:hover {
-            color: var(--primary);
-            transform: rotate(90deg);
-        }
+        /* REMOVED MODAL STYLES */
 
         .progress-bar {
             height: 12px; /* Slightly thicker */
@@ -681,17 +595,18 @@
             margin-right: 8px;
             color: var(--secondary);
         }
-         .modal-content h2 .fas {
-            margin-right: 10px;
-         }
-         /* Style for result code in final stage info box */
-        #final-stage .info-box code {
-            background: #fff3cd; /* Light yellow background */
-            padding: 2px 5px;
-            border-radius: 3px;
-            font-weight: bold;
-            color: #856404; /* Dark yellow text */
-            font-size: 1.1em; /* Slightly larger */
+        /* Style for result code in final stage info box - REMOVED as code is not displayed */
+        /* #final-stage .info-box code { ... } */
+
+         /* Additional styles for the final stage info box instructions */
+        #final-stage .info-box ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            margin-top: 5px;
+        }
+        #final-stage .info-box li {
+            margin-bottom: 5px;
+            font-size: 0.9rem;
         }
 
 
@@ -859,8 +774,7 @@
             .stage-time { margin-top: 10px; }
             .stage-title h2 { font-size: 1.2rem; }
             .team-info { flex-direction: column; align-items: flex-start; gap: 10px; }
-            .modal-content { padding: 20px; }
-             .close { top: 10px; right: 15px; font-size: 1.8rem; }
+            /* Removed modal styling */
              .certificate { padding: 20px; }
              .certificate h2 { font-size: 1.5rem; }
               .certificate ul { padding-left: 5px; } /* Less indent on mobile */
@@ -908,8 +822,8 @@
             <div class="timer" id="timer">10:00</div>
             <!-- Previous Stage Button Added Here -->
             <button class="btn btn-secondary" id="prev-stage-btn" style="display: none;">Étape Précédente</button>
-            <!-- Help Button - visibility controlled by JS -->
-            <button class="btn btn-help" id="show-help" style="display: none;">Aide</button>
+            <!-- REMOVED Help Button -->
+            <!-- <button class="btn btn-help" id="show-help" style="display: none;">Aide</button> -->
         </div>
 
         <div class="progress-bar">
@@ -1102,7 +1016,7 @@
                 <h3>Votre Séquence Construite :</h3>
                 <ol id="built-sequence-list"></ol>
                 <!-- Ajout d'un bouton pour vider la séquence si besoin -->
-                <button class="btn btn-help btn-sm" id="clear-sequence-btn">Recommencer la séquence</button>
+                <button class="btn btn-secondary btn-sm" id="clear-sequence-btn">Recommencer la séquence</button> <!-- Changed btn-help to btn-secondary -->
             </div>
 
             <!-- Suppression de la section "Destination finale imposée?" -->
@@ -1188,23 +1102,38 @@
                 <div class="stage-time">~1 minute</div>
             </div>
             <p>Mission presque accomplie ! Entrez le code numérique et le mot de passe final pour verrouiller la conformité de la filière MNU.</p>
+            <!-- MODIFIED INFO BOX CONTENT BELOW -->
             <div class="info-box">
-                <h3><i class="fas fa-key"></i> Calcul du Code d'Accès Final</h3>
-                 <!-- MODIFIED Text below -->
-                 <p id="final-code-desc"><strong>Code Numérique :</strong> (Nb items ✅ E1 = <strong id="final-val-e1">?</strong>) + (Objectif % E4 = <strong id="final-val-e4-target">?</strong>) + (N° Article REP C. Env = <strong id="final-val-e3">?</strong>)</p>
-                 <!-- MODIFIED Calculation display text -->
-                 <p id="final-code-calc" style="text-align: center; font-weight: bold; font-size: 1.1rem;">Code = [<span id="final-calc-e1">?</span>][<span id="final-calc-e4-target">?</span>][<span id="final-calc-e3">?</span>] = <code id="final-code-result">?????</code></p>
-                 <p id="final-password-desc"><strong>Mot de Passe :</strong> (Lettre obligation E2 = <strong id="final-val-e2">?</strong>) + (Nom éco-org E4 = <strong id="final-val-e4-name">?</strong>)</p>
-                 <p id="final-password-calc" style="text-align: center; font-weight: bold; font-size: 1.1rem;">Mot de Passe = [<span id="final-calc-e2">?</span>][<span id="final-calc-e4-name">?</span>] = <code id="final-password-result">?????????</code></p>
-                 <p>(Utilisez l'aide <i class="fas fa-life-ring"></i> pour les indices si besoin)</p>
+                <h3><i class="fas fa-key"></i> Combinez vos découvertes pour les Codes d'Accès</h3>
+                <p><strong>Code Numérique (5 chiffres) :</strong> Constituez ce code en concaténant dans l'ordre :</p>
+                <ul>
+                    <li>Le <strong>nombre</strong> d'items correctement classés comme MNU à l'étape 1.</li>
+                    <li>L'<strong>objectif</strong> de collecte (en pourcentage) identifié à l'étape 4.</li>
+                    <li>Le <strong>numéro</strong> (deux chiffres) de l'article fondateur de la REP dans le Code de l'Environnement (L.541-XX), évoqué lors des étapes précédentes.</li>
+                </ul>
+                <p style="text-align: center; font-style: italic; font-size: 0.9rem;">Exemple fictif : Si Nombre = 3, Objectif = 80, Numéro = 12 => Code = 38012</p>
+                <!-- REMOVED final calculated code display -->
+                <!-- <p id="final-code-calc" style="text-align: center; font-weight: bold; font-size: 1.1rem; margin-top: 10px;">Votre Code Calculé = <code id="final-code-result">?????</code></p> -->
+
+                <hr style="margin: 15px 0;">
+
+                <p><strong>Mot de Passe (Alphanumérique) :</strong> Constituez ce mot de passe en concaténant dans l'ordre :</p>
+                 <ul>
+                     <li>La <strong>première lettre</strong> de l'obligation financière principale du producteur trouvée à l'étape 2.</li>
+                     <li>Le <strong>nom</strong> complet (en majuscules) de l'éco-organisme agréé identifié à l'étape 4.</li>
+                 </ul>
+                 <p style="text-align: center; font-style: italic; font-size: 0.9rem;">Exemple fictif : Si Lettre = X, Nom = ORGA => Mot de passe = XORGA</p>
+                 <!-- REMOVED final calculated password display -->
+                 <!-- <p id="final-password-calc" style="text-align: center; font-weight: bold; font-size: 1.1rem; margin-top: 10px;">Votre Mot de Passe Calculé = <code id="final-password-result">?????????</code></p> -->
             </div>
+            <!-- END OF MODIFIED INFO BOX CONTENT -->
             <div class="input-group">
                 <label for="final-code">Code numérique de restauration :</label>
-                <input type="text" id="final-code" placeholder="Code à 5 chiffres">
+                <input type="text" id="final-code" placeholder="Entrez le code à 5 chiffres">
             </div>
             <div class="input-group">
                 <label for="final-password">Mot de passe de conformité :</label>
-                <input type="text" id="final-password" placeholder="Mot de passe alphanumérique">
+                <input type="text" id="final-password" placeholder="Entrez le mot de passe">
             </div>
             <div class="feedback" id="final-feedback"></div>
             <button class="btn btn-primary" id="validate-final">Valider et sécuriser la filière</button>
@@ -1253,33 +1182,8 @@
             </div>
         </div>
 
-        <!-- Help Modal -->
-        <div class="modal" id="help-modal">
-            <div class="modal-content">
-                <span class="close" id="close-help">×</span>
-                <h2><i class="fas fa-life-ring"></i> Aide de Mission - Indices Clés</h2>
-                <h3>Étape 1 : Tri</h3>
-                <p>Seuls les médicaments à usage humain des particuliers sont des MNU (<code>R.4211-23 CSP</code>). Attention aux exclusions (DASTRI, emballages vides...).</p>
-                <p>Indice code final : Le <strong>nombre</strong> d'items corrects dans la zone ✅ MNU.</p>
-                <h3>Étape 2 : Producteur</h3>
-                <p>Qui est "l'exploitant" ? (<code>R.4211-23</code>, <code>R.5124-2 CSP</code>). Quelles sont ses obligations REP principales ? (<code>L.541-10 C. Env</code>).</p>
-                <p>Indice mot de passe : La <strong>première lettre</strong> de l'obligation de contribution financière.</p>
-                <h3>Étape 3 : Logistique Séquentielle</h3>
-                 <!-- MODIFIED Hint Below -->
-                 <p>Réfléchissez à l'ordre logique des actions depuis le dépôt en pharmacie jusqu'à l'élimination. Consultez <code>R.4211-24 CSP</code> pour les étapes clés et <code>L.541-10 C. Env</code> pour la notion fondamentale de REP.</p>
-                 <p>Indice code final : Le numéro (<code>??</code>) de l'article fondateur de la REP dans le Code de l'Environnement (<code>L.541-??</code>) est nécessaire.</p>
-                <h3>Étape 4 : Éco-organisme</h3>
-                <p>Trouvez l'objectif chiffré (Cahier des charges), le statut légal (<code>L.541-10 C. Env</code>) et le nom (Arrêté d'agrément).</p>
-                <p>Indices code/mdp : Le <strong>pourcentage</strong> de l'objectif et le <strong>nom exact</strong>.</p>
-                <hr style="margin: 20px 0;">
-                <h3>Étape Finale : Calcul des Codes</h3>
-                <!-- MODIFIED Formula Description -->
-                <p><strong>Code Numérique :</strong> (Nb items ✅ E1) + (Objectif % E4) + (N° Article REP C.Env)</p>
-                 <p><i>Format attendu: XYYZZ (où ZZ vient de L.541-??)</i></p>
-                <p><strong>Mot de Passe :</strong> (Lettre obligation E2) + (Nom éco-org E4)</p>
-                 <p><i>Format attendu: LNOM</i></p>
-            </div>
-        </div>
+        <!-- REMOVED Help Modal -->
+        <!-- <div class="modal" id="help-modal"> ... </div> -->
 
     </div> <!-- End Container -->
 
@@ -1301,22 +1205,22 @@
             timeRemaining: 10 * 60 * 1000,
             timerInterval: null,
             currentStage: 'intro',
-            // Added failures count and stage timer tracking
+            // Removed failures count and stage timer tracking for help
             stageResults: {
-                stage1: { completed: false, correctItemsCount: 0, failures: 0 },
-                stage2: { completed: false, producerCorrect: false, obligationsCorrect: false, keyLetter: '', failures: 0 },
-                stage3: { completed: false, builtSequence: [], sequenceCorrect: false, failures: 0 },
-                stage4: { completed: false, collectionTarget: '', ecoOrgNatureCorrect: false, ecoOrgNameCorrect: false, ecoOrgName: '', failures: 0 }
+                stage1: { completed: false, correctItemsCount: 0 }, // Removed failures
+                stage2: { completed: false, producerCorrect: false, obligationsCorrect: false, keyLetter: '' }, // Removed failures
+                stage3: { completed: false, builtSequence: [], sequenceCorrect: false }, // Removed failures
+                stage4: { completed: false, collectionTarget: '', ecoOrgNatureCorrect: false, ecoOrgNameCorrect: false, ecoOrgName: '' } // Removed failures
             },
             finalCode: '',
             finalPassword: '',
-            currentStageStartTime: null, // Track when the current stage started
-            helpCheckInterval: null // Interval for checking help conditions
+            // REMOVED: currentStageStartTime
+            // REMOVED: helpCheckInterval
         };
 
         // --- Constants ---
-        const HELP_FAILURE_THRESHOLD = 2; // Number of failures to show help
-        const HELP_TIME_THRESHOLD = 2 * 60 * 1000; // 2 minutes in milliseconds
+        // REMOVED: HELP_FAILURE_THRESHOLD
+        // REMOVED: HELP_TIME_THRESHOLD
         const stageOrder = ['intro', 'stage1', 'stage2', 'stage3', 'stage4', 'final-stage', 'success', 'failure']; // Order for navigation
 
         // Define the correct sequence for Stage 3
@@ -1376,9 +1280,7 @@
         const timeTakenDisplay = document.getElementById('time-taken');
         const restartGameButton = document.getElementById('restart-game');
         const restartGameFailureButton = document.getElementById('restart-game-failure');
-        const helpModal = document.getElementById('help-modal');
-        const showHelpButton = document.getElementById('show-help'); // Existing button, visibility controlled
-        const closeHelpButton = document.getElementById('close-help');
+        // REMOVED: helpModal, showHelpButton, closeHelpButton
         const backdoorButton = document.getElementById('backdoor-btn');
         const downloadPdfButton = document.getElementById('download-pdf-certificate');
         const prevStageButton = document.getElementById('prev-stage-btn'); // New button
@@ -1404,10 +1306,7 @@
             nextStageBtn4.addEventListener('click', () => showStage('final-stage'));
             restartGameButton.addEventListener('click', resetGame);
             restartGameFailureButton.addEventListener('click', resetGame);
-            showHelpButton.addEventListener('click', () => helpModal.classList.add('active'));
-            closeHelpButton.addEventListener('click', () => helpModal.classList.remove('active'));
-            helpModal.addEventListener('click', (e) => { if (e.target === helpModal) helpModal.classList.remove('active'); });
-            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') helpModal.classList.remove('active'); });
+            // REMOVED: Help modal listeners
             backdoorButton.addEventListener('click', handleBackdoor);
             downloadPdfButton.addEventListener('click', handleDownloadCertificatePDF);
             clearSequenceButton.addEventListener('click', clearBuiltSequence); // Listener for new Stage 3 clear button
@@ -1473,8 +1372,7 @@
         }
 
         function showStage(stageId) {
-            // Stop help check for the outgoing stage
-            clearInterval(gameState.helpCheckInterval);
+            // REMOVED: Stop help check for the outgoing stage
 
             stages.forEach(stage => stage.classList.remove('active'));
             const nextStage = document.getElementById(stageId);
@@ -1482,23 +1380,11 @@
                 nextStage.classList.add('active');
                 gameState.currentStage = stageId;
 
-                // Reset failures and start time for the new stage (if it's a main stage 1-4)
-                if (gameState.stageResults[stageId]) {
-                    gameState.stageResults[stageId].failures = 0; // Reset failures on entering
-                    gameState.currentStageStartTime = Date.now();
-                    console.log(`Entered stage ${stageId} at ${new Date(gameState.currentStageStartTime).toLocaleTimeString()}`);
-                    // Start checking if help should be shown for this stage (only if not already completed)
-                    if (!gameState.stageResults[stageId].completed) {
-                         startHelpCheckInterval(stageId);
-                    }
-                } else {
-                    gameState.currentStageStartTime = null; // Not a main stage
-                }
+                // REMOVED: Reset failures and start time tracking for help
 
-                 // Initially hide help and previous buttons
-                 showHelpButton.style.display = 'none';
-                 prevStageButton.style.display = 'none';
-                 prevStageButton.disabled = true;
+                // REMOVED: Initially hide help button
+                prevStageButton.style.display = 'none';
+                prevStageButton.disabled = true;
 
                  // Manage Previous Stage Button visibility
                  const currentStageIndex = stageOrder.indexOf(stageId);
@@ -1545,51 +1431,8 @@
         }
 
 
-        // New function to check conditions for showing help button
-        function startHelpCheckInterval(stageId) {
-            clearInterval(gameState.helpCheckInterval); // Clear previous interval if any
-
-            // Don't start check if stage is already completed or not a main stage
-            if (!gameState.stageResults[stageId] || gameState.stageResults[stageId].completed) {
-                return;
-            }
-
-            console.log(`Starting help check interval for stage ${stageId}`);
-            gameState.helpCheckInterval = setInterval(() => {
-                if (gameState.currentStage !== stageId || !gameState.stageResults[stageId] || gameState.stageResults[stageId].completed) {
-                    clearInterval(gameState.helpCheckInterval); // Stop if stage changed or completed
-                    return;
-                }
-
-                const failures = gameState.stageResults[stageId].failures;
-                const timeElapsed = gameState.currentStageStartTime ? Date.now() - gameState.currentStageStartTime : 0;
-                const timeConditionMet = timeElapsed >= HELP_TIME_THRESHOLD;
-                const failureConditionMet = failures >= HELP_FAILURE_THRESHOLD;
-
-                // console.log(`Help check for ${stageId}: Failures=${failures}, Time Elapsed=${Math.round(timeElapsed/1000)}s`);
-
-                if (timeConditionMet || failureConditionMet) {
-                    console.log(`Help conditions met for ${stageId} (Time: ${timeConditionMet}, Failures: ${failureConditionMet}). Showing help button.`);
-                    showHelpButton.style.display = 'inline-block';
-                    clearInterval(gameState.helpCheckInterval); // Stop checking once shown
-                }
-            }, 5000); // Check every 5 seconds
-        }
-
-        // Helper function to check and potentially show help immediately after a failure
-        function checkHelpConditionsAfterFailure(stageId) {
-             if (!gameState.stageResults[stageId] || gameState.stageResults[stageId].completed || showHelpButton.style.display === 'inline-block') {
-                 return; // Don't check if stage completed or help already visible
-             }
-             const failures = gameState.stageResults[stageId].failures;
-             const timeElapsed = gameState.currentStageStartTime ? Date.now() - gameState.currentStageStartTime : 0;
-
-             if (failures >= HELP_FAILURE_THRESHOLD || timeElapsed >= HELP_TIME_THRESHOLD) {
-                 console.log(`Help conditions met immediately after failure for ${stageId}. Showing help button.`);
-                 showHelpButton.style.display = 'inline-block';
-                 clearInterval(gameState.helpCheckInterval); // Stop interval checking
-             }
-         }
+        // REMOVED: startHelpCheckInterval function
+        // REMOVED: checkHelpConditionsAfterFailure function
 
 
         function updateProgress() {
@@ -1633,44 +1476,14 @@
             }
         }
 
+        // REMOVED: updateFinalStageInfoDisplay function now empty or removed
         function updateFinalStageInfoDisplay() {
-            const e1Value = gameState.stageResults.stage1.correctItemsCount || '?';
-            const e4TargetValue = gameState.stageResults.stage4.collectionTarget || '?';
-            const e3ArticleValue = '10'; // MODIFIED: Changed to 10 (from L.541-10)
-            const e2LetterValue = gameState.stageResults.stage2.keyLetter || '?';
-            const e4NameValue = gameState.stageResults.stage4.ecoOrgName || '?';
-            const finalCode = gameState.finalCode || '?????';
-            const finalPassword = gameState.finalPassword || '?????????';
-
-            const valE1 = document.getElementById('final-val-e1');
-            const valE4Target = document.getElementById('final-val-e4-target');
-            const valE3 = document.getElementById('final-val-e3'); // ID remains the same
-            const valE2 = document.getElementById('final-val-e2');
-            const valE4Name = document.getElementById('final-val-e4-name');
-            if (valE1) valE1.textContent = e1Value;
-            if (valE4Target) valE4Target.textContent = e4TargetValue;
-            if (valE3) valE3.textContent = e3ArticleValue; // Display the new value '10'
-            if (valE2) valE2.textContent = e2LetterValue;
-            if (valE4Name) valE4Name.textContent = e4NameValue;
-
-            const calcE1 = document.getElementById('final-calc-e1');
-            const calcE4Target = document.getElementById('final-calc-e4-target');
-            const calcE3 = document.getElementById('final-calc-e3'); // ID remains the same
-            const calcE2 = document.getElementById('final-calc-e2');
-            const calcE4Name = document.getElementById('final-calc-e4-name');
-            if (calcE1) calcE1.textContent = e1Value;
-            if (calcE4Target) calcE4Target.textContent = e4TargetValue;
-            if (calcE3) calcE3.textContent = e3ArticleValue; // Display the new value '10'
-            if (calcE2) calcE2.textContent = e2LetterValue;
-            if (calcE4Name) calcE4Name.textContent = e4NameValue;
-
-            const codeResult = document.getElementById('final-code-result');
-            const passwordResult = document.getElementById('final-password-result');
-            if (codeResult) codeResult.textContent = finalCode;
-            if (passwordResult) passwordResult.textContent = finalPassword;
-
-            console.log("Final stage info display updated.");
+            // This function is no longer needed to display the calculated codes in the info box.
+            // It might be kept empty or removed entirely depending on other potential uses.
+            // For now, let's keep it empty.
+            console.log("Final stage info display - no calculated codes shown.");
         }
+
 
         function skipStage(currentStageId) {
             console.clear();
@@ -1743,7 +1556,7 @@
                         console.log("Code Final Calculé (après skip):", gameState.finalCode);
                         console.log("Mot de Passe Final Calculé (après skip):", gameState.finalPassword);
                         console.log("------------------------------------");
-                        updateFinalStageInfoDisplay();
+                        updateFinalStageInfoDisplay(); // Update the display (now just logs)
                         nextStageId = 'final-stage';
                         break;
                     default:
@@ -1776,13 +1589,12 @@
 
             if (errors.length === 0) {
                 gameState.stageResults.stage1.correctItemsCount = correctC.length;
-                stage1Feedback.textContent = `Bravo ! Tri parfait.`;
-                // Append clue
-                 stage1Feedback.innerHTML += '<br><span class="clue">Indice Code Final: Le <strong>nombre d\'items</strong> corrects (✅) est votre premier chiffre.</span>';
+                stage1Feedback.textContent = `Bravo ! Tri parfait. Le nombre d'items correctement triés comme MNU est ${correctC.length}.`; // Added clue in text
+                // REMOVED: Append clue span
                 stage1Feedback.className = 'feedback success';
                 stage1Feedback.style.display = 'block';
                 gameState.stageResults.stage1.completed = true;
-                 clearInterval(gameState.helpCheckInterval); // Stop help check
+                // REMOVED: clearInterval(gameState.helpCheckInterval);
                 document.querySelector('#stage1 .regulatory-info')?.classList.add('visible');
                 validateStage1Button.style.display = 'none';
                 nextStageContainer1.style.display = 'block';
@@ -1791,9 +1603,7 @@
                 stage1Feedback.textContent = `Erreurs : ${errors.join(' ')}`;
                 stage1Feedback.className = 'feedback error';
                 stage1Feedback.style.display = 'block';
-                 // Increment failures and check help conditions
-                 gameState.stageResults.stage1.failures++;
-                 checkHelpConditionsAfterFailure('stage1');
+                // REMOVED: Increment failures and check help conditions
             }
         }
 
@@ -1829,13 +1639,12 @@
 
             if (pOk && oOk) {
                 gameState.stageResults.stage2.keyLetter = 'F'; // First letter of 'Financer'
-                stage2Feedback.textContent = 'Excellent ! Producteur et obligations identifiés.';
-                 // Append clue
-                 stage2Feedback.innerHTML += '<br><span class="clue">Indice Mot de Passe: La <strong>première lettre</strong> de l\'obligation de financement est votre première lettre.</span>';
+                stage2Feedback.textContent = `Excellent ! Producteur et obligations identifiés. La première lettre de l'obligation financière est "${gameState.stageResults.stage2.keyLetter}".`; // Added clue in text
+                // REMOVED: Append clue span
                 stage2Feedback.className = 'feedback success';
                 stage2Feedback.style.display = 'block';
                 gameState.stageResults.stage2.completed = true;
-                clearInterval(gameState.helpCheckInterval); // Stop help check
+                // REMOVED: clearInterval(gameState.helpCheckInterval);
                 document.querySelector('#stage2 .regulatory-info')?.classList.add('visible');
                 validateStage2Button.style.display = 'none'; // Hide button
                  // Disable cards in this stage
@@ -1846,9 +1655,7 @@
             } else {
                 let fb = 'Vérifiez. '; if (!pOk) fb += 'Producteur incorrect. '; if (!oOk) fb += 'Obligations incorrectes/incomplètes.';
                 stage2Feedback.textContent = fb; stage2Feedback.className = 'feedback error'; stage2Feedback.style.display = 'block';
-                 // Increment failures and check help conditions
-                 gameState.stageResults.stage2.failures++;
-                 checkHelpConditionsAfterFailure('stage2');
+                // REMOVED: Increment failures and check help conditions
             }
         }
 
@@ -1984,13 +1791,12 @@
             gameState.stageResults.stage3.sequenceCorrect = sequenceIsCorrect; // Update game state
 
             if (sequenceIsCorrect) {
-                stage3Feedback.textContent = 'Parfait ! La séquence chronologique est correcte.';
-                 // Append clue - MODIFIED for new logic
-                 stage3Feedback.innerHTML += '<br><span class="clue">Indice Code Final: Le <strong>numéro de l\'article</strong> (L.541-??) sur la REP dans le Code de l\'Env. est nécessaire.</span>';
+                stage3Feedback.textContent = 'Parfait ! La séquence chronologique est correcte. L\'article L.541-10 du Code de l\'Environnement est central.'; // Added clue in text
+                 // REMOVED: Append clue span
                 stage3Feedback.className = 'feedback success';
                 stage3Feedback.style.display = 'block';
                 gameState.stageResults.stage3.completed = true; // Mark stage as completed
-                 clearInterval(gameState.helpCheckInterval); // Stop help check
+                // REMOVED: clearInterval(gameState.helpCheckInterval);
                 document.querySelector('#stage3 .regulatory-info')?.classList.add('visible'); // Show info box
 
                 // Disable interactions for this stage now that it's correct
@@ -2010,10 +1816,7 @@
                 stage3Feedback.className = 'feedback error';
                 stage3Feedback.style.display = 'block';
 
-                 // Increment failures and check help conditions
-                 gameState.stageResults.stage3.failures++;
-                 checkHelpConditionsAfterFailure('stage3');
-                // REMOVED: clearBuiltSequence(); - Sequence stays for correction
+                 // REMOVED: Increment failures and check help conditions
             }
         }
 
@@ -2028,12 +1831,11 @@
             gameState.stageResults.stage4.ecoOrgName = (tgtOk && natOk && nameOk) ? correctName : '';
 
             if(tgtOk && natOk && nameOk){
-                stage4Feedback.textContent = 'Excellent ! Infos correctes.';
-                 // Append clue
-                 stage4Feedback.innerHTML += '<br><span class="clue">Indices Code/Mdp: Le <strong>pourcentage objectif</strong> (%) et le <strong>nom</strong> de l\'éco-organisme complètent les codes.</span>';
+                stage4Feedback.textContent = `Excellent ! Infos correctes. L'objectif est ${correctTgt}% et l'organisme est ${correctName}.`; // Added clues in text
+                 // REMOVED: Append clue span
                 stage4Feedback.className = 'feedback success'; stage4Feedback.style.display = 'block';
                 gameState.stageResults.stage4.completed=true;
-                 clearInterval(gameState.helpCheckInterval); // Stop help check
+                // REMOVED: clearInterval(gameState.helpCheckInterval);
                 document.querySelector('#stage4 .regulatory-info')?.classList.add('visible');
 
                  // Disable interactions
@@ -2048,7 +1850,7 @@
                     gameState.finalCode=`${gameState.stageResults.stage1.correctItemsCount}${correctTgt}10`;
                     gameState.finalPassword=`${gameState.stageResults.stage2.keyLetter}${correctName}`;
                     console.log("Code Final:", gameState.finalCode, "Mdp:", gameState.finalPassword);
-                    updateFinalStageInfoDisplay(); // Update the display in the final stage info box
+                    updateFinalStageInfoDisplay(); // Update the display (now just logs)
                     nextStageContainer4.style.display = 'block';
                     nextStageBtn4.disabled = false;
                 } else {
@@ -2060,9 +1862,7 @@
             } else {
                 let fb='Vérifiez. '; if(!tgtOk) fb+='Objectif incorrect. '; if(!natOk) fb+='Statut incorrect. '; if(!nameOk) fb+='Nom incorrect.';
                 stage4Feedback.textContent=fb; stage4Feedback.className='feedback error'; stage4Feedback.style.display='block';
-                 // Increment failures and check help conditions
-                 gameState.stageResults.stage4.failures++;
-                 checkHelpConditionsAfterFailure('stage4');
+                // REMOVED: Increment failures and check help conditions
             }
         }
 
@@ -2083,7 +1883,7 @@
                      // MODIFIED: Use 10 in recalculation
                      gameState.finalCode = `${gameState.stageResults.stage1.correctItemsCount}${gameState.stageResults.stage4.collectionTarget}10`;
                      gameState.finalPassword = `${gameState.stageResults.stage2.keyLetter}${gameState.stageResults.stage4.ecoOrgName}`;
-                     updateFinalStageInfoDisplay(); // Update display with recalculated codes
+                     updateFinalStageInfoDisplay(); // Update display (now just logs)
                      finalFeedback.textContent += ' (Codes recalculés, veuillez réessayer.)';
                      console.warn("Recalculated final codes due to missing state on final validation attempt.");
                  } else {
@@ -2097,7 +1897,7 @@
                  finalFeedback.textContent='Accès autorisé ! Système restauré !';
                  finalFeedback.className='feedback success'; finalFeedback.style.display='block';
                  clearInterval(gameState.timerInterval); // Stop the timer
-                 clearInterval(gameState.helpCheckInterval); // Stop help check just in case
+                 // REMOVED: clearInterval(gameState.helpCheckInterval);
 
                  // Calculate time taken
                  const timeE = gameState.totalGameTime - gameState.timeRemaining;
@@ -2129,7 +1929,7 @@
                  // Incorrect codes entered
                  finalFeedback.textContent='Accès refusé. Code ou Mot de Passe incorrect.';
                  finalFeedback.className='feedback error'; finalFeedback.style.display='block';
-                 // Note: Failures are not tracked on the final stage for help button purposes
+                 // Note: Failures are not tracked on the final stage
              }
          }
 
@@ -2138,16 +1938,16 @@
             // Reset core game state
             gameState.teamName=''; gameState.participants = []; gameState.startTime=null; gameState.timeRemaining=gameState.totalGameTime;
             clearInterval(gameState.timerInterval);
-            clearInterval(gameState.helpCheckInterval); // Clear help interval
+            // REMOVED: clearInterval(gameState.helpCheckInterval);
             gameState.currentStage='intro';
-            gameState.currentStageStartTime = null; // Reset stage timer
+            // REMOVED: gameState.currentStageStartTime = null;
 
-            // Reset results for all stages, including failures
+            // Reset results for all stages, REMOVING failures tracking
             gameState.stageResults = {
-                stage1: { completed: false, correctItemsCount: 0, failures: 0 },
-                stage2: { completed: false, producerCorrect: false, obligationsCorrect: false, keyLetter: '', failures: 0 },
-                stage3: { completed: false, builtSequence: [], sequenceCorrect: false, failures: 0 },
-                stage4: { completed: false, collectionTarget: '', ecoOrgNatureCorrect: false, ecoOrgNameCorrect: false, ecoOrgName: '', failures: 0 }
+                stage1: { completed: false, correctItemsCount: 0 },
+                stage2: { completed: false, producerCorrect: false, obligationsCorrect: false, keyLetter: '' },
+                stage3: { completed: false, builtSequence: [], sequenceCorrect: false },
+                stage4: { completed: false, collectionTarget: '', ecoOrgNatureCorrect: false, ecoOrgNameCorrect: false, ecoOrgName: '' }
             };
             gameState.finalCode=''; gameState.finalPassword='';
 
@@ -2159,13 +1959,12 @@
             teamNameInput.value=''; participantNamesInput.value = ''; teamNameDisplay.textContent='Équipe: Non définie';
             finalCodeInput.value=''; finalPasswordInput.value=''; ecoOrgNameInput.value='';
 
-            // Clear feedback messages and remove clue spans
+            // Clear feedback messages and remove clue spans (redundant now, but good practice)
             document.querySelectorAll('.feedback').forEach(el=>{
                 el.textContent='';
                 el.style.display='none';
                 el.className='feedback';
-                const clueSpan = el.querySelector('.clue');
-                if(clueSpan) clueSpan.remove();
+                // REMOVED: const clueSpan = el.querySelector('.clue'); if(clueSpan) clueSpan.remove();
             });
 
 
@@ -2216,14 +2015,13 @@
             // Clear certificate participant list
             if (participantListCert) { participantListCert.innerHTML = ''; document.getElementById('participants-section-cert').style.display = 'none';}
 
-             // Hide Help and Previous buttons
-             showHelpButton.style.display = 'none';
+             // REMOVED: Hide Help button
              prevStageButton.style.display = 'none';
              prevStageButton.disabled = true;
 
 
             // Update displays
-            updateFinalStageInfoDisplay(); // Clear final code calculation display
+            updateFinalStageInfoDisplay(); // Clear final code calculation display (now just logs)
             resetTimerDisplay(); // Reset timer display to initial value
             updateProgress(); // Reset progress bar
             updateStageDots(); // Reset stage indicators
