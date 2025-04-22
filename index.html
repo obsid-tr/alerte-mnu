@@ -33,6 +33,7 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            padding-right: 220px; /* Espace pour la sidebar d'indices */
         }
 
         header {
@@ -70,6 +71,7 @@
             margin-bottom: 20px;
             gap: 10px;
             flex-wrap: wrap;
+            transition: opacity 0.3s ease-in-out;
         }
 
         .timer {
@@ -95,6 +97,12 @@
         .timer.danger {
             background-color: var(--danger);
             animation: pulse 1s infinite;
+        }
+        /* Style pour l'état PAUSE */
+        .timer-container.paused .timer {
+             background-color: var(--gray);
+             opacity: 0.8;
+             animation: none; /* Arrêter l'animation pulse si en pause */
         }
 
         @keyframes pulse {
@@ -273,7 +281,9 @@
             animation: fadeIn 0.5s;
             border-width: 1px;
             border-style: solid;
+            min-height: 20px;
         }
+        .feedback strong { /* Style pour mdp supprimé */ }
 
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -285,6 +295,9 @@
             border-color: var(--success);
             color: var(--success);
         }
+         .feedback.success strong {
+            /* Pas de style spécifique nécessaire ici maintenant */
+         }
 
         .feedback.error {
             background-color: rgba(231, 111, 81, 0.1);
@@ -402,6 +415,7 @@
         }
 
         .input-group input[type="text"],
+        .input-group input[type="password"],
         .input-group textarea {
             width: 100%;
             padding: 12px;
@@ -417,6 +431,7 @@
         }
 
         .input-group input[type="text"]:focus,
+        .input-group input[type="password"]:focus,
         .input-group textarea:focus {
             outline: none;
             border-color: var(--secondary);
@@ -455,284 +470,82 @@
             pointer-events: none;
         }
 
-        .certificate h2 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-        }
-        .certificate p {
-             margin-bottom: 15px;
-        }
-        .certificate ul {
-            list-style-position: inside;
-            text-align: left;
-            margin-top: 20px;
-            padding-left: 20px;
-        }
-         .certificate li {
-             margin-bottom: 8px;
-             font-size: 0.95rem;
-         }
-         #participants-section-cert h4 {
-             font-size: 1rem;
-             margin-bottom: 5px;
-         }
-         #participant-list-cert {
-             list-style: none !important;
-             padding-left: 10px !important;
-             margin-top: 0;
-             font-style: italic;
-         }
-         #participant-list-cert li {
-             margin-bottom: 3px;
-             font-size: 0.9rem;
-         }
+        .certificate h2 { font-size: 2rem; margin-bottom: 20px; }
+        .certificate p { margin-bottom: 15px; }
+        .certificate ul { list-style-position: inside; text-align: left; margin-top: 20px; padding-left: 20px; }
+        .certificate li { margin-bottom: 8px; font-size: 0.95rem; }
+        #participants-section-cert h4 { font-size: 1rem; margin-bottom: 5px; }
+        #participant-list-cert { list-style: none !important; padding-left: 10px !important; margin-top: 0; font-style: italic; }
+        #participant-list-cert li { margin-bottom: 3px; font-size: 0.9rem; }
+        .certificate-seal { position: absolute; bottom: 25px; right: 25px; width: 90px; height: 90px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 1rem; transform: rotate(-15deg); box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2); }
 
+        .hidden { display: none; }
 
-        .certificate-seal {
-            position: absolute;
-            bottom: 25px;
-            right: 25px;
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-            font-size: 1rem;
-            transform: rotate(-15deg);
-            box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
-        }
+        .progress-bar { height: 12px; background-color: #e9ecef; border-radius: 6px; margin-bottom: 25px; overflow: hidden; }
+        .progress { height: 100%; background-color: var(--success); width: 0%; transition: width 0.5s ease-in-out; border-radius: 6px; }
 
-        .hidden {
-            display: none;
-        }
+        .info-box { background-color: rgba(69, 123, 157, 0.05); border-left: 5px solid var(--secondary); padding: 20px; margin: 25px 0; border-radius: 0 8px 8px 0; border-top: 1px solid #eee; border-bottom: 1px solid #eee; border-right: 1px solid #eee; }
+        .info-box h3 { color: var(--secondary); margin-top: 0; margin-bottom: 10px; font-size: 1.1rem; }
+        .info-box .leg-text { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 0.85rem; background-color: #ffffff; border: 1px solid #eee; padding: 10px; margin-top: 5px; border-radius: 4px; white-space: pre-wrap; color: #333; display: block; max-height: 150px; overflow-y: auto; }
+        .info-box p { margin-bottom: 10px; font-size: 0.9rem; }
+        .info-box p strong { color: var(--dark); }
+        .info-box p:last-child { margin-bottom: 0; }
+        .info-box h3 .fas { margin-right: 8px; color: var(--secondary); }
+        #final-stage .info-box ul { list-style-type: disc; margin-left: 20px; margin-top: 5px; }
+        #final-stage .info-box li { margin-bottom: 5px; font-size: 0.9rem; }
 
-        .progress-bar {
-            height: 12px;
-            background-color: #e9ecef;
-            border-radius: 6px;
-            margin-bottom: 25px;
-            overflow: hidden;
-        }
+        .stage-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #eee; }
+        .stage-number { background-color: var(--primary); color: white; width: 45px; height: 45px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 1.3rem; margin-right: 15px; flex-shrink: 0; }
+        .stage-title { display: flex; align-items: center; }
+        .stage-title h2 { margin-bottom: 0; }
+        .stage-time { background-color: var(--gray); color: white; padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; white-space: nowrap; }
+        .team-info { background-color: white; border-radius: 5px; padding: 15px 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); display: flex; justify-content: space-between; align-items: center; border: 1px solid #eee; }
+        .team-name { font-weight: bold; color: var(--primary); font-size: 1.1rem; }
+        .stage-indicator { display: flex; gap: 8px; }
+        .stage-dot { width: 12px; height: 12px; border-radius: 50%; background-color: #ddd; transition: background-color 0.3s; }
+        .stage-dot.active { background-color: var(--warning); }
+        .stage-dot.completed { background-color: var(--success); }
 
-        .progress {
-            height: 100%;
-            background-color: var(--success);
-            width: 0%;
-            transition: width 0.5s ease-in-out;
-            border-radius: 6px;
-        }
+        #backdoor-btn { position: absolute; top: 5px; right: 5px; background: none; border: none; color: rgba(255, 255, 255, 0.2); cursor: pointer; font-size: 1.2rem; padding: 5px; z-index: 10; transition: color 0.3s; }
+        #backdoor-btn:hover { color: rgba(255, 255, 255, 0.6); }
 
-        .info-box {
-            background-color: rgba(69, 123, 157, 0.05);
-            border-left: 5px solid var(--secondary);
-            padding: 20px;
-            margin: 25px 0;
-            border-radius: 0 8px 8px 0;
-             border-top: 1px solid #eee;
-             border-bottom: 1px solid #eee;
-             border-right: 1px solid #eee;
-        }
+        .regulatory-info { display: block; opacity: 0; max-height: 0; overflow: hidden; transition: opacity 0.6s ease-out, max-height 0.6s ease-out, margin-top 0.6s ease-out, padding-top 0.6s ease-out, padding-bottom 0.6s ease-out, border-width 0.6s ease-out; margin-top: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important; border-left-width: 0 !important; border-top-width: 0 !important; border-bottom-width: 0 !important; border-right-width: 0 !important; border-color: transparent !important; }
+        .regulatory-info.visible { opacity: 1; max-height: 1000px; margin-top: 25px !important; padding-top: 20px !important; padding-bottom: 20px !important; border-left-width: 5px !important; border-top-width: 1px !important; border-bottom-width: 1px !important; border-right-width: 1px !important; border-style: solid !important; border-color: #eee #eee #eee var(--secondary) !important; border-radius: 0 8px 8px 0 !important; }
 
-        .info-box h3 {
-            color: var(--secondary);
-            margin-top: 0;
-            margin-bottom: 10px;
-            font-size: 1.1rem;
-        }
-         .info-box .leg-text {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            font-size: 0.85rem;
-            background-color: #ffffff;
-            border: 1px solid #eee;
-            padding: 10px;
-            margin-top: 5px;
-            border-radius: 4px;
-            white-space: pre-wrap;
-            color: #333;
-            display: block;
-            max-height: 150px;
-            overflow-y: auto;
-        }
+        /* Overlay Flash */
+        #alarm-flash-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(230, 57, 70, 0.6); opacity: 0; transition: opacity 0.15s ease-in-out, background-color 0.1s ease-in-out; pointer-events: none; z-index: 999; }
 
-        .info-box p {
-            margin-bottom: 10px;
-            font-size: 0.9rem;
-        }
-        .info-box p strong {
-             color: var(--dark);
-        }
+        /* Écran Verrouillage */
+        .stage-lock-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(29, 53, 87, 0.95); z-index: 1000; display: none; justify-content: center; align-items: center; padding: 20px; opacity: 0; transition: opacity 0.3s ease-in-out; color: var(--light); pointer-events: none; }
+        .stage-lock-screen.visible { opacity: 1; pointer-events: auto; }
+        .lock-content { background-color: var(--light); color: var(--dark); padding: 40px; border-radius: 10px; text-align: center; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); max-width: 450px; width: 100%; }
+        .lock-content h2 { color: var(--primary); margin-bottom: 20px; }
+        .lock-content p { margin-bottom: 25px; font-size: 1rem; }
+        .lock-content .input-group { margin-bottom: 20px; text-align: left; }
+        .lock-content .input-group label { color: var(--dark); }
+        .lock-content #lock-password-input, #start-lock-password-input { border: 2px solid var(--secondary); text-align: center; font-size: 1.2rem; }
+        .lock-content #lock-password-input:focus, #start-lock-password-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.2); }
+        .lock-content #validate-lock-btn, #validate-start-lock-btn { background-color: var(--success); width: 100%; margin-top: 10px; }
+        .lock-content #validate-lock-btn:hover, #validate-start-lock-btn:hover { background-color: #1f7a6f; }
+        .lock-content #lock-feedback, #start-lock-feedback { margin-top: 15px; }
 
-        .info-box p:last-child {
-            margin-bottom: 0;
-        }
-        .info-box h3 .fas {
-            margin-right: 8px;
-            color: var(--secondary);
-        }
+        @keyframes shake { 10%, 90% { transform: translate3d(-1px, 0, 0); } 20%, 80% { transform: translate3d(2px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-4px, 0, 0); } 40%, 60% { transform: translate3d(4px, 0, 0); } }
+        .shake-error .lock-content { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
 
-        #final-stage .info-box ul {
-            list-style-type: disc;
-            margin-left: 20px;
-            margin-top: 5px;
-        }
-        #final-stage .info-box li {
-            margin-bottom: 5px;
-            font-size: 0.9rem;
-        }
-
-
-        .stage-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .stage-number {
-            background-color: var(--primary);
-            color: white;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-            font-size: 1.3rem;
-            margin-right: 15px;
-            flex-shrink: 0;
-        }
-
-        .stage-title {
-            display: flex;
-            align-items: center;
-        }
-         .stage-title h2 {
-             margin-bottom: 0;
-         }
-
-        .stage-time {
-            background-color: var(--gray);
-            color: white;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            white-space: nowrap;
-        }
-
-        .team-info {
-            background-color: white;
-            border-radius: 5px;
-            padding: 15px 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid #eee;
-        }
-
-        .team-name {
-            font-weight: bold;
-            color: var(--primary);
-            font-size: 1.1rem;
-        }
-
-        .stage-indicator {
-            display: flex;
-            gap: 8px;
-        }
-
-        .stage-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: #ddd;
-            transition: background-color 0.3s;
-        }
-
-        .stage-dot.active {
-            background-color: var(--warning);
-        }
-
-        .stage-dot.completed {
-            background-color: var(--success);
-        }
-
-        #backdoor-btn {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background: none;
-            border: none;
-            color: rgba(255, 255, 255, 0.2);
-            cursor: pointer;
-            font-size: 1.2rem;
-            padding: 5px;
-            z-index: 10;
-            transition: color 0.3s;
-        }
-        #backdoor-btn:hover {
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .regulatory-info {
-            display: block;
-            opacity: 0;
-            max-height: 0;
-            overflow: hidden;
-            transition: opacity 0.6s ease-out, max-height 0.6s ease-out, margin-top 0.6s ease-out, padding-top 0.6s ease-out, padding-bottom 0.6s ease-out, border-width 0.6s ease-out;
-            margin-top: 0 !important;
-            padding-top: 0 !important;
-            padding-bottom: 0 !important;
-            border-left-width: 0 !important;
-            border-top-width: 0 !important;
-            border-bottom-width: 0 !important;
-            border-right-width: 0 !important;
-             border-color: transparent !important;
-        }
-
-        .regulatory-info.visible {
-            opacity: 1;
-            max-height: 1000px;
-            margin-top: 25px !important;
-            padding-top: 20px !important;
-            padding-bottom: 20px !important;
-            border-left-width: 5px !important;
-            border-top-width: 1px !important;
-            border-bottom-width: 1px !important;
-            border-right-width: 1px !important;
-            border-style: solid !important;
-             border-color: #eee #eee #eee var(--secondary) !important;
-            border-radius: 0 8px 8px 0 !important;
-        }
-
-        /* Style pour l'overlay de flash d'alarme */
-        #alarm-flash-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(230, 57, 70, 0.6); /* Rouge par défaut */
-            opacity: 0;
-            transition: opacity 0.15s ease-in-out, background-color 0.1s ease-in-out;
-            pointer-events: none;
-            z-index: 999;
-        }
-
+        /* Sidebar Indices */
+        .clue-sidebar { position: fixed; top: 150px; right: 0; width: 200px; max-height: calc(100vh - 200px); background-color: rgba(29, 53, 87, 0.85); color: var(--light); padding: 15px; border-radius: 8px 0 0 8px; box-shadow: -3px 3px 8px rgba(0, 0, 0, 0.2); z-index: 900; overflow-y: auto; transition: transform 0.3s ease-out; }
+        .clue-sidebar h3 { color: var(--light); font-size: 1.1rem; margin-bottom: 10px; border-bottom: 1px solid rgba(241, 250, 238, 0.5); padding-bottom: 8px; text-align: center; }
+        .clue-sidebar h3 .fas { margin-right: 5px; color: var(--warning); }
+        #clue-list { list-style: none; padding: 0; margin: 0; }
+        #clue-list li { background-color: rgba(241, 250, 238, 0.1); padding: 8px 10px; margin-bottom: 8px; border-radius: 4px; font-size: 0.85rem; border-left: 3px solid var(--warning); }
 
         @media (max-width: 992px) {
+             .container { padding-right: 20px; }
+             .clue-sidebar { display: none; }
              .item { width: calc(33.333% - 10px); }
              .card { width: calc(50% - 8px); }
              #available-logistics-steps .card { width: calc(50% - 8px); }
         }
-
-
         @media (max-width: 768px) {
             h1 { font-size: 1.5rem; }
             .item { width: calc(50% - 8px); }
@@ -743,8 +556,8 @@
             .certificate-seal { width: 70px; height: 70px; font-size: 0.9rem; bottom: 15px; right: 15px; }
             .stage-header { align-items: flex-start; }
              .stage-title h2 { font-size: 1.3rem; }
+             .lock-content { padding: 30px; }
         }
-
         @media (max-width: 480px) {
              h1 { font-size: 1.3rem; }
             .item { width: 100%; }
@@ -761,14 +574,17 @@
               .certificate ul { padding-left: 5px; }
              .certificate-seal { width: 60px; height: 60px; font-size: 0.8rem; }
              .timer-container { gap: 5px; }
+             .lock-content { padding: 25px; }
         }
-
         @media print {
-             @page {
-                size: A4;
-                margin: 1.5cm;
-            }
-             #success > div:last-of-type { display: none; }
+             @page { size: A4; margin: 1.5cm; }
+             body { padding-right: 0 !important; }
+             .container { padding-right: 20px !important; max-width: 100%; }
+             header, .team-info, .timer-container, .progress-bar, .stage-lock-screen, .clue-sidebar, #backdoor-btn, button, #failure, #success > div:last-of-type { display: none !important; }
+             .stage { display: none !important; }
+             #success { display: block !important; }
+             .certificate { max-width: 100%; border-width: 2px; box-shadow: none; margin: 0; padding: 1cm; }
+             .certificate::before, .certificate-seal { display: none; }
         }
     </style>
 </head>
@@ -777,19 +593,13 @@
         <header>
             <h1>ALERTE MNU : Mission conformité</h1>
             <p>Une mission critique pour sécuriser la filière des Médicaments Non Utilisés</p>
-            <button id="backdoor-btn" title="Accès spécial">
-                <i class="fas fa-door-open"></i>
-            </button>
+            <button id="backdoor-btn" title="Accès spécial"><i class="fas fa-door-open"></i></button>
         </header>
 
         <div class="team-info">
             <div class="team-name" id="team-name-display">Équipe: Non définie</div>
             <div class="stage-indicator">
-                <div class="stage-dot" data-stage="1"></div>
-                <div class="stage-dot" data-stage="2"></div>
-                <div class="stage-dot" data-stage="3"></div>
-                <div class="stage-dot" data-stage="4"></div>
-                <div class="stage-dot" data-stage="5"></div>
+                <div class="stage-dot" data-stage="1"></div><div class="stage-dot" data-stage="2"></div><div class="stage-dot" data-stage="3"></div><div class="stage-dot" data-stage="4"></div><div class="stage-dot" data-stage="5"></div>
             </div>
         </div>
 
@@ -798,45 +608,29 @@
             <button class="btn btn-secondary" id="prev-stage-btn" style="display: none;">Étape Précédente</button>
         </div>
 
-        <div class="progress-bar">
-            <div class="progress" id="progress"></div>
-        </div>
+        <div class="progress-bar"><div class="progress" id="progress"></div></div>
 
         <!-- Introduction -->
         <div class="stage intro active" id="intro">
              <h2 id="intro-title">Message urgent des ministères de la Santé et de l'Environnement</h2>
             <p><strong>🔊 Bip... Bip... Alerte Interministérielle !</strong></p>
             <p>Une <strong>faille critique</strong> menace la chaîne de gestion des Médicaments Non Utilisés (MNU). Risques sanitaires et environnementaux majeurs détectés !</p>
-            <p>Vous êtes une <strong>cellule d'experts interministérielle</strong> dépêchée en urgence. Votre mission : auditer la filière en <strong>10 minutes chrono</strong>, identifier les non-conformités réglementaires (CSP, C. Env.) et <strong>restaurer l'intégrité du système</strong>.</p>
-            <p>Le temps presse !</p>
-
-            <div class="input-group" id="team-name-group">
-                <label for="team-name">Nom de votre équipe d'experts :</label>
-                <input type="text" id="team-name" placeholder="Entrez le nom de votre équipe">
-            </div>
-            <div class="input-group" id="participants-group">
-                <label for="participant-names">Noms des participants (un par ligne) :</label>
-                <textarea id="participant-names" rows="3" placeholder="Jean Dupont
+            <p>Vous êtes une <strong>cellule d'experts interministérielle</strong> dépêchée en urgence. Votre mission : auditer la filière en <strong>10 minutes chrono</strong>, identifier les non-conformités réglementaires (CSP, C. Env.) et <strong>restaurer l'intégrité du système</strong> via des points de contrôle sécurisés.</p>
+            <p>Le temps presse ! (Le chrono est en pause 30 secondes après chaque étape validée, pendant la vérification de sécurité)</p>
+            <div class="input-group" id="team-name-group"><label for="team-name">Nom de votre équipe d'experts :</label><input type="text" id="team-name" placeholder="Entrez le nom de votre équipe"></div>
+            <div class="input-group" id="participants-group"><label for="participant-names">Noms des participants (un par ligne) :</label><textarea id="participant-names" rows="3" placeholder="Jean Dupont
 Marie Durand
-..."></textarea>
-            </div>
-
-            <button class="btn btn-primary" id="start-game">Commencer la mission (10 min)</button>
+..."></textarea></div>
+            <button class="btn btn-primary" id="start-game">Confirmer l'Équipe</button> <!-- Texte bouton modifié -->
         </div>
 
         <!-- Stage 1: Le Tri Impossible à l'Officine -->
         <div class="stage" id="stage1">
-            <div class="stage-header">
-                <div class="stage-title">
-                    <div class="stage-number">1</div>
-                    <h2>Le Tri Impossible à l'Officine</h2>
-                </div>
-                <div class="stage-time">~3 minutes</div>
-            </div>
-            <p>Première étape : l'officine. Des patients ont rapporté divers objets. Conformément à la réglementation, déterminez précisément quels objets relèvent de la collecte spécifique des MNU par l'éco-organisme et lesquels sont exclus.</p>
-            <p><strong>Cliquez sur les objets pour les sélectionner, puis cliquez sur la zone de destination (✅ MNU ou ❌ Exclus).</strong> Cliquez sur un objet dans une zone pour le retirer.</p>
-            <h3>Objets rapportés par les particuliers :</h3>
-            <div class="item-container" id="items-to-sort">
+             <div class="stage-header"><div class="stage-title"><div class="stage-number">1</div><h2>Le Tri Impossible à l'Officine</h2></div><div class="stage-time">~3 minutes</div></div>
+             <p>Première étape : l'officine. Des patients ont rapporté divers objets. Conformément à la réglementation, déterminez précisément quels objets relèvent de la collecte spécifique des MNU par l'éco-organisme et lesquels sont exclus.</p>
+             <p><strong>Cliquez sur les objets pour les sélectionner, puis cliquez sur la zone de destination (✅ MNU ou ❌ Exclus).</strong> Cliquez sur un objet dans une zone pour le retirer.</p>
+             <h3>Objets rapportés par les particuliers :</h3>
+             <div class="item-container" id="items-to-sort">
                  <div class="item" data-item="medicament-plein"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='60' viewBox='0 0 100 60'><rect x='10' y='10' width='80' height='40' rx='5' fill='%23fff' stroke='%23333' stroke-width='2'/><rect x='20' y='20' width='60' height='20' rx='2' fill='%23f8f9fa'/><text x='50' y='35' font-family='Arial' font-size='10' text-anchor='middle'>Médicament</text></svg>" alt="Boîte de médicaments"><p>Boîte de médicaments (humain) non entamée</p></div>
                  <div class="item" data-item="medicament-entame"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='60' viewBox='0 0 100 60'><rect x='10' y='10' width='80' height='40' rx='5' fill='%23fff' stroke='%23333' stroke-width='2'/><rect x='20' y='20' width='60' height='20' rx='2' fill='%23f8f9fa'/><text x='50' y='35' font-family='Arial' font-size='10' text-anchor='middle'>Médicament</text><line x1='70' y1='10' x2='90' y2='30' stroke='%23e63946' stroke-width='2'/></svg>" alt="Boîte de médicaments entamée"><p>Boîte de médicaments (humain) entamée</p></div>
                  <div class="item" data-item="seringue"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='60' viewBox='0 0 100 60'><line x1='20' y1='40' x2='80' y2='20' stroke='%23333' stroke-width='2'/><rect x='20' y='35' width='15' height='10' fill='%23fff' stroke='%23333' stroke-width='2'/><rect x='35' y='32' width='30' height='5' fill='%23f8f9fa' stroke='%23333' stroke-width='1'/><circle cx='75' cy='22' r='5' fill='none' stroke='%23333' stroke-width='1'/></svg>" alt="Seringue usagée"><p>Seringue usagée (DASTRI)</p></div>
@@ -845,160 +639,125 @@ Marie Durand
                  <div class="item" data-item="emballage"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='60' viewBox='0 0 100 60'><path d='M20,10 L80,10 L80,50 L20,50 Z' fill='none' stroke='%23333' stroke-width='2' stroke-dasharray='5,5'/><text x='50' y='35' font-family='Arial' font-size='8' text-anchor='middle'>Emballage</text><text x='50' y='45' font-family='Arial' font-size='8' text-anchor='middle'>vide</text></svg>" alt="Emballage carton vide"><p>Emballage carton vide de médicament</p></div>
                  <div class="item" data-item="notice"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='60' viewBox='0 0 100 60'><rect x='20' y='10' width='60' height='40' fill='%23fff' stroke='%23333' stroke-width='1'/><line x1='30' y1='20' x2='70' y2='20' stroke='%23333' stroke-width='1'/><line x1='30' y1='30' x2='70' y2='30' stroke='%23333' stroke-width='1'/><line x1='30' y1='40' x2='50' y2='40' stroke='%23333' stroke-width='1'/></svg>" alt="Notice de médicament"><p>Notice de médicament (papier)</p></div>
                  <div class="item" data-item="veterinaire"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='60' viewBox='0 0 100 60'><rect x='20' y='10' width='60' height='40' rx='5' fill='%23fff' stroke='%23333' stroke-width='2'/><text x='50' y='30' font-family='Arial' font-size='8' text-anchor='middle'>Médicament</text><text x='50' y='40' font-family='Arial' font-size='8' text-anchor='middle'>Vétérinaire</text><path d='M40,20 L45,15 L50,20 L55,15 L60,20' fill='none' stroke='%23333' stroke-width='1'/></svg>" alt="Médicament vétérinaire"><p>Médicament vétérinaire</p></div>
-            </div>
-            <div class="drop-zones">
-                <div class="drop-zone" id="cyclamed-zone"><h3>✅ Collecte MNU (Éco-organisme)</h3><div class="dropped-items"></div></div>
-                <div class="drop-zone" id="excluded-zone"><h3>❌ Exclus MNU</h3><div class="dropped-items"></div></div>
-            </div>
-            <button class="btn btn-primary" id="validate-stage1">Valider le tri</button>
-            <div class="feedback" id="stage1-feedback"></div>
-            <div class="info-box regulatory-info">
-                <h3><i class="fas fa-book"></i> Textes applicables</h3>
-                <p><strong>Article L. 5111-1 du Code de la santé publique :</strong></p><p class="leg-text">"On entend par médicament à usage humain toute substance ou composition présentée comme possédant des propriétés curatives ou préventives à l'égard des maladies humaines, ainsi que toute substance ou composition pouvant être utilisée chez l'homme ou pouvant lui être administrée, en vue d'établir un diagnostic médical ou de restaurer, corriger ou modifier ses fonctions physiologiques en exerçant une action pharmacologique, immunologique ou métabolique."</p>
-                <p><strong>Article R. 4211-23 du Code de la santé publique:</strong></p><p class="leg-text">"IV.-Pour l'application de la présente section, on entend par : [...] 2° “ Médicaments non utilisés ”, les médicaments à usage humain inutilisés ou périmés détenus par les particuliers."</p>
-                <p><strong>Produits non concernés :</strong></p><p class="leg-text">Sont exclus du champ des MNU (liste non exhaustive) : - Les conditionnements primaires vides et secondaires (relevant de la REP emballages ménagers). - Les dispositifs médicaux perforants des patients en auto-traitement (relevant de la filière DASTRI - Art. R. 1335-8-1 et suivants CSP). - Les médicaments vétérinaires. - Les produits de parapharmacie, cosmétiques, compléments alimentaires, etc. (non définis comme médicaments à usage humain). - Les thermomètres, produits chimiques, etc.</p>
-            </div>
-            <div class="next-stage-container" id="next-stage-container-1" style="display: none; margin-top: 15px;"><button class="btn btn-success next-stage-btn" id="next-stage-1" disabled>Passer à l'étape suivante</button></div>
+             </div>
+             <div class="drop-zones"><div class="drop-zone" id="cyclamed-zone"><h3>✅ Collecte MNU (Éco-organisme)</h3><div class="dropped-items"></div></div><div class="drop-zone" id="excluded-zone"><h3>❌ Exclus MNU</h3><div class="dropped-items"></div></div></div>
+             <button class="btn btn-primary" id="validate-stage1">Valider le tri</button>
+             <div class="feedback" id="stage1-feedback"></div>
+             <div class="info-box regulatory-info"><h3><i class="fas fa-book"></i> Textes applicables</h3><p><strong>Article L. 5111-1 du Code de la santé publique :</strong></p><p class="leg-text">"On entend par médicament à usage humain toute substance ou composition présentée comme possédant des propriétés curatives ou préventives à l'égard des maladies humaines, ainsi que toute substance ou composition pouvant être utilisée chez l'homme ou pouvant lui être administrée, en vue d'établir un diagnostic médical ou de restaurer, corriger ou modifier ses fonctions physiologiques en exerçant une action pharmacologique, immunologique ou métabolique."</p><p><strong>Article R. 4211-23 du Code de la santé publique:</strong></p><p class="leg-text">"IV.-Pour l'application de la présente section, on entend par : [...] 2° “ Médicaments non utilisés ”, les médicaments à usage humain inutilisés ou périmés détenus par les particuliers."</p><p><strong>Produits non concernés :</strong></p><p class="leg-text">Sont exclus du champ des MNU (liste non exhaustive) : - Les conditionnements primaires vides et secondaires (relevant de la REP emballages ménagers). - Les dispositifs médicaux perforants des patients en auto-traitement (relevant de la filière DASTRI - Art. R. 1335-8-1 et suivants CSP). - Les médicaments vétérinaires. - Les produits de parapharmacie, cosmétiques, compléments alimentaires, etc. (non définis comme médicaments à usage humain). - Les thermomètres, produits chimiques, etc.</p></div>
         </div>
 
         <!-- Stage 2: Le Producteur Amnésique -->
         <div class="stage" id="stage2">
-            <div class="stage-header">
-                <div class="stage-title"><div class="stage-number">2</div><h2>Le Producteur Amnésique</h2></div>
-                <div class="stage-time">~2 minutes</div>
-            </div>
-            <p>Identifiez le "producteur" REP MNU et ses obligations fondamentales selon les textes.</p><p><strong>Cliquez sur les bonnes réponses.</strong></p>
-            <h3>Qui est le "producteur" REP pour les MNU?</h3>
-            <div class="card-container" id="producer-cards">
-                 <div class="card" data-card="fabricant">Le fabricant physique du médicament</div><div class="card" data-card="exploitant">L'exploitant pharmaceutique</div><div class="card" data-card="pharmacien">L'ensemble des pharmaciens d'officine</div><div class="card" data-card="grossiste">Les grossistes-répartiteurs</div>
-            </div>
-            <h3>Quelles sont les obligations FONDAMENTALES du producteur?</h3>
-            <div class="card-container" id="obligation-cards">
-                 <div class="card" data-card="financer">Financer la filière (contribuer à gestion déchets)</div><div class="card" data-card="adherer">Adhérer à un éco-organisme (ou système individuel)</div><div class="card" data-card="collecter-physiquement">Organiser la collecte physique lui-même</div><div class="card" data-card="eco-concevoir">Adopter une démarche d'éco-conception</div><div class="card" data-card="pharmacovigilance">Assurer la pharmacovigilance</div><div class="card" data-card="detruire">Détruire lui-même les MNU</div>
-            </div>
-            <button class="btn btn-primary" id="validate-stage2">Valider les responsabilités</button>
-            <div class="feedback" id="stage2-feedback"></div>
-            <div class="info-box regulatory-info">
-                 <h3><i class="fas fa-book"></i> Textes applicables</h3>
-                 <p><strong>Article R. 4211-23 IV 1° du Code de la santé publique :</strong></p><p class="leg-text">"1° “ Producteur ” au sens du I de l'article L. 541-10 du code de l'environnement, les exploitants mentionnés au 3° de l'article R. 5124-2 du code de la santé publique ;"</p>
-                  <p><strong>Article R. 5124-2 3° du Code de la santé publique (Extrait) :</strong></p><p class="leg-text">"3° Exploitant, l'entreprise ou l'organisme se livrant à l'exploitation de médicaments [...]"</p>
-                 <p><strong>Article L. 541-10 I du Code de l'environnement :</strong></p><p class="leg-text">"[...] il peut être fait obligation à toute personne physique ou morale qui élabore, fabrique, manipule, traite, vend ou importe des produits générateurs de déchets [...] de pourvoir ou de contribuer à la prévention et à la gestion des déchets qui en proviennent ainsi que d'adopter une démarche d'écoconception des produits [...] Pour s'acquitter de cette obligation, les producteurs mettent en place collectivement des éco-organismes [...] auxquels ils transfèrent leur obligation et versent en contrepartie une contribution financière. [...]"</p>
-            </div>
-            <div class="next-stage-container" id="next-stage-container-2" style="display: none; margin-top: 15px;"><button class="btn btn-success next-stage-btn" id="next-stage-2" disabled>Passer à l'étape suivante</button></div>
+             <div class="stage-header"><div class="stage-title"><div class="stage-number">2</div><h2>Le Producteur Amnésique</h2></div><div class="stage-time">~2 minutes</div></div>
+             <p>Identifiez le "producteur" REP MNU et ses obligations fondamentales selon les textes.</p><p><strong>Cliquez sur les bonnes réponses.</strong></p>
+             <h3>Qui est le "producteur" REP pour les MNU?</h3>
+             <div class="card-container" id="producer-cards"><div class="card" data-card="fabricant">Le fabricant physique du médicament</div><div class="card" data-card="exploitant">L'exploitant pharmaceutique</div><div class="card" data-card="pharmacien">L'ensemble des pharmaciens d'officine</div><div class="card" data-card="grossiste">Les grossistes-répartiteurs</div></div>
+             <h3>Quelles sont les obligations FONDAMENTALES du producteur?</h3>
+             <div class="card-container" id="obligation-cards"><div class="card" data-card="financer">Financer la filière (contribuer à gestion déchets)</div><div class="card" data-card="adherer">Adhérer à un éco-organisme (ou système individuel)</div><div class="card" data-card="collecter-physiquement">Organiser la collecte physique lui-même</div><div class="card" data-card="eco-concevoir">Adopter une démarche d'éco-conception</div><div class="card" data-card="pharmacovigilance">Assurer la pharmacovigilance</div><div class="card" data-card="detruire">Détruire lui-même les MNU</div></div>
+             <button class="btn btn-primary" id="validate-stage2">Valider les responsabilités</button>
+             <div class="feedback" id="stage2-feedback"></div>
+             <div class="info-box regulatory-info"><h3><i class="fas fa-book"></i> Textes applicables</h3><p><strong>Article R. 4211-23 IV 1° du Code de la santé publique :</strong></p><p class="leg-text">"1° “ Producteur ” au sens du I de l'article L. 541-10 du code de l'environnement, les exploitants mentionnés au 3° de l'article R. 5124-2 du code de la santé publique ;"</p><p><strong>Article R. 5124-2 3° du Code de la santé publique (Extrait) :</strong></p><p class="leg-text">"3° Exploitant, l'entreprise ou l'organisme se livrant à l'exploitation de médicaments [...]"</p><p><strong>Article L. 541-10 I du Code de l'environnement :</strong></p><p class="leg-text">"[...] il peut être fait obligation à toute personne physique ou morale qui élabore, fabrique, manipule, traite, vend ou importe des produits générateurs de déchets [...] de pourvoir ou de contribuer à la prévention et à la gestion des déchets qui en proviennent ainsi que d'adopter une démarche d'écoconception des produits [...] Pour s'acquitter de cette obligation, les producteurs mettent en place collectivement des éco-organismes [...] auxquels ils transfèrent leur obligation et versent en contrepartie une contribution financière. [...]"</p></div>
         </div>
 
         <!-- Stage 3: La Logistique Séquentielle -->
         <div class="stage" id="stage3">
-             <div class="stage-header">
-                <div class="stage-title"><div class="stage-number">3</div><h2>La Logistique Séquentielle</h2></div>
-                <div class="stage-time">~2 minutes</div>
-            </div>
+            <div class="stage-header"><div class="stage-title"><div class="stage-number">3</div><h2>La Logistique Séquentielle</h2></div><div class="stage-time">~2 minutes</div></div>
             <p>Reconstituez le parcours chronologique des MNU depuis leur collecte jusqu'à leur élimination finale.</p><p><strong>Cliquez sur les étapes/actions ci-dessous DANS L'ORDRE CORRECT pour les ajouter à la séquence.</strong> Cliquez sur une étape dans votre séquence pour la retirer.</p>
             <h3>Étapes / Actions Disponibles :</h3>
-            <div class="card-container" id="available-logistics-steps">
-                 <div class="card" data-step-id="pharmacie">Collecte gratuite à l'officine</div><div class="card" data-step-id="receptacle">Stockage dans réceptacle sécurisé</div><div class="card" data-step-id="enlevement">Enlèvement depuis l'officine par prestataire</div><div class="card" data-step-id="regroupement">Regroupement / Tri sur plateforme logistique</div><div class="card" data-step-id="transport">Transport vers l'unité de traitement</div><div class="card" data-step-id="incineration">Destruction finale par incinération</div><div class="card" data-step-id="recyclage">Recyclage chimique</div><div class="card" data-step-id="humanitaire">Redistribution humanitaire</div>
-            </div>
-            <div class="ordered-sequence-area">
-                <h3>Votre Séquence Construite :</h3><ol id="built-sequence-list"></ol><button class="btn btn-secondary btn-sm" id="clear-sequence-btn">Recommencer la séquence</button>
-            </div>
+            <div class="card-container" id="available-logistics-steps"><div class="card" data-step-id="pharmacie">Collecte gratuite à l'officine</div><div class="card" data-step-id="receptacle">Stockage dans réceptacle sécurisé</div><div class="card" data-step-id="enlevement">Enlèvement depuis l'officine par prestataire</div><div class="card" data-step-id="regroupement">Regroupement / Tri sur plateforme logistique</div><div class="card" data-step-id="transport">Transport vers l'unité de traitement</div><div class="card" data-step-id="incineration">Destruction finale par incinération</div><div class="card" data-step-id="recyclage">Recyclage chimique</div><div class="card" data-step-id="humanitaire">Redistribution humanitaire</div></div>
+            <div class="ordered-sequence-area"><h3>Votre Séquence Construite :</h3><ol id="built-sequence-list"></ol><button class="btn btn-secondary btn-sm" id="clear-sequence-btn">Recommencer la séquence</button></div>
             <button class="btn btn-primary" id="validate-stage3" style="margin-top: 20px;" disabled>Valider la Séquence</button>
             <div class="feedback" id="stage3-feedback"></div>
-            <div class="info-box regulatory-info">
-                 <h3><i class="fas fa-book"></i> Textes applicables</h3>
-                 <p><strong>Article R. 4211-24 du Code de la santé publique :</strong></p><p class="leg-text">"Les producteurs [...] réalisent les opérations suivantes : 1° La remise, à titre gratuit, de réceptacles aux officines de pharmacie ; 2° L'enlèvement, le regroupement, le tri et le transport des médicaments non utilisés [...] depuis les officines de pharmacie jusqu'à leur lieu de destination ; 3° La destruction des médicaments non utilisés."</p>
-                 <p><strong>Article R. 4211-27 du Code de la santé publique :</strong></p><p class="leg-text">"Les médicaments non utilisés sont détruits par incinération avec valorisation énergétique dans le respect de la réglementation en vigueur."</p>
-                 <p><strong>Note :</strong> Redistribution/réutilisation interdite.</p>
-            </div>
-            <div class="next-stage-container" id="next-stage-container-3" style="display: none; margin-top: 15px;"><button class="btn btn-success next-stage-btn" id="next-stage-3" disabled>Passer à l'étape suivante</button></div>
+            <div class="info-box regulatory-info"><h3><i class="fas fa-book"></i> Textes applicables</h3><p><strong>Article R. 4211-24 du Code de la santé publique :</strong></p><p class="leg-text">"Les producteurs [...] réalisent les opérations suivantes : 1° La remise, à titre gratuit, de réceptacles aux officines de pharmacie ; 2° L'enlèvement, le regroupement, le tri et le transport des médicaments non utilisés [...] depuis les officines de pharmacie jusqu'à leur lieu de destination ; 3° La destruction des médicaments non utilisés."</p><p><strong>Article R. 4211-27 du Code de la santé publique :</strong></p><p class="leg-text">"Les médicaments non utilisés sont détruits par incinération avec valorisation énergétique dans le respect de la réglementation en vigueur."</p><p><strong>Note :</strong> Redistribution/réutilisation interdite.</p></div>
         </div>
 
-         <!-- Stage 4: Le Cahier des Charges Oublié -->
+        <!-- Stage 4: Le Cahier des Charges Oublié -->
         <div class="stage" id="stage4">
-             <div class="stage-header">
-                <div class="stage-title"><div class="stage-number">4</div><h2>Le Cahier des charges oublié</h2></div>
-                <div class="stage-time">~1 minute</div>
-            </div>
-            <p>Retrouvez les infos clés sur l'éco-organisme MNU : objectif, statut, nom.</p><p><strong>Sélectionnez les bonnes réponses et tapez le nom.</strong></p>
-            <h3>Objectif MINIMAL de collecte (%) fixé ?</h3>
-            <div class="card-container" id="collection-target">
-                <div class="card" data-target="50">50%</div><div class="card" data-target="60">60%</div><div class="card" data-target="70">70%</div><div class="card" data-target="80">80%</div>
-            </div>
-            <h3>Statut juridique obligatoire (L.541-10 C. Env) ?</h3>
-            <div class="card-container" id="eco-org-nature">
-                <div class="card" data-nature="lucratif">Société commerciale</div><div class="card" data-nature="non-lucratif">Organisme à but non lucratif</div><div class="card" data-nature="publique">Service public</div><div class="card" data-nature="association">Association 1901</div>
-            </div>
-            <h3>Nom de l'éco-organisme agréé MNU ?</h3>
-            <div class="input-group"><input type="text" id="eco-org-name" placeholder="Entrez le nom"></div>
-            <button class="btn btn-primary" id="validate-stage4">Valider les informations clés</button>
-            <div class="feedback" id="stage4-feedback"></div>
-            <div class="info-box regulatory-info">
-                 <h3><i class="fas fa-book"></i> Textes Réglementaires & Arrêtés Applicables</h3>
-                 <p><strong>Extrait Cahier des Charges (Arrêté 29 oct. 2021) :</strong></p><p class="leg-text">"2.1. Objectifs de collecte [...] Objectif du pourcentage minimal des MNU collectés : 70%"</p>
-                 <p><strong>Article L. 541-10 I C. Env (Extrait Statut) :</strong></p><p class="leg-text">"[...] les éco-organismes [...] sont à but non lucratif."</p>
-                 <p><strong>Extrait Arrêté d'agrément (22 déc. 2021) :</strong></p><p class="leg-text">"Est agréé, [...] l'organisme Cyclamed [...] en tant qu'éco-organisme [...]"</p>
-            </div>
-            <div class="next-stage-container" id="next-stage-container-4" style="display: none; margin-top: 15px;"><button class="btn btn-success next-stage-btn" id="next-stage-4" disabled>Passer à l'étape suivante</button></div>
+             <div class="stage-header"><div class="stage-title"><div class="stage-number">4</div><h2>Le Cahier des charges oublié</h2></div><div class="stage-time">~1 minute</div></div>
+             <p>Retrouvez les infos clés sur l'éco-organisme MNU : objectif, statut, nom.</p><p><strong>Sélectionnez les bonnes réponses et tapez le nom.</strong></p>
+             <h3>Objectif MINIMAL de collecte (%) fixé ?</h3>
+             <div class="card-container" id="collection-target"><div class="card" data-target="50">50%</div><div class="card" data-target="60">60%</div><div class="card" data-target="70">70%</div><div class="card" data-target="80">80%</div></div>
+             <h3>Statut juridique obligatoire (L.541-10 C. Env) ?</h3>
+             <div class="card-container" id="eco-org-nature"><div class="card" data-nature="lucratif">Société commerciale</div><div class="card" data-nature="non-lucratif">Organisme à but non lucratif</div><div class="card" data-nature="publique">Service public</div><div class="card" data-nature="association">Association 1901</div></div>
+             <h3>Nom de l'éco-organisme agréé MNU ?</h3>
+             <div class="input-group"><input type="text" id="eco-org-name" placeholder="Entrez le nom"></div>
+             <button class="btn btn-primary" id="validate-stage4">Valider les informations clés</button>
+             <div class="feedback" id="stage4-feedback"></div>
+             <div class="info-box regulatory-info"><h3><i class="fas fa-book"></i> Textes Réglementaires & Arrêtés Applicables</h3><p><strong>Extrait Cahier des Charges (Arrêté 29 oct. 2021) :</strong></p><p class="leg-text">"2.1. Objectifs de collecte [...] Objectif du pourcentage minimal des MNU collectés : 70%"</p><p><strong>Article L. 541-10 I C. Env (Extrait Statut) :</strong></p><p class="leg-text">"[...] les éco-organismes [...] sont à but non lucratif."</p><p><strong>Extrait Arrêté d'agrément (22 déc. 2021) :</strong></p><p class="leg-text">"Est agréé, [...] l'organisme Cyclamed [...] en tant qu'éco-organisme [...]"</p></div>
         </div>
-
 
         <!-- Final Stage: Validation du Système -->
         <div class="stage" id="final-stage">
-             <div class="stage-header">
-                <div class="stage-title"><div class="stage-number">5</div><h2>Restauration du Système</h2></div>
-                <div class="stage-time">~1 minute</div>
-            </div>
-            <p>Mission presque accomplie ! Entrez le code numérique et le mot de passe final pour verrouiller la conformité de la filière MNU.</p>
-            <div class="info-box">
-                <h3><i class="fas fa-key"></i> Combinez vos découvertes pour les Codes d'Accès</h3>
-                <p><strong>Code Numérique (5 chiffres) :</strong> Constituez ce code en concaténant dans l'ordre :</p>
-                <ul><li>Le <strong>nombre</strong> d'items correctement classés comme MNU à l'étape 1.</li><li>L'<strong>objectif</strong> de collecte (en pourcentage) identifié à l'étape 4.</li><li>Le <strong>numéro</strong> (deux chiffres) de l'article fondateur de la REP dans le Code de l'Environnement (L.541-XX), évoqué lors des étapes précédentes.</li></ul>
-                <p style="text-align: center; font-style: italic; font-size: 0.9rem;">Exemple fictif : Si Nombre = 3, Objectif = 80, Numéro = 12 => Code = 38012</p>
+             <div class="stage-header"><div class="stage-title"><div class="stage-number">5</div><h2>Restauration du Système</h2></div><div class="stage-time">~1 minute</div></div>
+             <p>Mission presque accomplie ! Utilisez les <strong>indices collectés</strong> (visibles sur la droite) pour déterminer le code numérique et le mot de passe final, puis verrouillez la conformité de la filière MNU.</p>
+             <div class="info-box">
+                <h3><i class="fas fa-key"></i> Combinez les Indices Collectés pour les Codes d'Accès</h3>
+                <p><strong>Code Numérique (5 chiffres) :</strong> Reconstituez ce code en utilisant les indices dans l'ordre de leur collecte :</p>
+                <ul><li>Indice 1 (N° items)</li><li>Indice 4 (Objectif %)</li><li>Indice 3 (N° article C. Env.)</li></ul>
+                <p style="text-align: center; font-style: italic; font-size: 0.9rem;">Exemple: Si Indice 1 donne '3', Indice 4 donne '80', Indice 3 donne '12' => Code = 38012</p>
                 <hr style="margin: 15px 0;">
-                <p><strong>Mot de Passe (Alphanumérique) :</strong> Constituez ce mot de passe en concaténant dans l'ordre :</p>
-                 <ul><li>La <strong>première lettre</strong> de l'obligation financière principale du producteur trouvée à l'étape 2.</li><li>Le <strong>nom</strong> complet (en majuscules) de l'éco-organisme agréé identifié à l'étape 4.</li></ul>
-                 <p style="text-align: center; font-style: italic; font-size: 0.9rem;">Exemple fictif : Si Lettre = X, Nom = ORGA => Mot de passe = XORGA</p>
-            </div>
-            <div class="input-group"><label for="final-code">Code numérique de restauration :</label><input type="text" id="final-code" placeholder="Entrez le code à 5 chiffres"></div>
-            <div class="input-group"><label for="final-password">Mot de passe de conformité :</label><input type="text" id="final-password" placeholder="Entrez le mot de passe"></div>
-            <div class="feedback" id="final-feedback"></div>
-            <button class="btn btn-primary" id="validate-final">Valider et sécuriser la filière</button>
+                <p><strong>Mot de Passe (Alphanumérique) :</strong> Reconstituez ce mot de passe en utilisant les indices dans l'ordre de leur collecte :</p>
+                 <ul><li>Indice 2 (1ère lettre obligation)</li><li>Indice 4 (Nom éco-organisme en MAJUSCULES)</li></ul>
+                 <p style="text-align: center; font-style: italic; font-size: 0.9rem;">Exemple: Si Indice 2 donne 'X', Indice 4 donne 'ORGA' => Mot de passe = XORGA</p>
+             </div>
+             <div class="input-group"><label for="final-code">Code numérique de restauration :</label><input type="text" id="final-code" placeholder="Entrez le code à 5 chiffres"></div>
+             <div class="input-group"><label for="final-password">Mot de passe de conformité :</label><input type="text" id="final-password" placeholder="Entrez le mot de passe"></div>
+             <div class="feedback" id="final-feedback"></div>
+             <button class="btn btn-primary" id="validate-final">Valider et sécuriser la filière</button>
         </div>
 
         <!-- Success Screen -->
         <div class="stage" id="success">
-            <div class="certificate" id="certificate-content">
-                <h2><i class="fas fa-shield-alt"></i> CERTIFICAT DE CONFORMITÉ MNU</h2>
-                <p>Félicitations à l'équipe <strong id="team-name-display-cert" style="color: var(--primary);"></strong> !</p>
-                <div id="participants-section-cert" style="margin-top: 15px; text-align: left;">
-                    <h4>Participants :</h4><ul id="participant-list-cert" style="list-style: none; padding-left: 10px; font-size: 0.9rem;"></ul>
-                </div>
-                <p style="margin-top: 20px;"><strong>Mission accomplie en <span id="time-taken"></span> !</strong> La filière MNU est sécurisée !</p>
-                <p>Temps restant : <strong id="time-remaining" style="color: var(--success);"></strong></p>
-                <h3 style="margin-top: 25px;">Synthèse Réglementaire :</h3>
-                 <ul><li><strong>Périmètre MNU :</strong> Médicaments usage humain particuliers (L.5111-1, R.4211-23 CSP).</li><li><strong>Responsabilité :</strong> Producteur = Exploitant (R.4211-23, R.5124-2 CSP ; L.541-10 C. Env).</li><li><strong>Collecte :</strong> Gratuite en pharmacie (R.4211-24 CSP).</li><li><strong>Traitement :</strong> Incinération obligatoire (R.4211-27 CSP).</li><li><strong>Objectif :</strong> Collecte min. 70% (Cahier Charges 2021).</li><li><strong>Acteur :</strong> CYCLAMED (éco-org agréé non lucratif).</li></ul>
-                <div class="certificate-seal">CONFORME</div>
-            </div>
-            <div style="text-align: center; margin-top: 20px;"><button class="btn btn-secondary" id="download-pdf-certificate"><i class="fas fa-file-pdf"></i> Télécharger le Certificat (PDF)</button><button class="btn btn-success" id="restart-game">Nouvelle mission d'audit</button></div>
+            <div class="certificate" id="certificate-content"><h2><i class="fas fa-shield-alt"></i> CERTIFICAT DE CONFORMITÉ MNU</h2><p>Félicitations à l'équipe <strong id="team-name-display-cert"></strong> !</p><div id="participants-section-cert"><h4>Participants :</h4><ul id="participant-list-cert"></ul></div><p><strong>Mission accomplie en <span id="time-taken"></span> !</strong> La filière MNU est sécurisée !</p><p>Temps restant : <strong id="time-remaining"></strong></p><h3>Synthèse Réglementaire :</h3><ul><li><strong>Périmètre MNU :</strong> Médicaments usage humain particuliers (L.5111-1, R.4211-23 CSP).</li><li><strong>Responsabilité :</strong> Producteur = Exploitant (R.4211-23, R.5124-2 CSP ; L.541-10 C. Env).</li><li><strong>Collecte :</strong> Gratuite en pharmacie (R.4211-24 CSP).</li><li><strong>Traitement :</strong> Incinération obligatoire (R.4211-27 CSP).</li><li><strong>Objectif :</strong> Collecte min. 70% (Cahier Charges 2021).</li><li><strong>Acteur :</strong> CYCLAMED (éco-org agréé non lucratif).</li></ul><div class="certificate-seal">CONFORME</div></div>
+            <div style="text-align: center; margin-top: 20px;"><button class="btn btn-secondary" id="download-pdf-certificate"><i class="fas fa-file-pdf"></i> Télécharger (PDF)</button><button class="btn btn-success" id="restart-game">Nouvelle mission</button></div>
         </div>
 
         <!-- Failure Screen -->
         <div class="stage" id="failure">
-            <div style="text-align:center;">
-                 <h2 style="color: var(--danger);"><i class="fas fa-exclamation-triangle"></i> Mission échouée</h2>
-                 <p style="font-size: 3rem; margin: 15px 0;">⏳</p>
-                 <p><strong>Temps écoulé !</strong> La non-conformité persiste.</p><p>Revoyez les textes réglementaires et réessayez !</p>
-                 <button class="btn btn-danger" id="restart-game-failure" style="margin-top: 20px;">Relancer la Mission</button>
-            </div>
+            <div style="text-align:center;"><h2 style="color: var(--danger);"><i class="fas fa-exclamation-triangle"></i> Mission échouée</h2><p style="font-size: 3rem; margin: 15px 0;">⏳</p><p><strong>Temps écoulé !</strong> La non-conformité persiste.</p><p>Revoyez les textes réglementaires et réessayez !</p><button class="btn btn-danger" id="restart-game-failure" style="margin-top: 20px;">Relancer la Mission</button></div>
         </div>
 
     </div> <!-- End Container -->
 
+    <!-- Zone d'Affichage des Indices -->
+    <div class="clue-sidebar" id="clue-sidebar">
+        <h3><i class="fas fa-lightbulb"></i> Indices Finaux</h3>
+        <ul id="clue-list"></ul>
+    </div>
+
     <!-- Overlay pour l'effet de flash d'alarme -->
     <div id="alarm-flash-overlay"></div>
 
+    <!-- Écran de Verrouillage INITIAL -->
+    <div class="stage-lock-screen" id="start-mission-lock-screen" style="display: none;">
+        <div class="lock-content">
+            <h2><i class="fas fa-rocket"></i> Prêt pour la mission ?</h2>
+            <p id="start-lock-message">Équipe confirmée. Entrez le code de lancement pour démarrer le chrono.</p>
+            <div class="input-group">
+                <label for="start-lock-password-input">Code de lancement :</label>
+                <input type="password" id="start-lock-password-input" placeholder="Entrez le code">
+            </div>
+            <button class="btn btn-success" id="validate-start-lock-btn">Lancer la Mission !</button>
+            <div class="feedback" id="start-lock-feedback"></div>
+        </div>
+    </div>
+
+    <!-- Écran de Verrouillage Inter-Étapes -->
+    <div class="stage-lock-screen" id="stage-lock-screen" style="display: none;">
+        <div class="lock-content">
+            <h2><i class="fas fa-lock"></i> Point de Contrôle Verrouillé</h2>
+            <p id="lock-message">Point de contrôle sécurisé. Entrez le code d'accès requis.</p>
+            <div class="input-group">
+                <label for="lock-password-input">Code d'accès :</label>
+                <input type="password" id="lock-password-input" placeholder="Entrez le code">
+            </div>
+            <button class="btn btn-primary" id="validate-lock-btn">Déverrouiller</button>
+            <div class="feedback" id="lock-feedback"></div>
+        </div>
+    </div>
+
     <!-- Font Awesome -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js" integrity="sha512-Tn2m0TIpgVyTzzvmxLNuqbSJH3JP8jm+Cy3hvHrW7ndTDcJ1w5mBiksqDBb8GpE2ksktFvDB/ykZ0mDpsZj20w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
     <!-- jsPDF and html2canvas Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -1008,22 +767,29 @@ Marie Durand
         const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbykqjnxlvNMJGyvG8DpSM4Ea4K0dr3ZO6hs-W-8BWQ7Jj2BO5wz3Jr_zVaknTK66lmx/exec'; // !!! REMPLACEZ PAR VOTRE URL !!!
         const stageOrder = ['intro', 'stage1', 'stage2', 'stage3', 'stage4', 'final-stage', 'success', 'failure'];
         const correctLogisticsSequence = ['pharmacie', 'receptacle', 'enlevement', 'regroupement', 'transport', 'incineration'];
+        const stagePasswords = { stage1: "TRIOK", stage2: "REPCHECK", stage3: "FLUXVAL", stage4: "FINALACCESS" }; // Mots de passe INTERMÉDIAIRES complexes
+        const stageClues = { // Indices pour l'énigme FINALE
+            stage1: "Code final (part 1) : N° items MNU = ?",
+            stage2: "Mdp final (part 1) : 1ère lettre Obligation 'Financer' = ?",
+            stage3: "Code final (part 3) : N° article C. Env. L.541-XX = ?",
+            stage4: "Code final (part 2) & Mdp final (part 2) : Objectif(%) et Nom Orga = ?"
+        };
+        const START_MISSION_PASSWORD = "GO"; // Mot de passe pour lancer la mission
 
         // --- Game State ---
         const gameState = {
             teamName: '', teamId: null, participants: [], startTime: null,
             totalGameTime: 10 * 60 * 1000, timeRemaining: 10 * 60 * 1000,
-            timerInterval: null, currentStage: 'intro',
+            timerInterval: null, periodicUpdateInterval: null, alarmFlashInterval: null,
+            currentStage: 'intro',
             stageResults: {
-                stage1: { completed: false, correctItemsCount: 0 },
-                stage2: { completed: false, producerCorrect: false, obligationsCorrect: false, keyLetter: '' },
-                stage3: { completed: false, builtSequence: [], sequenceCorrect: false },
-                stage4: { completed: false, collectionTarget: '', ecoOrgNatureCorrect: false, ecoOrgNameCorrect: false, ecoOrgName: '' }
+                stage1: { completed: false, correctItemsCount: 0 }, stage2: { completed: false, producerCorrect: false, obligationsCorrect: false, keyLetter: '' },
+                stage3: { completed: false, builtSequence: [], sequenceCorrect: false }, stage4: { completed: false, collectionTarget: '', ecoOrgNatureCorrect: false, ecoOrgNameCorrect: false, ecoOrgName: '' }
             },
             finalCode: '', finalPassword: '',
+            isLocked: false, timeRemainingOnPause: null, nextStageToShow: null, currentLockPassword: null, currentStageCompletedFlag: null,
+            readingDelayTimeout: null, collectedClues: []
         };
-        let periodicUpdateInterval = null;
-        let alarmFlashInterval = null;
 
         // --- DOM Elements ---
         const timerElement = document.getElementById('timer');
@@ -1044,14 +810,6 @@ Marie Durand
         const validateStage3Button = document.getElementById('validate-stage3');
         const validateStage4Button = document.getElementById('validate-stage4');
         const validateFinalButton = document.getElementById('validate-final');
-        const nextStageContainer1 = document.getElementById('next-stage-container-1');
-        const nextStageBtn1 = document.getElementById('next-stage-1');
-        const nextStageContainer2 = document.getElementById('next-stage-container-2');
-        const nextStageBtn2 = document.getElementById('next-stage-2');
-        const nextStageContainer3 = document.getElementById('next-stage-container-3');
-        const nextStageBtn3 = document.getElementById('next-stage-3');
-        const nextStageContainer4 = document.getElementById('next-stage-container-4');
-        const nextStageBtn4 = document.getElementById('next-stage-4');
         const stage1Feedback = document.getElementById('stage1-feedback');
         const stage2Feedback = document.getElementById('stage2-feedback');
         const stage3Feedback = document.getElementById('stage3-feedback');
@@ -1079,238 +837,174 @@ Marie Durand
         const participantsGroup = document.getElementById('participants-group');
         const certificateContentElement = document.getElementById('certificate-content');
         const alarmOverlay = document.getElementById('alarm-flash-overlay');
+        const lockScreenElement = document.getElementById('stage-lock-screen');
+        const lockMessageElement = document.getElementById('lock-message');
+        const lockPasswordInput = document.getElementById('lock-password-input');
+        const validateLockButton = document.getElementById('validate-lock-btn');
+        const lockFeedbackElement = document.getElementById('lock-feedback');
+        const startLockScreenElement = document.getElementById('start-mission-lock-screen');
+        const startLockMessageElement = document.getElementById('start-lock-message');
+        const startLockPasswordInput = document.getElementById('start-lock-password-input');
+        const validateStartLockButton = document.getElementById('validate-start-lock-btn');
+        const startLockFeedbackElement = document.getElementById('start-lock-feedback');
+        const timerContainer = document.querySelector('.timer-container');
+        const clueListElement = document.getElementById('clue-list');
+        const clueSidebarElement = document.getElementById('clue-sidebar');
 
         // --- Google Sheet Update Logic ---
         function sendUpdateToSheet(eventData = {}) {
-            if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL === 'VOTRE_URL_APPS_SCRIPT_ICI') { console.warn("URL Apps Script manquante."); return; }
+            if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes('VOTRE_URL')) { console.warn("URL Apps Script manquante."); return; }
             if (!gameState.teamId) { console.warn("Envoi sans Team ID."); return; }
-            const payload = { teamId: gameState.teamId, teamName: gameState.teamName, currentStage: gameState.currentStage, timeRemainingSec: Math.floor(gameState.timeRemaining / 1000), status: (gameState.currentStage === 'success' || gameState.currentStage === 'failure') ? (gameState.currentStage === 'success' ? 'Terminé' : 'Échoué') : 'En cours', stage1_completed: !!gameState.stageResults.stage1.completed, stage2_completed: !!gameState.stageResults.stage2.completed, stage3_completed: !!gameState.stageResults.stage3.completed, stage4_completed: !!gameState.stageResults.stage4.completed, ...eventData };
+            const payload = { teamId: gameState.teamId, teamName: gameState.teamName, currentStage: gameState.currentStage, timeRemainingSec: Math.floor(gameState.timeRemaining / 1000), status: (gameState.currentStage === 'success' || gameState.currentStage === 'failure') ? (gameState.currentStage === 'success' ? 'Terminé' : 'Échoué') : (gameState.isLocked ? 'En pause' : 'En cours'), stage1_completed: !!gameState.stageResults.stage1.completed, stage2_completed: !!gameState.stageResults.stage2.completed, stage3_completed: !!gameState.stageResults.stage3.completed, stage4_completed: !!gameState.stageResults.stage4.completed, ...eventData };
             const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
-            if (navigator.sendBeacon) { if (!navigator.sendBeacon(APPS_SCRIPT_URL, blob)) { sendWithFetch(payload); } }
-            else { sendWithFetch(payload); }
+            if (navigator.sendBeacon) { if (!navigator.sendBeacon(APPS_SCRIPT_URL, blob)) { sendWithFetch(payload); } } else { sendWithFetch(payload); }
         }
         function sendWithFetch(payload) { fetch(APPS_SCRIPT_URL, { method: 'POST', mode: 'no-cors', cache: 'no-cache', body: JSON.stringify(payload), keepalive: true }).catch(error => console.error('Erreur fetch:', error)); }
 
         // --- Core Game Logic ---
         function initGame() {
             startGameButton.addEventListener('click', startGame); validateStage1Button.addEventListener('click', validateStage1); validateStage2Button.addEventListener('click', validateStage2); validateStage3Button.addEventListener('click', validateStage3); validateStage4Button.addEventListener('click', validateStage4); validateFinalButton.addEventListener('click', validateFinal);
-            nextStageBtn1.addEventListener('click', () => showStage('stage2')); nextStageBtn2.addEventListener('click', () => showStage('stage3')); nextStageBtn3.addEventListener('click', () => showStage('stage4')); nextStageBtn4.addEventListener('click', () => showStage('final-stage'));
             restartGameButton.addEventListener('click', resetGame); restartGameFailureButton.addEventListener('click', resetGame); backdoorButton.addEventListener('click', handleBackdoor); downloadPdfButton.addEventListener('click', handleDownloadCertificatePDF); clearSequenceButton.addEventListener('click', clearBuiltSequence); prevStageButton.addEventListener('click', goToPreviousStage);
+            validateLockButton.addEventListener('click', handleLockValidation);
+            validateStartLockButton.addEventListener('click', handleStartMissionLockValidation); // Listener pour verrou initial
             initStage1Interactions(); initCardSelection(); initStage3CardClicks(); shuffleAvailableLogisticsSteps();
             resetGame();
         }
 
-        function startGame() {
+        function startGame() { // Se déclenche au clic sur "Confirmer l'Équipe"
             if (!teamNameInput.value.trim()) { alert('Nom d\'équipe requis.'); teamNameInput.focus(); return; }
             if (introTitleElement) introTitleElement.style.display = 'none';
             gameState.teamId = 'team-' + Date.now() + '-' + Math.random().toString(36).substring(2, 9); gameState.teamName = teamNameInput.value.trim(); teamNameDisplay.textContent = `Équipe: ${gameState.teamName}`;
             const namesString = participantNamesInput.value.trim(); gameState.participants = namesString ? namesString.split('\n').map(name => name.trim()).filter(name => name !== '') : [];
             if (teamNameGroup) teamNameGroup.style.display = 'none'; if (participantsGroup) participantsGroup.style.display = 'none'; if (startGameButton) startGameButton.style.display = 'none';
-            gameState.startTime = Date.now(); gameState.timeRemaining = gameState.totalGameTime;
-            startTimer(); startAlarmFlash(); // Démarrer flash rouge double blink
-            showStage('stage1'); setTimeout(() => sendUpdateToSheet({ currentStage: 'stage1' }), 100);
+            gameState.startTime = null; gameState.timeRemaining = gameState.totalGameTime; gameState.timeRemainingOnPause = null; gameState.isLocked = false; gameState.collectedClues = []; updateClueListDisplay();
+            resetTimerDisplay(); // Affiche 10:00
+            showStartMissionLock(); // Affiche l'écran de verrouillage de démarrage
         }
 
-        function startTimer() {
-            clearInterval(gameState.timerInterval); clearInterval(periodicUpdateInterval); updateTimerDisplay();
-            gameState.timerInterval = setInterval(() => {
-                const elapsed = Date.now() - gameState.startTime; gameState.timeRemaining = Math.max(gameState.totalGameTime - elapsed, 0); updateTimerDisplay();
-                if (gameState.timeRemaining <= 0) {
-                    clearInterval(gameState.timerInterval); clearInterval(periodicUpdateInterval); stopAlarmFlash(); // Arrêter flash rouge si temps écoulé
-                    if (gameState.currentStage !== 'success') { showStage('failure'); }
-                }
-            }, 1000);
-            periodicUpdateInterval = setInterval(() => { if (!['intro', 'success', 'failure'].includes(gameState.currentStage)) { sendUpdateToSheet(); } }, 20000);
+        // --- Timer Pause/Resume Logic ---
+        function pauseTimer() { if (!gameState.isLocked) { clearInterval(gameState.timerInterval); clearInterval(gameState.periodicUpdateInterval); stopAlarmFlash(); gameState.timerInterval = null; gameState.periodicUpdateInterval = null; gameState.isLocked = true; gameState.timeRemainingOnPause = gameState.timeRemaining; timerElement.textContent = "PAUSE"; timerContainer.classList.add('paused'); sendUpdateToSheet(); } }
+        function resumeTimer() { if (gameState.isLocked || gameState.timeRemainingOnPause !== null || (gameState.startTime !== null && !gameState.timerInterval) ) { gameState.isLocked = false; const remaining = gameState.timeRemainingOnPause ?? gameState.totalGameTime; gameState.startTime = Date.now() - (gameState.totalGameTime - remaining); gameState.timeRemaining = remaining; gameState.timeRemainingOnPause = null; timerContainer.classList.remove('paused'); startAlarmFlash(); startTimerIntervals(); if (gameState.startTime !== null) sendUpdateToSheet(); } }
+        function startTimerIntervals() { clearInterval(gameState.timerInterval); clearInterval(gameState.periodicUpdateInterval); updateTimerDisplay(); gameState.timerInterval = setInterval(() => { if (gameState.isLocked) return; const elapsed = Date.now() - gameState.startTime; gameState.timeRemaining = Math.max(gameState.totalGameTime - elapsed, 0); updateTimerDisplay(); if (gameState.timeRemaining <= 0) { clearInterval(gameState.timerInterval); clearInterval(gameState.periodicUpdateInterval); stopAlarmFlash(); if (gameState.currentStage !== 'success') { showStage('failure'); } } }, 1000); gameState.periodicUpdateInterval = setInterval(() => { if (!gameState.isLocked && !['intro', 'success', 'failure'].includes(gameState.currentStage)) { sendUpdateToSheet(); } }, 20000); }
+        function updateTimerDisplay() { if (gameState.isLocked) { timerElement.textContent = "PAUSE"; timerElement.classList.remove('warning', 'danger'); return; } const totalSeconds = Math.floor(gameState.timeRemaining / 1000); const minutes = Math.floor(totalSeconds / 60); const seconds = totalSeconds % 60; timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`; timerElement.classList.remove('warning', 'danger'); if (minutes < 1 && totalSeconds > 0) timerElement.classList.add('danger'); else if (minutes < 3) timerElement.classList.add('warning'); }
+        function resetTimerDisplay() { gameState.isLocked = false; gameState.timeRemainingOnPause = null; timerContainer.classList.remove('paused'); const minutes = Math.floor(gameState.totalGameTime / (60 * 1000)); const seconds = Math.floor((gameState.totalGameTime % (60 * 1000)) / 1000); timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`; timerElement.classList.remove('warning', 'danger'); }
+
+        // --- Flash Alarm Logic ---
+        function startAlarmFlash() { if (gameState.alarmFlashInterval) clearInterval(gameState.alarmFlashInterval); if (!alarmOverlay) return; const flashDuration = 200; const delayBetweenFlashes = 150; gameState.alarmFlashInterval = setInterval(() => { if (!gameState.isLocked && !['intro', 'success', 'failure'].includes(gameState.currentStage)) { alarmOverlay.style.opacity = '1'; setTimeout(() => { alarmOverlay.style.opacity = '0'; setTimeout(() => { alarmOverlay.style.opacity = '1'; setTimeout(() => { alarmOverlay.style.opacity = '0'; }, flashDuration); }, delayBetweenFlashes); }, flashDuration); } }, 20000); }
+        function stopAlarmFlash() { if (gameState.alarmFlashInterval) { clearInterval(gameState.alarmFlashInterval); gameState.alarmFlashInterval = null; } if (alarmOverlay) { alarmOverlay.style.opacity = '0'; } }
+
+        // --- Clue System Logic ---
+        function addClueToList(stageId) { const clueText = stageClues[stageId]; if (clueText && !gameState.collectedClues.includes(clueText)) { gameState.collectedClues.push(clueText); updateClueListDisplay(); } }
+        function updateClueListDisplay() { if (!clueListElement) return; clueListElement.innerHTML = ''; gameState.collectedClues.forEach(clue => { const li = document.createElement('li'); li.textContent = clue; clueListElement.appendChild(li); }); /* clueSidebarElement.classList.toggle('visible', gameState.collectedClues.length > 0); */ }
+
+        // --- Lock Screen Logic (Initial) ---
+        function showStartMissionLock() { startLockMessageElement.textContent = `Équipe "${gameState.teamName}" confirmée. Code de lancement : ${START_MISSION_PASSWORD}`; startLockPasswordInput.value = ''; startLockFeedbackElement.textContent = ''; startLockFeedbackElement.className = 'feedback'; startLockScreenElement.style.display = 'flex'; document.getElementById('intro')?.classList.remove('active'); setTimeout(() => startLockScreenElement.classList.add('visible'), 10); startLockPasswordInput.focus(); }
+        function hideStartMissionLock() { startLockScreenElement.classList.remove('visible'); startLockScreenElement.classList.remove('shake-error'); setTimeout(() => { startLockScreenElement.style.display = 'none'; }, 300); }
+        function handleStartMissionLockValidation() { const enteredPassword = startLockPasswordInput.value.toUpperCase(); if (!enteredPassword) { startLockFeedbackElement.textContent = 'Code requis.'; startLockFeedbackElement.className = 'feedback error'; startLockFeedbackElement.style.display = 'block'; return; } if (enteredPassword === START_MISSION_PASSWORD) { startLockFeedbackElement.textContent = 'Code correct ! Mission lancée !'; startLockFeedbackElement.className = 'feedback success'; startLockFeedbackElement.style.display = 'block'; setTimeout(() => { hideStartMissionLock(); gameState.startTime = Date.now(); resumeTimer(); showStage('stage1'); setTimeout(() => sendUpdateToSheet({ currentStage: 'stage1' }), 100); }, 1000); } else { startLockFeedbackElement.textContent = 'Code incorrect.'; startLockFeedbackElement.className = 'feedback error'; startLockFeedbackElement.style.display = 'block'; startLockPasswordInput.value = ''; startLockPasswordInput.focus(); startLockScreenElement.classList.add('shake-error'); setTimeout(() => startLockScreenElement.classList.remove('shake-error'), 500); } }
+
+        // --- Lock Screen Logic (Inter-Étapes) ---
+        function showLockScreen(targetStageId, requiredPassword, completedFlagSetter) { // La pause se fait dans validateStageX
+            gameState.nextStageToShow = targetStageId; gameState.currentLockPassword = requiredPassword; gameState.currentStageCompletedFlag = completedFlagSetter;
+            lockMessageElement.textContent = `Point de contrôle sécurisé. Code requis : ${requiredPassword}`; // Affiche le mot de passe requis
+            lockPasswordInput.value = ''; lockFeedbackElement.textContent = ''; lockFeedbackElement.className = 'feedback'; lockScreenElement.style.display = 'flex';
+            setTimeout(() => lockScreenElement.classList.add('visible'), 10); lockPasswordInput.focus();
         }
+        function hideLockScreen() { lockScreenElement.classList.remove('visible'); lockScreenElement.classList.remove('shake-error'); setTimeout(() => { lockScreenElement.style.display = 'none'; gameState.nextStageToShow = null; gameState.currentLockPassword = null; gameState.currentStageCompletedFlag = null; }, 300); }
+        function handleLockValidation() { const enteredPassword = lockPasswordInput.value; if (!enteredPassword) { lockFeedbackElement.textContent = 'Code requis.'; lockFeedbackElement.className = 'feedback error'; lockFeedbackElement.style.display = 'block'; return; } if (enteredPassword === gameState.currentLockPassword) { lockFeedbackElement.textContent = 'Code correct ! Accès autorisé...'; lockFeedbackElement.className = 'feedback success'; lockFeedbackElement.style.display = 'block'; if (gameState.currentStageCompletedFlag) { gameState.currentStageCompletedFlag(); } const completedStageNum = parseInt(gameState.currentStage.replace('stage','')); if (!isNaN(completedStageNum)) { sendUpdateToSheet({ [`stage${completedStageNum}_completed`]: true }); } setTimeout(() => { hideLockScreen(); resumeTimer(); showStage(gameState.nextStageToShow); }, 1000); } else { lockFeedbackElement.textContent = 'Code incorrect.'; lockFeedbackElement.className = 'feedback error'; lockFeedbackElement.style.display = 'block'; lockPasswordInput.value = ''; lockPasswordInput.focus(); lockScreenElement.classList.add('shake-error'); setTimeout(() => lockScreenElement.classList.remove('shake-error'), 500); } }
 
-        function updateTimerDisplay() {
-            const totalSeconds = Math.floor(gameState.timeRemaining / 1000); const minutes = Math.floor(totalSeconds / 60); const seconds = totalSeconds % 60;
-            timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`; timerElement.classList.remove('warning', 'danger');
-            if (minutes < 1 && totalSeconds > 0) timerElement.classList.add('danger'); else if (minutes < 3) timerElement.classList.add('warning');
-        }
-
-        function resetTimerDisplay() {
-            const minutes = Math.floor(gameState.totalGameTime / (60 * 1000)); const seconds = Math.floor((gameState.totalGameTime % (60 * 1000)) / 1000);
-            timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`; timerElement.classList.remove('warning', 'danger');
-        }
-
-        // --- Flash Alarm Logic (Double Blink every 20s) ---
-        function startAlarmFlash() {
-            if (alarmFlashInterval) clearInterval(alarmFlashInterval);
-            if (!alarmOverlay) return;
-            const flashDuration = 200; // ms ON
-            const delayBetweenFlashes = 150; // ms OFF
-
-            alarmFlashInterval = setInterval(() => {
-                if (!['intro', 'success', 'failure'].includes(gameState.currentStage)) {
-                    // Flash 1 ON
-                    alarmOverlay.style.opacity = '1';
-                    setTimeout(() => {
-                        // Flash 1 OFF
-                        alarmOverlay.style.opacity = '0';
-                        // Delay before Flash 2
-                        setTimeout(() => {
-                            // Flash 2 ON
-                            alarmOverlay.style.opacity = '1';
-                            setTimeout(() => {
-                                // Flash 2 OFF
-                                alarmOverlay.style.opacity = '0';
-                            }, flashDuration);
-                        }, delayBetweenFlashes);
-                    }, flashDuration);
-                }
-            }, 20000); // Intervalle global : 20 secondes
-        }
-
-        function stopAlarmFlash() {
-            if (alarmFlashInterval) { clearInterval(alarmFlashInterval); alarmFlashInterval = null; }
-            if (alarmOverlay) { alarmOverlay.style.opacity = '0'; }
-        }
-        // --- End Flash Alarm Logic ---
-
-        function showStage(stageId) {
-             stages.forEach(stage => stage.classList.remove('active')); const nextStage = document.getElementById(stageId);
-             if (nextStage) {
-                 nextStage.classList.add('active'); const previousStage = gameState.currentStage; gameState.currentStage = stageId;
-                 // Arrêter flash si succès ou échec
-                 if (stageId === 'success' || stageId === 'failure') {
-                      stopAlarmFlash(); clearInterval(gameState.timerInterval); clearInterval(periodicUpdateInterval);
-                     if (stageId === 'failure' && previousStage !== 'failure') { gameState.timeRemaining = 0; updateTimerDisplay(); setTimeout(() => sendUpdateToSheet({ status: 'Échoué', timeRemainingSec: 0 }), 100); }
-                 }
-                 // Gérer bouton précédent
-                 prevStageButton.style.display = 'none'; prevStageButton.disabled = true; const currentStageIndex = stageOrder.indexOf(stageId);
-                 if (currentStageIndex > 1 && currentStageIndex <= stageOrder.indexOf('final-stage')) {
-                    let previousCompletedStageExists = false;
-                    for (let i = currentStageIndex - 1; i >= 1; i--) { const prevStageId = stageOrder[i]; if (gameState.stageResults[prevStageId] && gameState.stageResults[prevStageId].completed) { previousCompletedStageExists = true; break; } }
-                    if (previousCompletedStageExists) { prevStageButton.style.display = 'inline-block'; prevStageButton.disabled = false; }
-                 }
-                 updateProgress(); updateStageDots(); window.scrollTo(0, 0);
-             } else { console.error("Étape non trouvée:", stageId); }
-        }
-
-        function goToPreviousStage() {
-            const currentStageIndex = stageOrder.indexOf(gameState.currentStage); if (currentStageIndex <= 1) return;
-            for (let i = currentStageIndex - 1; i >= 1; i--) { const prevStageId = stageOrder[i]; if (gameState.stageResults[prevStageId] && gameState.stageResults[prevStageId].completed) { showStage(prevStageId); return; } }
-        }
-
-        function updateProgress() {
-             const progressStageOrder = ['intro', 'stage1', 'stage2', 'stage3', 'stage4', 'final-stage', 'success', 'failure']; let currentProgressIndex = progressStageOrder.indexOf(gameState.currentStage);
-             const progressPercentage = (currentProgressIndex / (progressStageOrder.length - 3)) * 100; progressElement.style.width = `${Math.min(100, Math.max(0, progressPercentage))}%`;
-        }
-
-        function updateStageDots() {
-            const mainStages = ['stage1', 'stage2', 'stage3', 'stage4', 'final-stage']; let stageIndex = mainStages.indexOf(gameState.currentStage);
-            if (gameState.currentStage === 'intro') stageIndex = -1; if (gameState.currentStage === 'success' || gameState.currentStage === 'failure') stageIndex = mainStages.length;
-            stageDots.forEach((dot, index) => {
-                dot.classList.remove('active', 'completed'); const dotStageId = mainStages[index];
-                if (index < stageIndex) dot.classList.add('completed'); else if (index === stageIndex) dot.classList.add('active');
-                if(gameState.stageResults[dotStageId] && gameState.stageResults[dotStageId].completed) { dot.classList.remove('active'); dot.classList.add('completed'); }
-            });
-        }
-
-        function handleBackdoor() {
-            const code = prompt("Code spécial ?"); if (code === "SKIP") { skipStage(gameState.currentStage); } else if (code !== null) { alert("Code incorrect."); }
-        }
-
-        function updateFinalStageInfoDisplay() { /* No visual update needed here */ }
-
-        function skipStage(currentStageId) {
-             console.clear(); console.log(`--- SKIP ${currentStageId} ---`); let nextStageId = ''; let infoBoxToShow = null; let updateData = {};
-              if (currentStageId === 'intro') {
-                  if (teamNameGroup) teamNameGroup.style.display = 'none'; if (participantsGroup) participantsGroup.style.display = 'none'; if (startGameButton) startGameButton.style.display = 'none'; if (introTitleElement) introTitleElement.style.display = 'none';
-                  if (!gameState.teamName) { gameState.teamName = "Équipe Spéciale"; teamNameDisplay.textContent = `Équipe: ${gameState.teamName}`; }
-                  if (!gameState.teamId) { gameState.teamId = 'team-' + Date.now() + '-' + Math.random().toString(36).substring(2, 9); }
-                  if (!gameState.startTime) { gameState.startTime = Date.now(); startTimer(); startAlarmFlash(); }
-                  nextStageId = 'stage1'; updateData = { currentStage: nextStageId };
-              } else {
-                  const stageIndex = stageOrder.indexOf(currentStageId);
-                  if (stageIndex >= 1 && stageIndex <= 4) {
-                       if(gameState.stageResults[currentStageId]) {
-                           gameState.stageResults[currentStageId].completed = true; updateData[`stage${stageIndex}_completed`] = true;
-                            switch(currentStageId) {
-                                case 'stage1': gameState.stageResults.stage1.correctItemsCount = 2; break;
-                                case 'stage2': gameState.stageResults.stage2.producerCorrect = true; gameState.stageResults.stage2.obligationsCorrect = true; gameState.stageResults.stage2.keyLetter = 'F'; break;
-                                case 'stage3': gameState.stageResults.stage3.builtSequence = [...correctLogisticsSequence]; gameState.stageResults.stage3.sequenceCorrect = true; break;
-                                case 'stage4': gameState.stageResults.stage4.collectionTarget = '70'; gameState.stageResults.stage4.ecoOrgNatureCorrect = true; gameState.stageResults.stage4.ecoOrgNameCorrect = true; gameState.stageResults.stage4.ecoOrgName = 'CYCLAMED'; break;
-                            }
-                            infoBoxToShow = document.querySelector(`#${currentStageId} .regulatory-info`); if(infoBoxToShow) infoBoxToShow.classList.add('visible');
-                       }
-                  }
-                 switch (currentStageId) {
-                     case 'stage1': nextStageId = 'stage2'; break; case 'stage2': nextStageId = 'stage3'; break; case 'stage3': nextStageId = 'stage4'; break;
-                     case 'stage4':
-                         if (!gameState.stageResults.stage1.correctItemsCount) gameState.stageResults.stage1.correctItemsCount = 2; if (!gameState.stageResults.stage2.keyLetter) gameState.stageResults.stage2.keyLetter = 'F'; if (!gameState.stageResults.stage4.ecoOrgName) gameState.stageResults.stage4.ecoOrgName = 'CYCLAMED'; if (!gameState.stageResults.stage4.collectionTarget) gameState.stageResults.stage4.collectionTarget = '70';
-                         gameState.finalCode = `${gameState.stageResults.stage1.correctItemsCount}${gameState.stageResults.stage4.collectionTarget}10`; gameState.finalPassword = `${gameState.stageResults.stage2.keyLetter}${gameState.stageResults.stage4.ecoOrgName}`;
-                         updateFinalStageInfoDisplay(); nextStageId = 'final-stage'; break;
-                     default: alert("Skip impossible."); return;
-                 }
-                 updateData.currentStage = nextStageId;
-              }
-             setTimeout(() => sendUpdateToSheet(updateData), 100); if(nextStageId) showStage(nextStageId);
-        }
+        // --- Core Stage Display ---
+        function showStage(stageId) { if (gameState.isLocked && stageId !== gameState.nextStageToShow) { console.warn("Affichage étape bloqué par verrouillage."); return; } stages.forEach(stage => stage.classList.remove('active')); const nextStage = document.getElementById(stageId); if (nextStage) { nextStage.classList.add('active'); gameState.currentStage = stageId; prevStageButton.style.display = 'none'; prevStageButton.disabled = true; const currentStageIndex = stageOrder.indexOf(stageId); if (currentStageIndex > 1 && currentStageIndex <= stageOrder.indexOf('final-stage')) { let previousCompletedStageExists = false; for (let i = currentStageIndex - 1; i >= 1; i--) { const prevStageId = stageOrder[i]; if (gameState.stageResults[prevStageId]?.completed) { previousCompletedStageExists = true; break; } } if (previousCompletedStageExists) { prevStageButton.style.display = 'inline-block'; prevStageButton.disabled = false; } } updateProgress(); updateStageDots(); window.scrollTo(0, 0); if (stageId === 'success' || stageId === 'failure') { stopAlarmFlash(); } } else { console.error("Étape non trouvée:", stageId); } }
+        function goToPreviousStage() { if (gameState.isLocked) return; const currentStageIndex = stageOrder.indexOf(gameState.currentStage); if (currentStageIndex <= 1) return; for (let i = currentStageIndex - 1; i >= 1; i--) { const prevStageId = stageOrder[i]; if (gameState.stageResults[prevStageId]?.completed) { showStage(prevStageId); return; } } }
+        function updateProgress() { const progressStageOrder = ['intro', 'stage1', 'stage2', 'stage3', 'stage4', 'final-stage', 'success', 'failure']; let currentProgressIndex = progressStageOrder.indexOf(gameState.currentStage); if (gameState.isLocked && gameState.nextStageToShow) { currentProgressIndex = progressStageOrder.indexOf(gameState.currentStage); /* Reste sur l'étape courante pendant pause */ } const totalSteps = progressStageOrder.length - 3; const progressPercentage = (currentProgressIndex / totalSteps) * 100; progressElement.style.width = `${Math.min(100, Math.max(0, progressPercentage))}%`; }
+        function updateStageDots() { const mainStages = ['stage1', 'stage2', 'stage3', 'stage4', 'final-stage']; let stageIndex = mainStages.indexOf(gameState.currentStage); if (gameState.currentStage === 'intro') stageIndex = -1; if (gameState.currentStage === 'success' || gameState.currentStage === 'failure') stageIndex = mainStages.length; stageDots.forEach((dot, index) => { dot.classList.remove('active', 'completed'); const dotStageId = mainStages[index]; if(gameState.stageResults[dotStageId]?.completed) { dot.classList.add('completed'); } else if (index === stageIndex && !gameState.isLocked && !['intro', 'success', 'failure'].includes(gameState.currentStage)) { dot.classList.add('active'); } else if (gameState.isLocked && index === mainStages.indexOf(gameState.currentStage)) { dot.classList.add('active'); } }); }
+        function handleBackdoor() { const code = prompt("Code spécial ?"); if (code === "SKIP") { skipStage(gameState.currentStage); } else if (code !== null) { alert("Code incorrect."); } }
+        function updateFinalStageInfoDisplay() { /* Pas d'affichage direct des codes */ }
+        function skipStage(currentStageId) { console.clear(); console.log(`--- SKIP ${currentStageId} ---`); let nextStageId = ''; let infoBoxToShow = null; let updateData = {}; clearTimeout(gameState.readingDelayTimeout); if (gameState.isLocked) { console.log("Déverrouillage forcé..."); hideLockScreen(); resumeTimer(); } if (currentStageId === 'intro') { if (teamNameGroup) teamNameGroup.style.display = 'none'; if (participantsGroup) participantsGroup.style.display = 'none'; if (startGameButton) startGameButton.style.display = 'none'; if (introTitleElement) introTitleElement.style.display = 'none'; if (!gameState.teamName) { gameState.teamName = "Équipe Spéciale"; teamNameDisplay.textContent = `Équipe: ${gameState.teamName}`; } if (!gameState.teamId) { gameState.teamId = 'team-' + Date.now() + '-' + Math.random().toString(36).substring(2, 9); } gameState.startTime = Date.now(); resumeTimer(); nextStageId = 'stage1'; updateData = { currentStage: nextStageId }; } else { const stageIndex = stageOrder.indexOf(currentStageId); if (stageIndex >= 1 && stageIndex <= 4) { if(gameState.stageResults[currentStageId]) { gameState.stageResults[currentStageId].completed = true; updateData[`stage${stageIndex}_completed`] = true; addClueToList(currentStageId); switch(currentStageId) { case 'stage1': gameState.stageResults.stage1.correctItemsCount = 2; break; case 'stage2': gameState.stageResults.stage2.producerCorrect = true; gameState.stageResults.stage2.obligationsCorrect = true; gameState.stageResults.stage2.keyLetter = 'F'; break; case 'stage3': gameState.stageResults.stage3.builtSequence = [...correctLogisticsSequence]; gameState.stageResults.stage3.sequenceCorrect = true; break; case 'stage4': gameState.stageResults.stage4.collectionTarget = '70'; gameState.stageResults.stage4.ecoOrgNatureCorrect = true; gameState.stageResults.stage4.ecoOrgNameCorrect = true; gameState.stageResults.stage4.ecoOrgName = 'CYCLAMED'; break; } infoBoxToShow = document.querySelector(`#${currentStageId} .regulatory-info`); if(infoBoxToShow) infoBoxToShow.classList.add('visible'); } } switch (currentStageId) { case 'stage1': nextStageId = 'stage2'; break; case 'stage2': nextStageId = 'stage3'; break; case 'stage3': nextStageId = 'stage4'; break; case 'stage4': if (!gameState.stageResults.stage1.correctItemsCount) gameState.stageResults.stage1.correctItemsCount = 2; if (!gameState.stageResults.stage2.keyLetter) gameState.stageResults.stage2.keyLetter = 'F'; if (!gameState.stageResults.stage4.ecoOrgName) gameState.stageResults.stage4.ecoOrgName = 'CYCLAMED'; if (!gameState.stageResults.stage4.collectionTarget) gameState.stageResults.stage4.collectionTarget = '70'; gameState.finalCode = `${gameState.stageResults.stage1.correctItemsCount}${gameState.stageResults.stage4.collectionTarget}10`; gameState.finalPassword = `${gameState.stageResults.stage2.keyLetter}${gameState.stageResults.stage4.ecoOrgName}`; updateFinalStageInfoDisplay(); nextStageId = 'final-stage'; break; default: alert("Skip impossible."); return; } updateData.currentStage = nextStageId; } setTimeout(() => sendUpdateToSheet(updateData), 100); if(nextStageId) showStage(nextStageId); }
 
         // --- Stage Specific Interactions & Validations ---
-        function initStage1Interactions() { itemsContainer.querySelectorAll('.item').forEach(item => item.addEventListener('click', () => item.classList.toggle('selected'))); document.getElementById('cyclamed-zone').addEventListener('click', (e) => { if(e.target.classList.contains('dropped-item')) e.target.remove(); else if (e.target.closest('.drop-zone')) moveSelectedItemsToZone(cyclamedZone, excludedZone); }); document.getElementById('excluded-zone').addEventListener('click', (e) => { if(e.target.classList.contains('dropped-item')) e.target.remove(); else if (e.target.closest('.drop-zone')) moveSelectedItemsToZone(excludedZone, cyclamedZone); }); }
-        function moveSelectedItemsToZone(targetZone, otherZone) { itemsContainer.querySelectorAll('.item.selected').forEach(item => { const itemId=item.dataset.item, itemText=item.querySelector('p').textContent; const existingOther = otherZone.querySelector(`.dropped-item[data-item="${itemId}"]`); if(existingOther) existingOther.remove(); if (!targetZone.querySelector(`.dropped-item[data-item="${itemId}"]`)) { const dropped = document.createElement('div'); dropped.className='dropped-item'; dropped.dataset.item=itemId; dropped.textContent=itemText; dropped.addEventListener('click', ()=>dropped.remove()); targetZone.appendChild(dropped); } item.classList.remove('selected'); }); }
-        function validateStage1() { /* ... validation logic ... */ if(gameState.stageResults.stage1.completed) return; const droppedC = Array.from(cyclamedZone.querySelectorAll('.dropped-item')).map(el => el.dataset.item); const droppedE = Array.from(excludedZone.querySelectorAll('.dropped-item')).map(el => el.dataset.item); const allCount = droppedC.length + droppedE.length; const totalOrig = itemsContainer.querySelectorAll('.item').length; const correctC = ['medicament-plein', 'medicament-entame']; const allOrigData = Array.from(itemsContainer.querySelectorAll('.item')).map(el => el.dataset.item); const correctE = allOrigData.filter(i => !correctC.includes(i)); let errors = []; if (allCount < totalOrig) errors.push(`Tri incomplet (${totalOrig - allCount} restants).`); let correctCFound = 0; droppedC.forEach(i => { if (correctC.includes(i)) correctCFound++; else errors.push(`"${itemsContainer.querySelector(`.item[data-item='${i}'] p`).textContent}" incorrect dans ✅ MNU.`); }); if (correctCFound !== correctC.length && allCount === totalOrig) errors.push(`Manque ${correctC.length - correctCFound} item(s) dans ✅ MNU.`); let correctEFound = 0; droppedE.forEach(i => { if (correctE.includes(i)) correctEFound++; else errors.push(`"${itemsContainer.querySelector(`.item[data-item='${i}'] p`).textContent}" incorrect dans ❌ Exclus.`); }); if (correctEFound !== correctE.length && allCount === totalOrig) errors.push(`Manque ${correctE.length - correctEFound} item(s) dans ❌ Exclus.`); if (errors.length === 0) { gameState.stageResults.stage1.correctItemsCount = correctC.length; stage1Feedback.textContent = `Bravo ! Tri parfait (${correctC.length} MNU).`; stage1Feedback.className = 'feedback success'; stage1Feedback.style.display = 'block'; gameState.stageResults.stage1.completed = true; document.querySelector('#stage1 .regulatory-info')?.classList.add('visible'); validateStage1Button.style.display = 'none'; nextStageContainer1.style.display = 'block'; sendUpdateToSheet({ stage1_completed: true }); nextStageBtn1.disabled = false; } else { stage1Feedback.textContent = `Erreurs : ${errors.join(' ')}`; stage1Feedback.className = 'feedback error'; stage1Feedback.style.display = 'block'; } }
-        function initCardSelection() { document.querySelectorAll('.card-container').forEach(cont => { if (cont.id === 'available-logistics-steps') return; const multi = cont.id === 'obligation-cards'; cont.querySelectorAll('.card').forEach(card => card.addEventListener('click', () => { const stageId = card.closest('.stage')?.id; if (stageId && gameState.stageResults[stageId]?.completed) return; if (!multi) { cont.querySelectorAll('.card').forEach(c => c.classList.remove('selected')); card.classList.add('selected'); } else { card.classList.toggle('selected'); } })); }); }
-        function validateStage2() { /* ... validation logic ... */ if(gameState.stageResults.stage2.completed) return; const selP = producerCardsContainer.querySelector('.card.selected'); const selO = Array.from(obligationCardsContainer.querySelectorAll('.card.selected')).map(c => c.dataset.card); const correctP = 'exploitant'; const correctO = ['financer', 'adherer', 'eco-concevoir']; let pOk = selP?.dataset.card === correctP; let oOk = selO.length === correctO.length && correctO.every(ob => selO.includes(ob)); gameState.stageResults.stage2.producerCorrect=pOk; gameState.stageResults.stage2.obligationsCorrect=oOk; if (pOk && oOk) { gameState.stageResults.stage2.keyLetter = 'F'; stage2Feedback.textContent = `Excellent ! Producteur (Exploitant) et obligations (Financer, Adhérer, Éco-concevoir) identifiés. Lettre clé: "${gameState.stageResults.stage2.keyLetter}".`; stage2Feedback.className = 'feedback success'; stage2Feedback.style.display = 'block'; gameState.stageResults.stage2.completed = true; document.querySelector('#stage2 .regulatory-info')?.classList.add('visible'); validateStage2Button.style.display = 'none'; producerCardsContainer.querySelectorAll('.card').forEach(c => c.style.pointerEvents = 'none'); obligationCardsContainer.querySelectorAll('.card').forEach(c => c.style.pointerEvents = 'none'); nextStageContainer2.style.display = 'block'; sendUpdateToSheet({ stage2_completed: true }); nextStageBtn2.disabled = false; } else { let fb = 'Vérifiez. '; if (!pOk) fb += 'Producteur incorrect. '; if (!oOk) fb += 'Obligations incorrectes/incomplètes.'; stage2Feedback.textContent = fb; stage2Feedback.className = 'feedback error'; stage2Feedback.style.display = 'block'; } }
-        function initStage3CardClicks() { if (availableLogisticsStepsContainer) { availableLogisticsStepsContainer.addEventListener('click', function(event) { const clickedCard = event.target.closest('.card'); if (clickedCard && gameState.currentStage === 'stage3' && !gameState.stageResults.stage3.completed) { const stepId = clickedCard.dataset.stepId; if (stepId && !gameState.stageResults.stage3.builtSequence.includes(stepId)) addStepToSequence(stepId); } }); } }
-        function addStepToSequence(stepId) { if (gameState.stageResults.stage3.completed) return; gameState.stageResults.stage3.builtSequence.push(stepId); const cardElement = availableLogisticsStepsContainer.querySelector(`.card[data-step-id='${stepId}']`); if (cardElement) cardElement.classList.add('step-in-sequence'); updateBuiltSequenceDisplay(); }
-        function removeStepFromSequence(stepId) { if (gameState.stageResults.stage3.completed) return; gameState.stageResults.stage3.builtSequence = gameState.stageResults.stage3.builtSequence.filter(id => id !== stepId); const cardElement = availableLogisticsStepsContainer.querySelector(`.card[data-step-id='${stepId}']`); if (cardElement) cardElement.classList.remove('step-in-sequence'); updateBuiltSequenceDisplay(); }
-        function clearBuiltSequence() { if (gameState.stageResults.stage3.completed) return; availableLogisticsStepsContainer.querySelectorAll('.card.step-in-sequence').forEach(card => card.classList.remove('step-in-sequence')); gameState.stageResults.stage3.builtSequence = []; updateBuiltSequenceDisplay(); stage3Feedback.style.display = 'none'; stage3Feedback.textContent = ''; stage3Feedback.className = 'feedback'; }
-        function updateBuiltSequenceDisplay() { if (!builtSequenceList) return; builtSequenceList.innerHTML = ''; gameState.stageResults.stage3.builtSequence.forEach((stepId) => { const listItem = document.createElement('li'); const card = availableLogisticsStepsContainer.querySelector(`.card[data-step-id='${stepId}']`); listItem.textContent = card ? card.textContent : stepId; listItem.style.cursor = 'pointer'; listItem.title = "Retirer"; listItem.addEventListener('click', () => removeStepFromSequence(stepId)); listItem.classList.add('step-selected'); builtSequenceList.appendChild(listItem); }); if (validateStage3Button) validateStage3Button.disabled = gameState.stageResults.stage3.builtSequence.length === 0 || gameState.stageResults.stage3.completed; if (clearSequenceButton) clearSequenceButton.disabled = gameState.stageResults.stage3.builtSequence.length === 0 || gameState.stageResults.stage3.completed; }
-        function shuffleAvailableLogisticsSteps() { const container = availableLogisticsStepsContainer; if (!container) return; const cards = Array.from(container.querySelectorAll('.card')); for (let i = cards.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [cards[i], cards[j]] = [cards[j], cards[i]]; } container.innerHTML = ''; cards.forEach(card => container.appendChild(card)); }
-        function validateStage3() { /* ... validation logic ... */ if(gameState.stageResults.stage3.completed) return; const builtSequence = gameState.stageResults.stage3.builtSequence; let sequenceIsCorrect = false; if (builtSequence.length === correctLogisticsSequence.length) sequenceIsCorrect = builtSequence.every((step, index) => step === correctLogisticsSequence[index]); gameState.stageResults.stage3.sequenceCorrect = sequenceIsCorrect; if (sequenceIsCorrect) { stage3Feedback.textContent = 'Parfait ! Séquence correcte. Article L.541-10 C. Env. est clé.'; stage3Feedback.className = 'feedback success'; stage3Feedback.style.display = 'block'; gameState.stageResults.stage3.completed = true; document.querySelector('#stage3 .regulatory-info')?.classList.add('visible'); validateStage3Button.disabled = true; clearSequenceButton.disabled = true; if (availableLogisticsStepsContainer) availableLogisticsStepsContainer.style.pointerEvents = 'none'; if (builtSequenceList) builtSequenceList.style.pointerEvents = 'none'; nextStageContainer3.style.display = 'block'; sendUpdateToSheet({ stage3_completed: true }); nextStageBtn3.disabled = false; } else { stage3Feedback.textContent = "Incorrect. Vérifiez la séquence."; stage3Feedback.className = 'feedback error'; stage3Feedback.style.display = 'block'; } }
-        function validateStage4() { /* ... validation logic ... */ if(gameState.stageResults.stage4.completed) return; const tgt=collectionTargetContainer.querySelector('.card.selected'); const nat=ecoOrgNatureContainer.querySelector('.card.selected'); const name=ecoOrgNameInput.value.trim().toUpperCase(); const correctTgt='70'; const correctNat='non-lucratif'; const correctName='CYCLAMED'; let tgtOk=tgt?.dataset.target===correctTgt; let natOk=nat?.dataset.nature===correctNat; let nameOk=name===correctName; gameState.stageResults.stage4.collectionTarget=tgtOk?correctTgt:''; gameState.stageResults.stage4.ecoOrgNatureCorrect=natOk; gameState.stageResults.stage4.ecoOrgNameCorrect=nameOk; gameState.stageResults.stage4.ecoOrgName = (tgtOk && natOk && nameOk) ? correctName : ''; if(tgtOk && natOk && nameOk){ stage4Feedback.textContent = `Excellent ! Objectif ${correctTgt}%, Statut non lucratif, Nom ${correctName}.`; stage4Feedback.className = 'feedback success'; stage4Feedback.style.display = 'block'; gameState.stageResults.stage4.completed=true; document.querySelector('#stage4 .regulatory-info')?.classList.add('visible'); validateStage4Button.style.display = 'none'; collectionTargetContainer.querySelectorAll('.card').forEach(c => c.style.pointerEvents = 'none'); ecoOrgNatureContainer.querySelectorAll('.card').forEach(c => c.style.pointerEvents = 'none'); ecoOrgNameInput.disabled = true; if(gameState.stageResults.stage1.correctItemsCount > 0 && gameState.stageResults.stage2.keyLetter){ gameState.finalCode=`${gameState.stageResults.stage1.correctItemsCount}${correctTgt}10`; gameState.finalPassword=`${gameState.stageResults.stage2.keyLetter}${correctName}`; updateFinalStageInfoDisplay(); nextStageContainer4.style.display = 'block'; sendUpdateToSheet({ stage4_completed: true }); nextStageBtn4.disabled = false; } else { stage4Feedback.textContent += "\nErreur interne: Données manquantes."; stage4Feedback.className = 'feedback error'; } } else { let fb='Vérifiez. '; if(!tgtOk) fb+='Objectif incorrect. '; if(!natOk) fb+='Statut incorrect. '; if(!nameOk) fb+='Nom incorrect.'; stage4Feedback.textContent=fb; stage4Feedback.className='feedback error'; stage4Feedback.style.display='block'; } }
-        function validateFinal() { /* ... validation logic + green flash ... */
-            const code = finalCodeInput.value.trim(); const pwd = finalPasswordInput.value.trim().toUpperCase();
-            if (!gameState.finalCode || !gameState.finalPassword) { finalFeedback.textContent = 'Erreur: Codes finaux non générés.'; finalFeedback.className = 'feedback error'; finalFeedback.style.display = 'block'; /* Attempt recalculate */ if (gameState.stageResults.stage1.correctItemsCount > 0 && gameState.stageResults.stage4.collectionTarget && gameState.stageResults.stage2.keyLetter && gameState.stageResults.stage4.ecoOrgName) { gameState.finalCode = `${gameState.stageResults.stage1.correctItemsCount}${gameState.stageResults.stage4.collectionTarget}10`; gameState.finalPassword = `${gameState.stageResults.stage2.keyLetter}${gameState.stageResults.stage4.ecoOrgName}`; updateFinalStageInfoDisplay(); finalFeedback.textContent += ' (Recalculé, réessayez.)'; } return; }
-             if (code === gameState.finalCode && pwd === gameState.finalPassword) {
-                 finalFeedback.textContent = 'Accès autorisé ! Système restauré !'; finalFeedback.className = 'feedback success'; finalFeedback.style.display = 'block';
-                 stopAlarmFlash(); clearInterval(gameState.timerInterval); clearInterval(periodicUpdateInterval);
-                 // --- Flash Vert de Succès ---
-                 if (alarmOverlay) {
-                     alarmOverlay.style.backgroundColor = 'rgba(42, 157, 143, 0.6)'; alarmOverlay.style.opacity = '1';
-                     setTimeout(() => { alarmOverlay.style.opacity = '0'; alarmOverlay.style.backgroundColor = 'rgba(230, 57, 70, 0.6)'; }, 500); // Durée flash vert
-                 } // --- Fin Flash Vert ---
-                 const timeE = gameState.totalGameTime - gameState.timeRemaining; const minT = Math.floor(timeE / (60 * 1000)); const secT = Math.floor((timeE % (60 * 1000)) / 1000); if(timeTakenDisplay) timeTakenDisplay.textContent = `${minT} min ${secT} sec`;
-                 setTimeout(() => { sendUpdateToSheet({ currentStage: 'success', status: 'Terminé', finalCodeAttempt: code, finalPasswordAttempt: pwd }); }, 50);
-                 setTimeout(() => {
-                     teamNameDisplayCert.textContent = gameState.teamName; timeRemainingDisplay.textContent = timerElement.textContent;
-                     if (participantListCert) { participantListCert.innerHTML = ''; if (gameState.participants.length > 0) { gameState.participants.forEach(name => { const li = document.createElement('li'); li.textContent = name; participantListCert.appendChild(li); }); document.getElementById('participants-section-cert').style.display = 'block'; } else { document.getElementById('participants-section-cert').style.display = 'none'; } }
-                     showStage('success');
-                 }, 1500); // Délai pour voir flash vert
-             } else { finalFeedback.textContent = 'Accès refusé. Code/Mdp incorrect.'; finalFeedback.className = 'feedback error'; finalFeedback.style.display = 'block'; sendUpdateToSheet({ finalCodeAttempt: code, finalPasswordAttempt: pwd, status: 'Tentative finale échouée' }); }
+        function initStage1Interactions() { itemsContainer.querySelectorAll('.item').forEach(item => item.addEventListener('click', () => {if(!gameState.isLocked && !gameState.stageResults.stage1.completed) item.classList.toggle('selected');})); document.getElementById('cyclamed-zone').addEventListener('click', (e) => {if(gameState.isLocked || gameState.stageResults.stage1.completed) return; if(e.target.classList.contains('dropped-item')) e.target.remove(); else if (e.target.closest('.drop-zone')) moveSelectedItemsToZone(cyclamedZone, excludedZone); }); document.getElementById('excluded-zone').addEventListener('click', (e) => {if(gameState.isLocked || gameState.stageResults.stage1.completed) return; if(e.target.classList.contains('dropped-item')) e.target.remove(); else if (e.target.closest('.drop-zone')) moveSelectedItemsToZone(excludedZone, cyclamedZone); }); }
+        function moveSelectedItemsToZone(targetZone, otherZone) { itemsContainer.querySelectorAll('.item.selected').forEach(item => { const itemId=item.dataset.item, itemText=item.querySelector('p').textContent; const existingOther = otherZone.querySelector(`.dropped-item[data-item="${itemId}"]`); if(existingOther) existingOther.remove(); if (!targetZone.querySelector(`.dropped-item[data-item="${itemId}"]`)) { const dropped = document.createElement('div'); dropped.className='dropped-item'; dropped.dataset.item=itemId; dropped.textContent=itemText; dropped.addEventListener('click', ()=> {if(!gameState.isLocked && !gameState.stageResults.stage1.completed) dropped.remove()}); targetZone.appendChild(dropped); } item.classList.remove('selected'); }); }
+        function validateStage1() {
+            if(gameState.stageResults.stage1.completed || gameState.isLocked) return;
+            const droppedC = Array.from(cyclamedZone.querySelectorAll('.dropped-item')).map(el => el.dataset.item); const droppedE = Array.from(excludedZone.querySelectorAll('.dropped-item')).map(el => el.dataset.item); const allCount = droppedC.length + droppedE.length; const totalOrig = itemsContainer.querySelectorAll('.item').length; const correctC = ['medicament-plein', 'medicament-entame']; const allOrigData = Array.from(itemsContainer.querySelectorAll('.item')).map(el => el.dataset.item); const correctE = allOrigData.filter(i => !correctC.includes(i)); let errors = []; if (allCount < totalOrig) errors.push(`Tri incomplet (${totalOrig - allCount} restants).`); let correctCFound = 0; droppedC.forEach(i => { if (correctC.includes(i)) correctCFound++; else errors.push(`"${itemsContainer.querySelector(`.item[data-item='${i}'] p`).textContent}" incorrect dans ✅ MNU.`); }); if (correctCFound !== correctC.length && allCount === totalOrig) errors.push(`Manque ${correctC.length - correctCFound} item(s) dans ✅ MNU.`); let correctEFound = 0; droppedE.forEach(i => { if (correctE.includes(i)) correctEFound++; else errors.push(`"${itemsContainer.querySelector(`.item[data-item='${i}'] p`).textContent}" incorrect dans ❌ Exclus.`); }); if (correctEFound !== correctE.length && allCount === totalOrig) errors.push(`Manque ${correctE.length - correctEFound} item(s) dans ❌ Exclus.`);
+            if (errors.length === 0) {
+                gameState.stageResults.stage1.correctItemsCount = correctC.length;
+                stage1Feedback.innerHTML = `Bravo ! Tri parfait (${correctC.length} MNU).<br>Consultez les textes (30s). Le chrono est en pause.<br>(Nouvel indice ajouté pour l'énigme finale)`;
+                stage1Feedback.className = 'feedback success'; stage1Feedback.style.display = 'block';
+                document.querySelector('#stage1 .regulatory-info')?.classList.add('visible'); validateStage1Button.disabled = true; addClueToList('stage1');
+                pauseTimer(); // PAUSE IMMÉDIATE
+                clearTimeout(gameState.readingDelayTimeout); gameState.readingDelayTimeout = setTimeout(() => { showLockScreen('stage2', stagePasswords.stage1, () => { gameState.stageResults.stage1.completed = true; }); }, 30000);
+            } else { stage1Feedback.textContent = `Erreurs : ${errors.join(' ')}`; stage1Feedback.className = 'feedback error'; stage1Feedback.style.display = 'block'; }
         }
+        function initCardSelection() { document.querySelectorAll('.card-container').forEach(cont => { if (cont.id === 'available-logistics-steps') return; const multi = cont.id === 'obligation-cards'; cont.querySelectorAll('.card').forEach(card => card.addEventListener('click', () => { const stageId = card.closest('.stage')?.id; if (gameState.isLocked || (stageId && gameState.stageResults[stageId]?.completed)) return; if (!multi) { cont.querySelectorAll('.card').forEach(c => c.classList.remove('selected')); card.classList.add('selected'); } else { card.classList.toggle('selected'); } })); }); }
+        function validateStage2() {
+            if(gameState.stageResults.stage2.completed || gameState.isLocked) return;
+            const selP = producerCardsContainer.querySelector('.card.selected'); const selO = Array.from(obligationCardsContainer.querySelectorAll('.card.selected')).map(c => c.dataset.card); const correctP = 'exploitant'; const correctO = ['financer', 'adherer', 'eco-concevoir']; let pOk = selP?.dataset.card === correctP; let oOk = selO.length === correctO.length && correctO.every(ob => selO.includes(ob));
+            if (pOk && oOk) {
+                gameState.stageResults.stage2.keyLetter = 'F'; gameState.stageResults.stage2.producerCorrect = true; gameState.stageResults.stage2.obligationsCorrect = true;
+                stage2Feedback.innerHTML = `Excellent ! Responsabilités comprises.<br>Consultez les textes (30s). Le chrono est en pause.<br>(Nouvel indice ajouté pour l'énigme finale)`;
+                stage2Feedback.className = 'feedback success'; stage2Feedback.style.display = 'block';
+                document.querySelector('#stage2 .regulatory-info')?.classList.add('visible'); validateStage2Button.disabled = true; producerCardsContainer.querySelectorAll('.card').forEach(c => c.style.pointerEvents = 'none'); obligationCardsContainer.querySelectorAll('.card').forEach(c => c.style.pointerEvents = 'none'); addClueToList('stage2');
+                pauseTimer(); // PAUSE IMMÉDIATE
+                clearTimeout(gameState.readingDelayTimeout); gameState.readingDelayTimeout = setTimeout(() => { showLockScreen('stage3', stagePasswords.stage2, () => { gameState.stageResults.stage2.completed = true; }); }, 30000);
+            } else { let fb = 'Vérifiez. '; if (!pOk) fb += 'Producteur incorrect. '; if (!oOk) fb += 'Obligations incorrectes.'; stage2Feedback.textContent = fb; stage2Feedback.className = 'feedback error'; stage2Feedback.style.display = 'block'; }
+        }
+        function initStage3CardClicks() { if (availableLogisticsStepsContainer) { availableLogisticsStepsContainer.addEventListener('click', function(event) { const clickedCard = event.target.closest('.card'); if (clickedCard && gameState.currentStage === 'stage3' && !gameState.stageResults.stage3.completed && !gameState.isLocked) { const stepId = clickedCard.dataset.stepId; if (stepId && !gameState.stageResults.stage3.builtSequence.includes(stepId)) addStepToSequence(stepId); } }); } }
+        function addStepToSequence(stepId) { if (gameState.stageResults.stage3.completed || gameState.isLocked) return; gameState.stageResults.stage3.builtSequence.push(stepId); const cardElement = availableLogisticsStepsContainer.querySelector(`.card[data-step-id='${stepId}']`); if (cardElement) cardElement.classList.add('step-in-sequence'); updateBuiltSequenceDisplay(); }
+        function removeStepFromSequence(stepId) { if (gameState.stageResults.stage3.completed || gameState.isLocked) return; gameState.stageResults.stage3.builtSequence = gameState.stageResults.stage3.builtSequence.filter(id => id !== stepId); const cardElement = availableLogisticsStepsContainer.querySelector(`.card[data-step-id='${stepId}']`); if (cardElement) cardElement.classList.remove('step-in-sequence'); updateBuiltSequenceDisplay(); }
+        function clearBuiltSequence() { if (gameState.stageResults.stage3.completed || gameState.isLocked) return; availableLogisticsStepsContainer.querySelectorAll('.card.step-in-sequence').forEach(card => card.classList.remove('step-in-sequence')); gameState.stageResults.stage3.builtSequence = []; updateBuiltSequenceDisplay(); stage3Feedback.style.display = 'none'; stage3Feedback.textContent = ''; stage3Feedback.className = 'feedback'; }
+        function updateBuiltSequenceDisplay() { if (!builtSequenceList) return; builtSequenceList.innerHTML = ''; gameState.stageResults.stage3.builtSequence.forEach((stepId, index) => { const listItem = document.createElement('li'); const card = availableLogisticsStepsContainer.querySelector(`.card[data-step-id='${stepId}']`); listItem.textContent = card ? card.textContent : stepId; listItem.style.cursor = 'pointer'; listItem.title = "Retirer"; listItem.addEventListener('click', () => removeStepFromSequence(stepId)); builtSequenceList.appendChild(listItem); }); if (validateStage3Button) validateStage3Button.disabled = gameState.stageResults.stage3.builtSequence.length === 0 || gameState.stageResults.stage3.completed || gameState.isLocked; if (clearSequenceButton) clearSequenceButton.disabled = gameState.stageResults.stage3.builtSequence.length === 0 || gameState.stageResults.stage3.completed || gameState.isLocked; }
+        function shuffleAvailableLogisticsSteps() { const container = availableLogisticsStepsContainer; if (!container) return; const cards = Array.from(container.querySelectorAll('.card')); for (let i = cards.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [cards[i], cards[j]] = [cards[j], cards[i]]; } container.innerHTML = ''; cards.forEach(card => container.appendChild(card)); }
+        function validateStage3() {
+             if(gameState.stageResults.stage3.completed || gameState.isLocked) return; const builtSequence = gameState.stageResults.stage3.builtSequence; let sequenceIsCorrect = false; if (builtSequence.length === correctLogisticsSequence.length) sequenceIsCorrect = builtSequence.every((step, index) => step === correctLogisticsSequence[index]);
+             if (sequenceIsCorrect) {
+                 gameState.stageResults.stage3.sequenceCorrect = true;
+                 stage3Feedback.innerHTML = `Parfait ! Séquence correcte.<br>Consultez les textes (30s). Le chrono est en pause.<br>(Nouvel indice ajouté pour l'énigme finale)`;
+                 stage3Feedback.className = 'feedback success'; stage3Feedback.style.display = 'block';
+                 document.querySelector('#stage3 .regulatory-info')?.classList.add('visible'); validateStage3Button.disabled = true; clearSequenceButton.disabled = true; if (availableLogisticsStepsContainer) availableLogisticsStepsContainer.style.pointerEvents = 'none'; if (builtSequenceList) builtSequenceList.style.pointerEvents = 'none'; addClueToList('stage3');
+                 pauseTimer(); // PAUSE IMMÉDIATE
+                 clearTimeout(gameState.readingDelayTimeout); gameState.readingDelayTimeout = setTimeout(() => { showLockScreen('stage4', stagePasswords.stage3, () => { gameState.stageResults.stage3.completed = true; }); }, 30000);
+             } else {
+                stage3Feedback.textContent = "Incorrect. Vérifiez la séquence."; stage3Feedback.className = 'feedback error'; stage3Feedback.style.display = 'block';
+             }
+        }
+        function validateStage4() {
+             if(gameState.stageResults.stage4.completed || gameState.isLocked) return; const tgt=collectionTargetContainer.querySelector('.card.selected'); const nat=ecoOrgNatureContainer.querySelector('.card.selected'); const name=ecoOrgNameInput.value.trim().toUpperCase(); const correctTgt='70'; const correctNat='non-lucratif'; const correctName='CYCLAMED'; let tgtOk=tgt?.dataset.target===correctTgt; let natOk=nat?.dataset.nature===correctNat; let nameOk=name===correctName;
+             if(tgtOk && natOk && nameOk){
+                 gameState.stageResults.stage4.collectionTarget = correctTgt; gameState.stageResults.stage4.ecoOrgNatureCorrect = true; gameState.stageResults.stage4.ecoOrgNameCorrect = true; gameState.stageResults.stage4.ecoOrgName = correctName;
+                 stage4Feedback.innerHTML = `Excellent ! Infos clés trouvées.<br>Consultez les textes (30s). Le chrono est en pause.<br>(Nouvel indice ajouté pour l'énigme finale)`;
+                 stage4Feedback.className = 'feedback success'; stage4Feedback.style.display = 'block';
+                 document.querySelector('#stage4 .regulatory-info')?.classList.add('visible'); validateStage4Button.disabled = true; collectionTargetContainer.querySelectorAll('.card').forEach(c => c.style.pointerEvents = 'none'); ecoOrgNatureContainer.querySelectorAll('.card').forEach(c => c.style.pointerEvents = 'none'); ecoOrgNameInput.disabled = true; addClueToList('stage4');
+                 if(gameState.stageResults.stage1.correctItemsCount > 0 && gameState.stageResults.stage2.keyLetter){
+                     gameState.finalCode = `${gameState.stageResults.stage1.correctItemsCount}${gameState.stageResults.stage4.collectionTarget}10`; gameState.finalPassword = `${gameState.stageResults.stage2.keyLetter}${gameState.stageResults.stage4.ecoOrgName}`; updateFinalStageInfoDisplay();
+                     pauseTimer(); // PAUSE IMMÉDIATE
+                     clearTimeout(gameState.readingDelayTimeout); gameState.readingDelayTimeout = setTimeout(() => { showLockScreen('final-stage', stagePasswords.stage4, () => { gameState.stageResults.stage4.completed = true; }); }, 30000);
+                 } else { stage4Feedback.textContent += "\nErreur interne: Données manquantes."; stage4Feedback.className = 'feedback error'; }
+             } else { let fb='Vérifiez. '; if(!tgtOk) fb+='Objectif incorrect. '; if(!natOk) fb+='Statut incorrect. '; if(!nameOk) fb+='Nom incorrect.'; stage4Feedback.textContent=fb; stage4Feedback.className='feedback error'; stage4Feedback.style.display='block'; }
+        }
+        function validateFinal() { if (gameState.isLocked) return; const code = finalCodeInput.value.trim(); const pwd = finalPasswordInput.value.trim().toUpperCase(); if (!gameState.finalCode || !gameState.finalPassword) { finalFeedback.textContent = 'Erreur: Codes finaux non générés.'; finalFeedback.className = 'feedback error'; finalFeedback.style.display = 'block'; if (gameState.stageResults.stage1.correctItemsCount > 0 && gameState.stageResults.stage4.collectionTarget && gameState.stageResults.stage2.keyLetter && gameState.stageResults.stage4.ecoOrgName) { gameState.finalCode = `${gameState.stageResults.stage1.correctItemsCount}${gameState.stageResults.stage4.collectionTarget}10`; gameState.finalPassword = `${gameState.stageResults.stage2.keyLetter}${gameState.stageResults.stage4.ecoOrgName}`; updateFinalStageInfoDisplay(); finalFeedback.textContent += ' (Recalculé, réessayez.)'; } return; } if (code === gameState.finalCode && pwd === gameState.finalPassword) { finalFeedback.textContent = 'Accès autorisé ! Système restauré !'; finalFeedback.className = 'feedback success'; finalFeedback.style.display = 'block'; validateFinalButton.disabled = true; stopAlarmFlash(); clearInterval(gameState.timerInterval); clearInterval(gameState.periodicUpdateInterval); if (alarmOverlay) { alarmOverlay.style.backgroundColor = 'rgba(42, 157, 143, 0.6)'; alarmOverlay.style.opacity = '1'; setTimeout(() => { alarmOverlay.style.opacity = '0'; alarmOverlay.style.backgroundColor = 'rgba(230, 57, 70, 0.6)'; }, 500); } const timeE = gameState.totalGameTime - (gameState.timeRemainingOnPause ?? gameState.timeRemaining); const minT = Math.floor(timeE / (60 * 1000)); const secT = Math.floor((timeE % (60 * 1000)) / 1000); if(timeTakenDisplay) timeTakenDisplay.textContent = `${minT} min ${secT} sec`; setTimeout(() => { sendUpdateToSheet({ currentStage: 'success', status: 'Terminé', finalCodeAttempt: code, finalPasswordAttempt: pwd }); }, 50); setTimeout(() => { teamNameDisplayCert.textContent = gameState.teamName; timeRemainingDisplay.textContent = timerElement.textContent === "PAUSE" ? "N/A" : timerElement.textContent; if (participantListCert) { participantListCert.innerHTML = ''; if (gameState.participants.length > 0) { gameState.participants.forEach(name => { const li = document.createElement('li'); li.textContent = name; participantListCert.appendChild(li); }); document.getElementById('participants-section-cert').style.display = 'block'; } else { document.getElementById('participants-section-cert').style.display = 'none'; } } showStage('success'); }, 1500); } else { finalFeedback.textContent = 'Accès refusé. Code/Mdp incorrect.'; finalFeedback.className = 'feedback error'; finalFeedback.style.display = 'block'; sendUpdateToSheet({ finalCodeAttempt: code, finalPasswordAttempt: pwd, status: 'Tentative finale échouée' }); } }
 
         // --- Game Reset ---
         function resetGame() {
+            clearTimeout(gameState.readingDelayTimeout); gameState.collectedClues = []; updateClueListDisplay();
             gameState.teamName=''; gameState.teamId = null; gameState.participants = []; gameState.startTime=null; gameState.timeRemaining=gameState.totalGameTime;
-            stopAlarmFlash(); clearInterval(gameState.timerInterval); clearInterval(periodicUpdateInterval); gameState.currentStage='intro';
+            gameState.isLocked = false; gameState.timeRemainingOnPause = null; gameState.nextStageToShow = null; gameState.currentLockPassword = null; gameState.currentStageCompletedFlag = null;
+            stopAlarmFlash(); clearInterval(gameState.timerInterval); clearInterval(gameState.periodicUpdateInterval); gameState.currentStage='intro';
             gameState.stageResults = { stage1: { completed: false, correctItemsCount: 0 }, stage2: { completed: false, producerCorrect: false, obligationsCorrect: false, keyLetter: '' }, stage3: { completed: false, builtSequence: [], sequenceCorrect: false }, stage4: { completed: false, collectionTarget: '', ecoOrgNatureCorrect: false, ecoOrgNameCorrect: false, ecoOrgName: '' } }; gameState.finalCode=''; gameState.finalPassword='';
             if (introTitleElement) introTitleElement.style.display = ''; if (teamNameGroup) teamNameGroup.style.display = ''; if (participantsGroup) participantsGroup.style.display = ''; if (startGameButton) startGameButton.style.display = '';
             teamNameInput.value=''; participantNamesInput.value = ''; teamNameDisplay.textContent='Équipe: Non définie'; finalCodeInput.value=''; finalPasswordInput.value=''; ecoOrgNameInput.value='';
             document.querySelectorAll('.feedback').forEach(el=>{ el.textContent=''; el.style.display='none'; el.className='feedback'; }); document.querySelectorAll('.card.selected, .item.selected').forEach(el=>el.classList.remove('selected')); if (availableLogisticsStepsContainer) { availableLogisticsStepsContainer.querySelectorAll('.card.step-in-sequence').forEach(card => { card.classList.remove('step-in-sequence'); }); }
             cyclamedZone.innerHTML=''; excludedZone.innerHTML=''; clearBuiltSequence(); shuffleAvailableLogisticsSteps(); document.querySelectorAll('.regulatory-info').forEach(box => box.classList.remove('visible'));
-             [validateStage1Button, validateStage2Button, validateStage3Button, validateStage4Button].forEach(btn => { if(btn){ btn.style.display = 'inline-block'; btn.disabled = false; } }); if (validateStage3Button) validateStage3Button.disabled = true; ecoOrgNameInput.disabled = false;
-             [producerCardsContainer, obligationCardsContainer, collectionTargetContainer, ecoOrgNatureContainer, availableLogisticsStepsContainer, builtSequenceList].forEach(container => { if (container) { container.style.pointerEvents = 'auto'; if (container.querySelectorAll) { container.querySelectorAll('.card').forEach(c => c.style.pointerEvents = 'auto'); } } });
-             [nextStageContainer1, nextStageContainer2, nextStageContainer3, nextStageContainer4].forEach(cont => { if(cont) cont.style.display = 'none'; }); [nextStageBtn1, nextStageBtn2, nextStageBtn3, nextStageBtn4].forEach(btn => { if(btn){ btn.disabled = true; }});
+            [validateStage1Button, validateStage2Button, validateStage3Button, validateStage4Button, validateFinalButton].forEach(btn => { if(btn){ btn.style.display = 'inline-block'; btn.disabled = false; } }); if (validateStage3Button) validateStage3Button.disabled = true; if (clearSequenceButton) clearSequenceButton.disabled = true; ecoOrgNameInput.disabled = false;
+            [producerCardsContainer, obligationCardsContainer, collectionTargetContainer, ecoOrgNatureContainer, availableLogisticsStepsContainer, builtSequenceList].forEach(container => { if (container) { container.style.pointerEvents = 'auto'; if (container.querySelectorAll) { container.querySelectorAll('.card').forEach(c => c.style.pointerEvents = 'auto'); } } });
             if (participantListCert) { participantListCert.innerHTML = ''; document.getElementById('participants-section-cert').style.display = 'none';} prevStageButton.style.display = 'none'; prevStageButton.disabled = true;
-            updateFinalStageInfoDisplay(); resetTimerDisplay(); updateProgress(); updateStageDots(); showStage('intro');
+            hideStartMissionLock(); hideLockScreen(); lockPasswordInput.value = ''; lockFeedbackElement.textContent = ''; lockFeedbackElement.className = 'feedback'; startLockPasswordInput.value = ''; startLockFeedbackElement.textContent=''; startLockFeedbackElement.className = 'feedback';
+            updateFinalStageInfoDisplay(); resetTimerDisplay(); updateProgress(); updateStageDots();
+            showStage('intro');
         }
 
         // --- Certificate Download ---
-        function handleDownloadCertificatePDF() {
-             const certificateElement = certificateContentElement; const originalButtonText = downloadPdfButton.innerHTML; const teamName = gameState.teamName.replace(/[^a-z0-9]/gi, '_').toLowerCase() || 'equipe'; const filename = `Certificat-Conformite-MNU-${teamName}.pdf`;
-             if (typeof html2canvas === 'undefined' || typeof jspdf === 'undefined') { alert("Erreur PDF libs."); return; } const { jsPDF } = jspdf; downloadPdfButton.disabled = true; downloadPdfButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Génération...';
-              html2canvas(certificateElement, { scale: 2, useCORS: true, backgroundColor: '#f8f9fa' }).then(canvas => {
-                  try {
-                      const imgData = canvas.toDataURL('image/png'); const pdf = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' }); const pdfWidth = pdf.internal.pageSize.getWidth(); const pdfHeight = pdf.internal.pageSize.getHeight(); const canvasWidth = canvas.width; const canvasHeight = canvas.height; const canvasRatio = canvasWidth / canvasHeight; const margin = 15; const usableWidth = pdfWidth - 2 * margin; const usableHeight = pdfHeight - 2 * margin; let imgWidth = usableWidth; let imgHeight = imgWidth / canvasRatio; if (imgHeight > usableHeight) { imgHeight = usableHeight; imgWidth = imgHeight * canvasRatio; } const xPos = margin + (usableWidth - imgWidth) / 2; const yPos = margin + (usableHeight - imgHeight) / 2;
-                      pdf.addImage(imgData, 'PNG', xPos, yPos, imgWidth, imgHeight); pdf.save(filename);
-                  } catch (error) { console.error("Erreur PDF:", error); alert("Erreur PDF."); } finally { downloadPdfButton.disabled = false; downloadPdfButton.innerHTML = originalButtonText; }
-              }).catch(error => { console.error("Erreur html2canvas:", error); alert("Erreur capture."); downloadPdfButton.disabled = false; downloadPdfButton.innerHTML = originalButtonText; });
-        }
+        function handleDownloadCertificatePDF() { const certificateElement = certificateContentElement; const originalButtonText = downloadPdfButton.innerHTML; const teamName = gameState.teamName.replace(/[^a-z0-9]/gi, '_').toLowerCase() || 'equipe'; const filename = `Certificat-Conformite-MNU-${teamName}.pdf`; if (typeof html2canvas === 'undefined' || typeof jspdf === 'undefined') { alert("Erreur PDF libs."); return; } const { jsPDF } = jspdf; downloadPdfButton.disabled = true; downloadPdfButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Génération...'; html2canvas(certificateElement, { scale: 2, useCORS: true, backgroundColor: '#f8f9fa' }).then(canvas => { try { const imgData = canvas.toDataURL('image/png'); const pdf = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' }); const pdfWidth = pdf.internal.pageSize.getWidth(); const pdfHeight = pdf.internal.pageSize.getHeight(); const canvasWidth = canvas.width; const canvasHeight = canvas.height; const canvasRatio = canvasWidth / canvasHeight; const margin = 15; const usableWidth = pdfWidth - 2 * margin; const usableHeight = pdfHeight - 2 * margin; let imgWidth = usableWidth; let imgHeight = imgWidth / canvasRatio; if (imgHeight > usableHeight) { imgHeight = usableHeight; imgWidth = imgHeight * canvasRatio; } const xPos = margin + (usableWidth - imgWidth) / 2; const yPos = margin + (usableHeight - imgHeight) / 2; pdf.addImage(imgData, 'PNG', xPos, yPos, imgWidth, imgHeight); pdf.save(filename); } catch (error) { console.error("Erreur PDF:", error); alert("Erreur PDF."); } finally { downloadPdfButton.disabled = false; downloadPdfButton.innerHTML = originalButtonText; } }).catch(error => { console.error("Erreur html2canvas:", error); alert("Erreur capture."); downloadPdfButton.disabled = false; downloadPdfButton.innerHTML = originalButtonText; }); }
 
         // Initialize on load
         window.addEventListener('load', initGame);
