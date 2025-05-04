@@ -905,7 +905,7 @@ Marie Durand
         // --- Lock Screen Logic (Inter-Étapes) ---
         function showLockScreen(targetStageId, requiredPassword, completedFlagSetter) { // La pause se fait dans validateStageX
             gameState.nextStageToShow = targetStageId; gameState.currentLockPassword = requiredPassword; gameState.currentStageCompletedFlag = completedFlagSetter;
-            lockMessageElement.textContent = `Point de contrôle sécurisé. Code requis : ${requiredPassword}`; // Affiche le mot de passe requis
+            lockMessageElement.textContent = `Point de contrôle sécurisé. Code requis`; // Affiche le mot de passe requis
             lockPasswordInput.value = ''; lockFeedbackElement.textContent = ''; lockFeedbackElement.className = 'feedback'; lockScreenElement.style.display = 'flex';
             setTimeout(() => lockScreenElement.classList.add('visible'), 10); lockPasswordInput.focus();
         }
