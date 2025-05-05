@@ -613,13 +613,13 @@
 <body>
     <div class="container">
         <header>
-            <h1>ALERTE MNU : Mission conformité</h1>
-            <p>Une mission critique pour sécuriser la filière des Médicaments Non Utilisés</p>
+            <h1>ALERTE MNU : MISSION CONFORMITE</h1>
+            <p>Une mission critique pour sécuriser la filière des médicaments non utilisés</p>
             <button id="backdoor-btn" title="Accès spécial"><i class="fas fa-door-open"></i></button>
         </header>
 
         <div class="team-info">
-            <div class="team-name" id="team-name-display">Équipe: Non définie</div>
+            <div class="team-name" id="team-name-display">Équipe: non définie</div>
             <div class="stage-indicator">
                 <div class="stage-dot" data-stage="1"></div><div class="stage-dot" data-stage="2"></div><div class="stage-dot" data-stage="3"></div><div class="stage-dot" data-stage="4"></div><div class="stage-dot" data-stage="5"></div>
             </div>
@@ -627,7 +627,7 @@
 
         <div class="timer-container">
             <div class="timer" id="timer">10:00</div>
-            <button class="btn btn-secondary" id="prev-stage-btn" style="display: none;">Étape Précédente</button>
+            <button class="btn btn-secondary" id="prev-stage-btn" style="display: none;">Étape précédente</button>
         </div>
 
         <div class="progress-bar"><div class="progress" id="progress"></div></div>
@@ -635,7 +635,7 @@
         <!-- Introduction -->
         <div class="stage intro active" id="intro">
              <h2 id="intro-title">Message urgent des ministères de la Santé et de l'Environnement</h2>
-            <p><strong>🔊 Bip... Bip... Alerte Interministérielle !</strong></p>
+            <p><strong>🔊 Bip... Bip... Alerte interministérielle !</strong></p>
             <p>Une <strong>faille critique</strong> menace la chaîne de gestion des Médicaments Non Utilisés (MNU). Risques sanitaires et environnementaux majeurs détectés !</p>
             <p>Vous êtes une <strong>cellule d'experts interministérielle</strong> dépêchée en urgence. Votre mission : auditer la filière en <strong>10 minutes chrono</strong>, identifier les non-conformités réglementaires (CSP, C. Env.) et <strong>restaurer l'intégrité du système</strong> via des points de contrôle sécurisés.</p>
             <p>Le temps presse ! (Le chrono est en pause 30 secondes après chaque étape validée, pendant la vérification de sécurité)</p>
@@ -648,8 +648,9 @@ Marie Durand
 
         <!-- Stage 1: Le Tri Impossible à l'Officine -->
         <div class="stage" id="stage1">
-             <div class="stage-header"><div class="stage-title"><div class="stage-number">1</div><h2>Le Tri Impossible à l'Officine</h2></div><div class="stage-time">~3 minutes</div></div>
-             <p>Première étape : l'officine. Des patients ont rapporté divers objets. Conformément à la réglementation, déterminez précisément quels objets relèvent de la collecte spécifique des MNU par l'éco-organisme et lesquels sont exclus.</p>
+             <div class="stage-header"><div class="stage-title"><div class="stage-number">1</div><h2>Le tri impossible à l'officine</h2></div><div class="stage-time">~3 minutes</div></div>
+             <p>Première étape : l'officine.
+Des patients ont rapporté divers objets. Conformément à la réglementation, déterminez précisément quels objets relèvent de la collecte spécifique des MNU par l'éco-organisme et lesquels sont exclus.</p>
              <p><strong>Cliquez sur les objets pour les sélectionner, puis cliquez sur la zone de destination (✅ MNU ou ❌ Exclus).</strong> Cliquez sur un objet dans une zone pour le retirer.</p>
              <h3>Objets rapportés par les particuliers :</h3>
              <div class="item-container" id="items-to-sort">
@@ -670,7 +671,7 @@ Marie Durand
 
         <!-- Stage 2: Le Producteur Amnésique -->
         <div class="stage" id="stage2">
-             <div class="stage-header"><div class="stage-title"><div class="stage-number">2</div><h2>Le Producteur Amnésique</h2></div><div class="stage-time">~2 minutes</div></div>
+             <div class="stage-header"><div class="stage-title"><div class="stage-number">2</div><h2>Le producteur amnésique</h2></div><div class="stage-time">~2 minutes</div></div>
              <p>Identifiez le "producteur" REP MNU et ses obligations fondamentales selon les textes.</p><p><strong>Cliquez sur les bonnes réponses.</strong></p>
              <h3>Qui est le "producteur" REP pour les MNU?</h3>
              <div class="card-container" id="producer-cards"><div class="card" data-card="fabricant">Le fabricant physique du médicament</div><div class="card" data-card="exploitant">L'exploitant pharmaceutique</div><div class="card" data-card="pharmacien">L'ensemble des pharmaciens d'officine</div><div class="card" data-card="grossiste">Les grossistes-répartiteurs</div></div>
@@ -683,19 +684,19 @@ Marie Durand
 
         <!-- Stage 3: La Logistique Séquentielle -->
         <div class="stage" id="stage3">
-            <div class="stage-header"><div class="stage-title"><div class="stage-number">3</div><h2>La Logistique Séquentielle</h2></div><div class="stage-time">~2 minutes</div></div>
+            <div class="stage-header"><div class="stage-title"><div class="stage-number">3</div><h2>La logistique séquentielle</h2></div><div class="stage-time">~2 minutes</div></div>
             <p>Reconstituez le parcours chronologique des MNU depuis leur collecte jusqu'à leur élimination finale.</p><p><strong>Cliquez sur les étapes/actions ci-dessous DANS L'ORDRE CORRECT pour les ajouter à la séquence.</strong> Cliquez sur une étape dans votre séquence pour la retirer.</p>
             <h3>Étapes / Actions Disponibles :</h3>
             <div class="card-container" id="available-logistics-steps"><div class="card" data-step-id="pharmacie">Collecte gratuite à l'officine</div><div class="card" data-step-id="receptacle">Stockage dans réceptacle sécurisé</div><div class="card" data-step-id="enlevement">Enlèvement depuis l'officine par prestataire</div><div class="card" data-step-id="regroupement">Regroupement / Tri sur plateforme logistique</div><div class="card" data-step-id="transport">Transport vers l'unité de traitement</div><div class="card" data-step-id="incineration">Destruction finale par incinération</div><div class="card" data-step-id="recyclage">Recyclage chimique</div><div class="card" data-step-id="humanitaire">Redistribution humanitaire</div></div>
-            <div class="ordered-sequence-area"><h3>Votre Séquence Construite :</h3><ol id="built-sequence-list"></ol><button class="btn btn-secondary btn-sm" id="clear-sequence-btn">Recommencer la séquence</button></div>
-            <button class="btn btn-primary" id="validate-stage3" style="margin-top: 20px;" disabled>Valider la Séquence</button>
+            <div class="ordered-sequence-area"><h3>Votre séquence construite :</h3><ol id="built-sequence-list"></ol><button class="btn btn-secondary btn-sm" id="clear-sequence-btn">Recommencer la séquence</button></div>
+            <button class="btn btn-primary" id="validate-stage3" style="margin-top: 20px;" disabled>Valider la séquence</button>
             <div class="feedback" id="stage3-feedback"></div>
             <div class="info-box regulatory-info"><h3><i class="fas fa-book"></i> Textes applicables</h3><p><strong>Article R. 4211-24 du Code de la santé publique :</strong></p><p class="leg-text">"Les producteurs [...] réalisent les opérations suivantes : 1° La remise, à titre gratuit, de réceptacles aux officines de pharmacie ; 2° L'enlèvement, le regroupement, le tri et le transport des médicaments non utilisés [...] depuis les officines de pharmacie jusqu'à leur lieu de destination ; 3° La destruction des médicaments non utilisés."</p><p><strong>Article R. 4211-27 du Code de la santé publique :</strong></p><p class="leg-text">"Les médicaments non utilisés sont détruits par incinération avec valorisation énergétique dans le respect de la réglementation en vigueur."</p><p><strong>Note :</strong> Redistribution/réutilisation interdite.</p></div>
         </div>
 
         <!-- Stage 4: Le Cahier des Charges Oublié -->
         <div class="stage" id="stage4">
-             <div class="stage-header"><div class="stage-title"><div class="stage-number">4</div><h2>Le Cahier des charges oublié</h2></div><div class="stage-time">~1 minute</div></div>
+             <div class="stage-header"><div class="stage-title"><div class="stage-number">4</div><h2>Le cahier des charges oublié</h2></div><div class="stage-time">~1 minute</div></div>
              <p>Retrouvez les infos clés sur l'éco-organisme MNU : objectif, statut, nom.</p><p><strong>Sélectionnez les bonnes réponses et tapez le nom.</strong></p>
              <h3>Objectif MINIMAL de collecte (%) fixé ?</h3>
              <div class="card-container" id="collection-target"><div class="card" data-target="50">50%</div><div class="card" data-target="60">60%</div><div class="card" data-target="70">70%</div><div class="card" data-target="80">80%</div></div>
@@ -710,17 +711,17 @@ Marie Durand
 
         <!-- Final Stage: Validation du Système -->
         <div class="stage" id="final-stage">
-             <div class="stage-header"><div class="stage-title"><div class="stage-number">5</div><h2>Restauration du Système</h2></div><div class="stage-time">~1 minute</div></div>
+             <div class="stage-header"><div class="stage-title"><div class="stage-number">5</div><h2>Restauration du système</h2></div><div class="stage-time">~1 minute</div></div>
              <p>Mission presque accomplie ! Utilisez les <strong>indices collectés</strong> (visibles sur la droite) pour déterminer le code numérique et le mot de passe final, puis verrouillez la conformité de la filière MNU.</p>
              <div class="info-box">
-                <h3><i class="fas fa-key"></i> Combinez les Indices Collectés pour les Codes d'Accès</h3>
-                <p><strong>Code Numérique (5 chiffres) :</strong> Reconstituez ce code en utilisant les indices dans l'ordre de leur collecte :</p>
+                <h3><i class="fas fa-key"></i> Combinez les indices collectés pour les codes d'accès</h3>
+                <p><strong>Code numérique (5 chiffres) :</strong> Reconstituez ce code en utilisant les indices dans l'ordre de leur collecte :</p>
                 <ul><li>Indice 1 (N° items)</li><li>Indice 4 (Objectif %)</li><li>Indice 3 (N° article C. Env.)</li></ul>
                 <p style="text-align: center; font-style: italic; font-size: 0.9rem;">Exemple: Si Indice 1 donne '3', Indice 4 donne '80', Indice 3 donne '12' => Code = 38012</p>
                 <hr style="margin: 15px 0;">
-                <p><strong>Mot de Passe (Alphanumérique) :</strong> Reconstituez ce mot de passe en utilisant les indices dans l'ordre de leur collecte :</p>
+                <p><strong>Mot de passe (alphanumérique) :</strong> Reconstituez ce mot de passe en utilisant les indices dans l'ordre de leur collecte :</p>
                  <ul><li>Indice 2 (1ère lettre obligation)</li><li>Indice 4 (Nom éco-organisme en MAJUSCULES)</li></ul>
-                 <p style="text-align: center; font-style: italic; font-size: 0.9rem;">Exemple: Si Indice 2 donne 'X', Indice 4 donne 'ORGA' => Mot de passe = XORGA</p>
+                 <p style="text-align: center; font-style: italic; font-size: 0.9rem;">Exemple: Si indice 2 donne 'X', Indice 4 donne 'ORGA' => Mot de passe = XORGA</p>
              </div>
              <div class="input-group"><label for="final-code">Code numérique de restauration :</label><input type="text" id="final-code" placeholder="Entrez le code à 5 chiffres"></div>
              <div class="input-group"><label for="final-password">Mot de passe de conformité :</label><input type="text" id="final-password" placeholder="Entrez le mot de passe"></div>
@@ -730,7 +731,7 @@ Marie Durand
 
         <!-- Success Screen -->
         <div class="stage" id="success">
-            <div class="certificate" id="certificate-content"><h2><i class="fas fa-shield-alt"></i> CERTIFICAT DE CONFORMITÉ MNU</h2><p>Félicitations à l'équipe <strong id="team-name-display-cert"></strong> !</p><div id="participants-section-cert"><h4>Participants :</h4><ul id="participant-list-cert"></ul></div><p><strong>Mission accomplie en <span id="time-taken"></span> !</strong> La filière MNU est sécurisée !</p><p>Temps restant : <strong id="time-remaining"></strong></p><h3>Synthèse Réglementaire :</h3><ul><li><strong>Périmètre MNU :</strong> Médicaments usage humain particuliers (L.5111-1, R.4211-23 CSP).</li><li><strong>Responsabilité :</strong> Producteur = Exploitant (R.4211-23, R.5124-2 CSP ; L.541-10 C. Env).</li><li><strong>Collecte :</strong> Gratuite en pharmacie (R.4211-24 CSP).</li><li><strong>Traitement :</strong> Incinération obligatoire (R.4211-27 CSP).</li><li><strong>Objectif :</strong> Collecte min. 70% (Cahier Charges 2021).</li><li><strong>Acteur :</strong> CYCLAMED (éco-org agréé non lucratif).</li></ul><div class="certificate-seal">CONFORME</div></div>
+            <div class="certificate" id="certificate-content"><h2><i class="fas fa-shield-alt"></i> CERTIFICAT DE CONFORMITÉ MNU</h2><p>Félicitations à l'équipe <strong id="team-name-display-cert"></strong> !</p><div id="participants-section-cert"><h4>Participants :</h4><ul id="participant-list-cert"></ul></div><p><strong>Mission accomplie en <span id="time-taken"></span> !</strong> La filière MNU est sécurisée !</p><p>Temps restant : <strong id="time-remaining"></strong></p><h3>Synthèse Réglementaire :</h3><ul><li><strong>Périmètre MNU :</strong> Médicaments usage humain particuliers (L.5111-1, R.4211-23 CSP).</li><li><strong>Responsabilité :</strong> Producteur = Exploitant (R.4211-23, R.5124-2 CSP ; L.541-10 C. Env).</li><li><strong>Collecte :</strong> Gratuite en pharmacie (R.4211-24 CSP).</li><li><strong>Traitement :</strong> Incinération obligatoire (R.4211-27 CSP).</li><li><strong>Objectif :</strong> Collecte min. 70% (Cahier Charges 2021).</li><li><strong>Acteur :</strong> CYCLAMED (éco-org agréé non lucratif).</li></ul><div class="certificate-seal">OK</div></div>
             <div style="text-align: center; margin-top: 20px;"><button class="btn btn-secondary" id="download-pdf-certificate"><i class="fas fa-file-pdf"></i> Télécharger (PDF)</button><button class="btn btn-success" id="restart-game">Nouvelle mission</button></div>
         </div>
 
@@ -743,7 +744,7 @@ Marie Durand
 
     <!-- Zone d'Affichage des Indices -->
     <div class="clue-sidebar" id="clue-sidebar">
-        <h3><i class="fas fa-lightbulb"></i> Indices Finaux</h3>
+        <h3><i class="fas fa-lightbulb"></i> Indices finaux</h3>
         <ul id="clue-list"></ul>
     </div>
 
@@ -759,7 +760,7 @@ Marie Durand
                 <label for="start-lock-password-input">Code de lancement :</label>
                 <input type="password" id="start-lock-password-input" placeholder="Entrez le code">
             </div>
-            <button class="btn btn-success" id="validate-start-lock-btn">Lancer la Mission !</button>
+            <button class="btn btn-success" id="validate-start-lock-btn">Lancer la mission !</button>
             <div class="feedback" id="start-lock-feedback"></div>
         </div>
     </div>
@@ -767,7 +768,7 @@ Marie Durand
     <!-- Écran de Verrouillage Inter-Étapes -->
     <div class="stage-lock-screen" id="stage-lock-screen" style="display: none;">
         <div class="lock-content">
-            <h2><i class="fas fa-lock"></i> Point de Contrôle Verrouillé</h2>
+            <h2><i class="fas fa-lock"></i> Point de contrôle verrouillé</h2>
             <p id="lock-message">Point de contrôle sécurisé. Entrez le code d'accès requis.</p>
             <div class="input-group">
                 <label for="lock-password-input">Code d'accès :</label>
@@ -886,7 +887,9 @@ Marie Durand
         // --- Core Game Logic ---
         function initGame() {
             startGameButton.addEventListener('click', startGame); validateStage1Button.addEventListener('click', validateStage1); validateStage2Button.addEventListener('click', validateStage2); validateStage3Button.addEventListener('click', validateStage3); validateStage4Button.addEventListener('click', validateStage4); validateFinalButton.addEventListener('click', validateFinal);
-            restartGameButton.addEventListener('click', resetGame); restartGameFailureButton.addEventListener('click', resetGame); backdoorButton.addEventListener('click', handleBackdoor); downloadPdfButton.addEventListener('click', handleDownloadCertificatePDF); clearSequenceButton.addEventListener('click', clearBuiltSequence); prevStageButton.addEventListener('click', goToPreviousStage);
+            restartGameButton.addEventListener('click', resetGame); restartGameFailureButton.addEventListener('click', resetGame); backdoorButton.addEventListener('click', handleBackdoor); downloadPdfButton.addEventListener('click', handleDownloadCertificatePDF); clearSequenceButton.addEventListener('click', clearBuiltSequence);
+            // Listener for prevStageButton removed or kept disabled - no need to explicitly handle it if logic prevents activation
+            // prevStageButton.addEventListener('click', goToPreviousStage); // Listener can be kept, but button logic prevents activation
             validateLockButton.addEventListener('click', handleLockValidation);
             validateStartLockButton.addEventListener('click', handleStartMissionLockValidation); // Listener pour verrou initial
             initStage1Interactions(); initCardSelection(); initStage3CardClicks(); shuffleAvailableLogisticsSteps();
@@ -935,8 +938,76 @@ Marie Durand
         function handleLockValidation() { const enteredPassword = lockPasswordInput.value; if (!enteredPassword) { lockFeedbackElement.textContent = 'Code requis.'; lockFeedbackElement.className = 'feedback error'; lockFeedbackElement.style.display = 'block'; return; } if (enteredPassword === gameState.currentLockPassword) { lockFeedbackElement.textContent = 'Code correct ! Accès autorisé...'; lockFeedbackElement.className = 'feedback success'; lockFeedbackElement.style.display = 'block'; if (gameState.currentStageCompletedFlag) { gameState.currentStageCompletedFlag(); } const completedStageNum = parseInt(gameState.currentStage.replace('stage','')); if (!isNaN(completedStageNum)) { sendUpdateToSheet({ [`stage${completedStageNum}_completed`]: true }); } setTimeout(() => { hideLockScreen(); resumeTimer(); showStage(gameState.nextStageToShow); }, 1000); } else { lockFeedbackElement.textContent = 'Code incorrect.'; lockFeedbackElement.className = 'feedback error'; lockFeedbackElement.style.display = 'block'; lockPasswordInput.value = ''; lockPasswordInput.focus(); lockScreenElement.classList.add('shake-error'); setTimeout(() => lockScreenElement.classList.remove('shake-error'), 500); } }
 
         // --- Core Stage Display ---
-        function showStage(stageId) { if (gameState.isLocked && stageId !== gameState.nextStageToShow) { console.warn("Affichage étape bloqué par verrouillage."); return; } stages.forEach(stage => stage.classList.remove('active')); const nextStage = document.getElementById(stageId); if (nextStage) { nextStage.classList.add('active'); gameState.currentStage = stageId; prevStageButton.style.display = 'none'; prevStageButton.disabled = true; const currentStageIndex = stageOrder.indexOf(stageId); if (currentStageIndex > 1 && currentStageIndex <= stageOrder.indexOf('final-stage')) { let previousCompletedStageExists = false; for (let i = currentStageIndex - 1; i >= 1; i--) { const prevStageId = stageOrder[i]; if (gameState.stageResults[prevStageId]?.completed) { previousCompletedStageExists = true; break; } } if (previousCompletedStageExists) { prevStageButton.style.display = 'inline-block'; prevStageButton.disabled = false; } } updateProgress(); updateStageDots(); window.scrollTo(0, 0); if (stageId === 'success' || stageId === 'failure') { stopAlarmFlash(); } } else { console.error("Étape non trouvée:", stageId); } }
-        function goToPreviousStage() { if (gameState.isLocked) return; const currentStageIndex = stageOrder.indexOf(gameState.currentStage); if (currentStageIndex <= 1) return; for (let i = currentStageIndex - 1; i >= 1; i--) { const prevStageId = stageOrder[i]; if (gameState.stageResults[prevStageId]?.completed) { showStage(prevStageId); return; } } }
+        function showStage(stageId) {
+            if (gameState.isLocked && stageId !== gameState.nextStageToShow) {
+                console.warn("Affichage étape bloqué par verrouillage.");
+                return;
+            }
+            stages.forEach(stage => stage.classList.remove('active'));
+            const nextStage = document.getElementById(stageId);
+            if (nextStage) {
+                nextStage.classList.add('active');
+                gameState.currentStage = stageId;
+
+                // --- MODIFICATION ICI ---
+                // Assurer que le bouton "Étape précédente" reste caché et désactivé
+                if (prevStageButton) {
+                    prevStageButton.style.display = 'none';
+                    prevStageButton.disabled = true;
+                }
+                // --- FIN DE LA MODIFICATION ---
+
+                /* COMMENTAIRES : L'ancien code qui affichait conditionnellement le bouton est maintenant neutralisé par les lignes ci-dessus.
+                   Le bloc conditionnel ci-dessous n'est plus nécessaire pour contrôler ce bouton spécifique,
+                   mais il est laissé ici au cas où il serait utilisé pour autre chose à l'avenir,
+                   ou pour montrer où la logique originale se trouvait.
+                const currentStageIndex = stageOrder.indexOf(stageId);
+                if (currentStageIndex > 1 && currentStageIndex <= stageOrder.indexOf('final-stage')) {
+                    let previousCompletedStageExists = false;
+                    for (let i = currentStageIndex - 1; i >= 1; i--) {
+                        const prevStageId = stageOrder[i];
+                        if (gameState.stageResults[prevStageId]?.completed) {
+                            previousCompletedStageExists = true;
+                            break;
+                        }
+                    }
+                    // if (previousCompletedStageExists) {
+                        // Les lignes ci-dessous sont maintenant redondantes ou neutralisées par le code ajouté plus haut
+                        // prevStageButton.style.display = 'inline-block';
+                        // prevStageButton.disabled = false;
+                    // }
+                }
+                */
+
+                updateProgress();
+                updateStageDots();
+                window.scrollTo(0, 0);
+                if (stageId === 'success' || stageId === 'failure') {
+                    stopAlarmFlash();
+                }
+            } else {
+                console.error("Étape non trouvée:", stageId);
+            }
+        }
+
+        // La fonction goToPreviousStage existe toujours mais ne sera jamais appelée car le bouton est désactivé.
+        function goToPreviousStage() {
+            if (gameState.isLocked) return;
+            const currentStageIndex = stageOrder.indexOf(gameState.currentStage);
+            if (currentStageIndex <= 1) return;
+            // Cherche la dernière étape *complétée* avant l'actuelle
+            for (let i = currentStageIndex - 1; i >= 1; i--) {
+                const prevStageId = stageOrder[i];
+                // Vérifie si l'étape précédente existe dans les résultats et est marquée comme complétée
+                if (gameState.stageResults[prevStageId]?.completed) {
+                    showStage(prevStageId);
+                    return; // Arrête dès qu'une étape précédente complétée est trouvée
+                }
+            }
+            // Si aucune étape précédente complétée n'est trouvée (ne devrait pas arriver avec la logique actuelle mais par sécurité)
+             console.warn("Aucune étape précédente complétée trouvée pour revenir.");
+        }
+
         function updateProgress() { const progressStageOrder = ['intro', 'stage1', 'stage2', 'stage3', 'stage4', 'final-stage', 'success', 'failure']; let currentProgressIndex = progressStageOrder.indexOf(gameState.currentStage); if (gameState.isLocked && gameState.nextStageToShow) { currentProgressIndex = progressStageOrder.indexOf(gameState.currentStage); /* Reste sur l'étape courante pendant pause */ } const totalSteps = progressStageOrder.length - 3; const progressPercentage = (currentProgressIndex / totalSteps) * 100; progressElement.style.width = `${Math.min(100, Math.max(0, progressPercentage))}%`; }
         function updateStageDots() { const mainStages = ['stage1', 'stage2', 'stage3', 'stage4', 'final-stage']; let stageIndex = mainStages.indexOf(gameState.currentStage); if (gameState.currentStage === 'intro') stageIndex = -1; if (gameState.currentStage === 'success' || gameState.currentStage === 'failure') stageIndex = mainStages.length; stageDots.forEach((dot, index) => { dot.classList.remove('active', 'completed'); const dotStageId = mainStages[index]; if(gameState.stageResults[dotStageId]?.completed) { dot.classList.add('completed'); } else if (index === stageIndex && !gameState.isLocked && !['intro', 'success', 'failure'].includes(gameState.currentStage)) { dot.classList.add('active'); } else if (gameState.isLocked && index === mainStages.indexOf(gameState.currentStage)) { dot.classList.add('active'); } }); }
         function handleBackdoor() { const code = prompt("Code spécial ?"); if (code === "SKIP") { skipStage(gameState.currentStage); } else if (code !== null) { alert("Code incorrect."); } }
@@ -1014,12 +1085,17 @@ Marie Durand
             stopAlarmFlash(); clearInterval(gameState.timerInterval); clearInterval(gameState.periodicUpdateInterval); gameState.currentStage='intro';
             gameState.stageResults = { stage1: { completed: false, correctItemsCount: 0 }, stage2: { completed: false, producerCorrect: false, obligationsCorrect: false, keyLetter: '' }, stage3: { completed: false, builtSequence: [], sequenceCorrect: false }, stage4: { completed: false, collectionTarget: '', ecoOrgNatureCorrect: false, ecoOrgNameCorrect: false, ecoOrgName: '' } }; gameState.finalCode=''; gameState.finalPassword='';
             if (introTitleElement) introTitleElement.style.display = ''; if (teamNameGroup) teamNameGroup.style.display = ''; if (participantsGroup) participantsGroup.style.display = ''; if (startGameButton) startGameButton.style.display = '';
-            teamNameInput.value=''; participantNamesInput.value = ''; teamNameDisplay.textContent='Équipe: Non définie'; finalCodeInput.value=''; finalPasswordInput.value=''; ecoOrgNameInput.value='';
+            teamNameInput.value=''; participantNamesInput.value = ''; teamNameDisplay.textContent='Équipe: non définie'; finalCodeInput.value=''; finalPasswordInput.value=''; ecoOrgNameInput.value='';
             document.querySelectorAll('.feedback').forEach(el=>{ el.textContent=''; el.style.display='none'; el.className='feedback'; }); document.querySelectorAll('.card.selected, .item.selected').forEach(el=>el.classList.remove('selected')); if (availableLogisticsStepsContainer) { availableLogisticsStepsContainer.querySelectorAll('.card.step-in-sequence').forEach(card => { card.classList.remove('step-in-sequence'); }); }
             cyclamedZone.innerHTML=''; excludedZone.innerHTML=''; clearBuiltSequence(); shuffleAvailableLogisticsSteps(); document.querySelectorAll('.regulatory-info').forEach(box => box.classList.remove('visible'));
             [validateStage1Button, validateStage2Button, validateStage3Button, validateStage4Button, validateFinalButton].forEach(btn => { if(btn){ btn.style.display = 'inline-block'; btn.disabled = false; } }); if (validateStage3Button) validateStage3Button.disabled = true; if (clearSequenceButton) clearSequenceButton.disabled = true; ecoOrgNameInput.disabled = false;
             [producerCardsContainer, obligationCardsContainer, collectionTargetContainer, ecoOrgNatureContainer, availableLogisticsStepsContainer, builtSequenceList].forEach(container => { if (container) { container.style.pointerEvents = 'auto'; if (container.querySelectorAll) { container.querySelectorAll('.card').forEach(c => c.style.pointerEvents = 'auto'); } } });
-            if (participantListCert) { participantListCert.innerHTML = ''; document.getElementById('participants-section-cert').style.display = 'none';} prevStageButton.style.display = 'none'; prevStageButton.disabled = true;
+            if (participantListCert) { participantListCert.innerHTML = ''; document.getElementById('participants-section-cert').style.display = 'none';}
+            // Assurer que le bouton prev est caché/désactivé au reset
+            if (prevStageButton) {
+                 prevStageButton.style.display = 'none';
+                 prevStageButton.disabled = true;
+            }
             hideStartMissionLock(); hideLockScreen(); lockPasswordInput.value = ''; lockFeedbackElement.textContent = ''; lockFeedbackElement.className = 'feedback'; startLockPasswordInput.value = ''; startLockFeedbackElement.textContent=''; startLockFeedbackElement.className = 'feedback';
             updateFinalStageInfoDisplay(); resetTimerDisplay(); updateProgress(); updateStageDots();
             showStage('intro');
